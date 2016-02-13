@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.Properties;
 
 /**
- * I really don't want to know what the hell it does: no refactoring at all, just wrap it!
+ * I don't really want to know what the hell it does!
  * <p/>
  * https://code.google.com/archive/p/android-camera-axis
  */
@@ -42,7 +42,8 @@ public class MjpegInputStreamDefault extends DataInputStream {
         return null;
     }
 
-    public MjpegInputStreamDefault(InputStream in) {
+    // no more accessible
+    MjpegInputStreamDefault(InputStream in) {
         super(new BufferedInputStream(in, FRAME_MAX_LENGTH));
     }
 
@@ -71,7 +72,8 @@ public class MjpegInputStreamDefault extends DataInputStream {
         return Integer.parseInt(props.getProperty(CONTENT_LENGTH));
     }
 
-    public Bitmap readMjpegFrame() throws IOException {
+    // no more accessible
+    private Bitmap readMjpegFrame() throws IOException {
         mark(FRAME_MAX_LENGTH);
         int headerLen = getStartOfSequence(this, SOI_MARKER);
         reset();

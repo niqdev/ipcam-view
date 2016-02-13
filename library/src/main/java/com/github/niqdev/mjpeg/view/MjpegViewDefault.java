@@ -10,13 +10,19 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.github.niqdev.mjpeg.stream.MjpegInputStreamDefault;
+import com.github.niqdev.mjpeg.stream.MjpegInputStream;
 
 import java.io.IOException;
 
+/**
+ * I don't really want to know what the hell it does!
+ * <p/>
+ * https://code.google.com/archive/p/android-camera-axis
+ */
 public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callback {
 
     public final static int POSITION_UPPER_LEFT = 9;
@@ -28,8 +34,8 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
     public final static int SIZE_BEST_FIT = 4;
     public final static int SIZE_FULLSCREEN = 8;
 
-    private MjpegViewThread thread;
-    private MjpegInputStreamDefault mIn = null;
+    public static MjpegViewThread thread;
+    private MjpegInputStream mIn = null;
     private boolean showFps = false;
     private boolean mRun = false;
     private boolean surfaceDone = false;
@@ -43,6 +49,7 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
     private boolean resume = false;
 
     private Context context;
+    private long delay;
 
     public class MjpegViewThread extends Thread {
         private SurfaceHolder mSurfaceHolder;
@@ -91,19 +98,21 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
             p.getTextBounds(text, 0, text.length(), b);
             int bwidth = b.width() + 2;
             int bheight = b.height() + 2;
-            Bitmap bm = Bitmap.createBitmap(bwidth, bheight, Bitmap.Config.ARGB_8888);
+            Bitmap bm = Bitmap.createBitmap(bwidth, bheight,
+                    Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(bm);
             p.setColor(overlayBackgroundColor);
             c.drawRect(0, 0, bwidth, bheight, p);
             p.setColor(overlayTextColor);
-            c.drawText(text, -b.left + 1, (bheight / 2)
-                    - ((p.ascent() + p.descent()) / 2) + 1, p);
+            c.drawText(text, -b.left + 1,
+                    (bheight / 2) - ((p.ascent() + p.descent()) / 2) + 1, p);
             return bm;
         }
 
         public void run() {
             start = System.currentTimeMillis();
-            PorterDuffXfermode mode = new PorterDuffXfermode(PorterDuff.Mode.DST_OVER);
+            PorterDuffXfermode mode = new PorterDuffXfermode(
+                    PorterDuff.Mode.DST_OVER);
             Bitmap bm;
             int width;
             int height;
@@ -118,28 +127,33 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
                         synchronized (mSurfaceHolder) {
                             try {
                                 bm = mIn.readMjpegFrame();
-                                destRect = destRect(bm.getWidth(), bm.getHeight());
+                                destRect = destRect(bm.getWidth(),
+                                        bm.getHeight());
                                 c.drawColor(Color.BLACK);
                                 c.drawBitmap(bm, null, destRect, p);
                                 if (showFps) {
                                     p.setXfermode(mode);
                                     if (ovl != null) {
                                         height = ((ovlPos & 1) == 1) ? destRect.top
-                                                : destRect.bottom - ovl.getHeight();
+                                                : destRect.bottom
+                                                - ovl.getHeight();
                                         width = ((ovlPos & 8) == 8) ? destRect.left
-                                                : destRect.right - ovl.getWidth();
+                                                : destRect.right
+                                                - ovl.getWidth();
                                         c.drawBitmap(ovl, width, height, null);
                                     }
                                     p.setXfermode(null);
                                     frameCounter++;
                                     if ((System.currentTimeMillis() - start) >= 1000) {
-                                        fps = String.valueOf(frameCounter) + "fps";
+                                        fps = String.valueOf(frameCounter)
+                                                + "fps";
                                         frameCounter = 0;
                                         start = System.currentTimeMillis();
                                         ovl = makeFpsOverlay(overlayPaint, fps);
                                     }
                                 }
                             } catch (IOException e) {
+
                             }
                         }
                     } finally {
@@ -152,6 +166,7 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
     }
 
     private void init(Context context) {
+
         this.context = context;
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
@@ -182,6 +197,7 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
     public void resumePlayback() {
         mRun = true;
         init(context);
+        Log.i("AppLog", "resume");
         thread.start();
     }
 
@@ -224,7 +240,7 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
         showFps = b;
     }
 
-    public void setSource(MjpegInputStreamDefault source) {
+    public void setSource(MjpegInputStream source) {
         mIn = source;
         startPlayback();
     }
@@ -248,5 +264,4 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
     public void setDisplayMode(int s) {
         displayMode = s;
     }
-
 }

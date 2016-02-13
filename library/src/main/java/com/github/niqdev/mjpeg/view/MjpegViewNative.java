@@ -18,7 +18,9 @@ import com.github.niqdev.mjpeg.stream.MjpegInputStreamNative;
 import java.io.IOException;
 
 /**
- * @author niqdev
+ * I don't really want to know what the hell it does!
+ * <p/>
+ * https://bitbucket.org/neuralassembly/simplemjpegview
  */
 public class MjpegViewNative extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -139,8 +141,8 @@ public class MjpegViewNative extends SurfaceView implements SurfaceHolder.Callba
                         int ret = mIn.readMjpegFrame(bmp);
 
                         if (ret == -1) {
-                            // TODO
-//                            ((MjpegActivity2) saved_context).setImageError();
+                            // TODO error
+                            //((MjpegActivity) saved_context).setImageError();
                             return;
                         }
 

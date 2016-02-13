@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.Properties;
 
 /**
- * I really don't want to know what the hell it does: no refactoring at all, just wrap it!
+ * I don't really want to know what the hell it does!
  * <p/>
  * https://bitbucket.org/neuralassembly/simplemjpegview
  */
@@ -57,7 +57,8 @@ public class MjpegInputStreamNative extends DataInputStream {
         return null;
     }
 
-    public MjpegInputStreamNative(InputStream in) {
+    // no more accessible
+    MjpegInputStreamNative(InputStream in) {
         super(new BufferedInputStream(in, FRAME_MAX_LENGTH));
     }
 
@@ -120,7 +121,8 @@ public class MjpegInputStreamNative extends DataInputStream {
         return Integer.parseInt(props.getProperty(CONTENT_LENGTH));
     }
 
-    public Bitmap readMjpegFrame() throws IOException {
+    // no more accessible (not used!)
+    private Bitmap readMjpegFrame() throws IOException {
         mark(FRAME_MAX_LENGTH);
         int headerLen;
         try {
@@ -187,7 +189,8 @@ public class MjpegInputStreamNative extends DataInputStream {
         }
     }
 
-    public int readMjpegFrame(Bitmap bmp) throws IOException {
+    // no more accessible
+    private int readMjpegFrame(Bitmap bmp) throws IOException {
         mark(FRAME_MAX_LENGTH);
         int headerLen;
         try {
