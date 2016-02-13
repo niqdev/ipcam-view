@@ -1,19 +1,13 @@
-package com.github.niqdev.mjpeg.stream;
+package com.github.niqdev.mjpeg;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.Properties;
 
 /**
@@ -29,18 +23,6 @@ public class MjpegInputStreamDefault extends DataInputStream {
     private final static int HEADER_MAX_LENGTH = 100;
     private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
     private int mContentLength = -1;
-
-    public static MjpegInputStreamDefault read(String url) {
-        HttpResponse res;
-        DefaultHttpClient httpclient = new DefaultHttpClient();
-        try {
-            res = httpclient.execute(new HttpGet(URI.create(url)));
-            return new MjpegInputStreamDefault(res.getEntity().getContent());
-        } catch (ClientProtocolException e) {
-        } catch (IOException e) {
-        }
-        return null;
-    }
 
     // no more accessible
     MjpegInputStreamDefault(InputStream in) {
@@ -73,7 +55,7 @@ public class MjpegInputStreamDefault extends DataInputStream {
     }
 
     // no more accessible
-    private Bitmap readMjpegFrame() throws IOException {
+    Bitmap readMjpegFrame() throws IOException {
         mark(FRAME_MAX_LENGTH);
         int headerLen = getStartOfSequence(this, SOI_MARKER);
         reset();

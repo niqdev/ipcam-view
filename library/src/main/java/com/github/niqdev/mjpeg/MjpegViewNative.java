@@ -1,4 +1,4 @@
-package com.github.niqdev.mjpeg.view;
+package com.github.niqdev.mjpeg;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,8 +12,6 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.github.niqdev.mjpeg.stream.MjpegInputStreamNative;
 
 import java.io.IOException;
 

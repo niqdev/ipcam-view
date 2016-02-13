@@ -1,4 +1,4 @@
-package com.github.niqdev.mjpeg.stream;
+package com.github.niqdev.mjpeg;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,8 +9,6 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -45,17 +43,6 @@ public class MjpegInputStreamNative extends DataInputStream {
     public native int pixeltobmp(byte[] jp, int l, Bitmap bmp);
 
     public native void freeCameraMemory();
-
-    public static MjpegInputStreamNative read(String surl) {
-        try {
-            URL url = new URL(surl);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            return new MjpegInputStreamNative(urlConnection.getInputStream());
-        } catch (Exception e) {
-        }
-
-        return null;
-    }
 
     // no more accessible
     MjpegInputStreamNative(InputStream in) {
@@ -190,7 +177,7 @@ public class MjpegInputStreamNative extends DataInputStream {
     }
 
     // no more accessible
-    private int readMjpegFrame(Bitmap bmp) throws IOException {
+    int readMjpegFrame(Bitmap bmp) throws IOException {
         mark(FRAME_MAX_LENGTH);
         int headerLen;
         try {

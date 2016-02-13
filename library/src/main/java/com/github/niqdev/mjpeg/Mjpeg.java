@@ -15,10 +15,8 @@ import java.net.URL;
  */
 public class Mjpeg {
 
-    /*
-    public static MjpegInputStreamDefault read(String url) {
+    public static MjpegInputStreamDefault readDefault(String url) {
         HttpResponse res;
-
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
             res = httpclient.execute(new HttpGet(URI.create(url)));
@@ -29,7 +27,7 @@ public class Mjpeg {
         return null;
     }
 
-    public static MjpegInputStreamNative read(String surl) {
+    public static MjpegInputStreamNative readNative(String surl) {
         try {
             URL url = new URL(surl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -39,5 +37,5 @@ public class Mjpeg {
 
         return null;
     }
-    */
+
 }

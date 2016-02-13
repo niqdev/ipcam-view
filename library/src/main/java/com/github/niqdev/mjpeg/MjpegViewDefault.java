@@ -1,4 +1,4 @@
-package com.github.niqdev.mjpeg.view;
+package com.github.niqdev.mjpeg;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,8 +13,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.github.niqdev.mjpeg.stream.MjpegInputStream;
 
 import java.io.IOException;
 
@@ -35,7 +33,7 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
     public final static int SIZE_FULLSCREEN = 8;
 
     public static MjpegViewThread thread;
-    private MjpegInputStream mIn = null;
+    private MjpegInputStreamDefault mIn = null;
     private boolean showFps = false;
     private boolean mRun = false;
     private boolean surfaceDone = false;
@@ -240,7 +238,7 @@ public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callb
         showFps = b;
     }
 
-    public void setSource(MjpegInputStream source) {
+    public void setSource(MjpegInputStreamDefault source) {
         mIn = source;
         startPlayback();
     }
