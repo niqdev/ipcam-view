@@ -12,7 +12,7 @@ import java.io.InputStream;
 public class MjpegInputStreamNative extends MjpegAbstractStream {
 
     private static final String TAG = "MJPEG";
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     byte[] header = null;
     byte[] frameData = null;
