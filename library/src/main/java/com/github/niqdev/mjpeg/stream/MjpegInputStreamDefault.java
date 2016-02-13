@@ -1,4 +1,4 @@
-package com.github.niqdev.mjpeg;
+package com.github.niqdev.mjpeg.stream;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,9 +7,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MjpegInputStream extends MjpegAbstractStream {
+public class MjpegInputStreamDefault extends MjpegAbstractStream {
 
-    MjpegInputStream(InputStream in) {
+    MjpegInputStreamDefault(InputStream in) {
         super(in);
     }
 

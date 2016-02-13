@@ -1,4 +1,4 @@
-package com.github.niqdev.mjpeg;
+package com.github.niqdev.mjpeg.stream;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

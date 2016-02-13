@@ -16,13 +16,13 @@ import java.net.URL;
 public class Mjpeg {
 
     /*
-    public static MjpegInputStream read(String url) {
+    public static MjpegInputStreamDefault read(String url) {
         HttpResponse res;
 
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
             res = httpclient.execute(new HttpGet(URI.create(url)));
-            return new MjpegInputStream(res.getEntity().getContent());
+            return new MjpegInputStreamDefault(res.getEntity().getContent());
         } catch (ClientProtocolException e) {
         } catch (IOException e) {
         }

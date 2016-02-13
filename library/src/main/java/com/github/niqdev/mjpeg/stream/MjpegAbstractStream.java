@@ -1,4 +1,4 @@
-package com.github.niqdev.mjpeg;
+package com.github.niqdev.mjpeg.stream;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
