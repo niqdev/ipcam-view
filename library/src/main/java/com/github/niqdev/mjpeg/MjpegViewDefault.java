@@ -12,7 +12,6 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import java.io.IOException;
 
@@ -21,7 +20,7 @@ import java.io.IOException;
  * <p/>
  * https://code.google.com/archive/p/android-camera-axis
  */
-public class MjpegViewDefault extends SurfaceView implements SurfaceHolder.Callback {
+public class MjpegViewDefault extends MjpegView {
 
     public final static int POSITION_UPPER_LEFT = 9;
     public final static int POSITION_UPPER_RIGHT = 3;

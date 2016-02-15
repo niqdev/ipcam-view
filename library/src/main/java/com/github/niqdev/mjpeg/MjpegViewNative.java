@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import java.io.IOException;
 
@@ -20,7 +19,7 @@ import java.io.IOException;
  * <p/>
  * https://bitbucket.org/neuralassembly/simplemjpegview
  */
-public class MjpegViewNative extends SurfaceView implements SurfaceHolder.Callback {
+public class MjpegViewNative extends MjpegView {
 
     public static final String TAG = "MJPEG";
 
