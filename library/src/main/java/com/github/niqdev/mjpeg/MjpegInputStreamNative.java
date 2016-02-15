@@ -16,7 +16,7 @@ import java.util.Properties;
  * <p/>
  * https://bitbucket.org/neuralassembly/simplemjpegview
  */
-public class MjpegInputStreamNative extends DataInputStream {
+public class MjpegInputStreamNative extends MjpegInputStream {
 
     private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};
     private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};

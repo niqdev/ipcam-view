@@ -24,12 +24,32 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
+import rx.Observable;
+import rx.functions.Func0;
+
 /**
  *
  */
 public class Mjpeg {
 
-    private Mjpeg() {}
+    private final boolean nativeStream;
+
+    private Mjpeg(boolean nativeStream) {
+        this.nativeStream = nativeStream;
+    }
+
+    public static Mjpeg init(boolean nativeStream) {
+        return new Mjpeg(nativeStream);
+    }
+
+    public Observable<MjpegInputStream> read(String url) {
+        return Observable.defer(new Func0<Observable<MjpegInputStream>>() {
+            @Override
+            public Observable<MjpegInputStream> call() {
+                return null;
+            }
+        });
+    }
 
     // TODO builder.xxx.native().build() {boolean}
     // - MjpegInputStream
