@@ -1,13 +1,11 @@
 package com.github.niqdev.mjpeg;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -19,34 +17,48 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
 import rx.Observable;
-import rx.functions.Func0;
 
 /**
  *
  */
 public class Mjpeg {
 
-    private final boolean nativeStream;
-
-    private Mjpeg(boolean nativeStream) {
-        this.nativeStream = nativeStream;
+    public enum Type {
+        DEFAULT, NATIVE
     }
 
-    public static Mjpeg init(boolean nativeStream) {
-        return new Mjpeg(nativeStream);
+    private final Type type;
+
+    private Mjpeg(Type type) {
+        if (type == null) {
+            throw new IllegalArgumentException("null type not allowed");
+        }
+        this.type = type;
     }
 
-    public Observable<MjpegInputStream> read(String url) {
-        return Observable.defer(new Func0<Observable<MjpegInputStream>>() {
-            @Override
-            public Observable<MjpegInputStream> call() {
-                return null;
+    public static Mjpeg init(Type type) {
+        return new Mjpeg(type);
+    }
+
+    public Observable<MjpegInputStream> read(String url, Type type) {
+        return Observable.defer(() -> {
+            try {
+                HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
+                InputStream inputStream = urlConnection.getInputStream();
+                switch (type) {
+                    case DEFAULT: return Observable.just(new MjpegInputStreamDefault(inputStream));
+                    case NATIVE: return Observable.just(new MjpegInputStreamNative(inputStream));
+                }
+                throw new IllegalStateException("invalide type");
+            } catch (IOException e) {
+                return Observable.error(e);
             }
         });
     }
@@ -66,6 +78,7 @@ public class Mjpeg {
         return null;
     }
 
+    // TODO deprecated
     public static MjpegInputStreamNative readNative(String surl) {
         try {
             URL url = new URL(surl);
@@ -79,7 +92,7 @@ public class Mjpeg {
         return null;
     }
 
-    // TODO
+    // TODO deprecated
     private HttpClient initHttpClient(String userName, String password) {
         if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(password)) {
             return new DefaultHttpClient();
