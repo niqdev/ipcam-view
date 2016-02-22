@@ -1,4 +1,4 @@
-package com.github.niqdev.ipcam;
+package com.github.niqdev.mjpeg;
 
 import org.junit.Test;
 

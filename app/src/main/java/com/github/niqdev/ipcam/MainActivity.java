@@ -1,10 +1,9 @@
 package com.github.niqdev.ipcam;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import com.github.niqdev.ipcam.Mjpeg;
-import com.github.niqdev.ipcam.R;
+import com.github.niqdev.mjpeg.Mjpeg;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,7 +14,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadIpcam() {
-        Mjpeg.init(Mjpeg.Type.DEFAULT)
+        Mjpeg.newInstance()
+            .credential("", "")
             .read("")
             .subscribe();
     }

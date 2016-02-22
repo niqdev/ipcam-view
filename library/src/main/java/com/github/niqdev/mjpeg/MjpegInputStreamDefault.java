@@ -1,4 +1,4 @@
-package com.github.niqdev.ipcam;
+package com.github.niqdev.mjpeg;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
