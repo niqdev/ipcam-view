@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * I don't really want to know what the hell it does!
+/*
+ * I don't really understand and want to know what the hell it does!
+ * Maybe one day I will refactor it ;-)
  * <p/>
  * https://bitbucket.org/neuralassembly/simplemjpegview
  */

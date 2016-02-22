@@ -14,15 +14,16 @@ import android.view.SurfaceHolder;
 
 import java.io.IOException;
 
-/**
- * I don't really want to know what the hell it does!
+/*
+ * I don't really understand and want to know what the hell it does!
+ * Maybe one day I will refactor it ;-)
  * <p/>
  * https://bitbucket.org/neuralassembly/simplemjpegview
  */
-public class MjpegViewNative extends MjpegView {
+public class MjpegViewNative extends AbstractMjpegView {
 
-    SurfaceHolder holder;
-    Context saved_context;
+    private SurfaceHolder holder;
+    private Context saved_context;
 
     private MjpegViewThread thread;
     private MjpegInputStreamNative mIn = null;
@@ -45,14 +46,15 @@ public class MjpegViewNative extends MjpegView {
     private int IMG_WIDTH = 640;
     private int IMG_HEIGHT = 480;
 
-    public class MjpegViewThread extends Thread {
+    // no more accessible
+    class MjpegViewThread extends Thread {
         private SurfaceHolder mSurfaceHolder;
         private int frameCounter = 0;
         private long start;
         private String fps = "";
 
-
-        public MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
+        // no more accessible
+        MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
             mSurfaceHolder = surfaceHolder;
         }
 
@@ -81,7 +83,8 @@ public class MjpegViewNative extends MjpegView {
             return null;
         }
 
-        public void setSurfaceSize(int width, int height) {
+        // no more accessible
+        void setSurfaceSize(int width, int height) {
             synchronized (mSurfaceHolder) {
                 dispWidth = width;
                 dispHeight = height;
@@ -192,7 +195,9 @@ public class MjpegViewNative extends MjpegView {
         dispHeight = getHeight();
     }
 
-    public void startPlayback() {
+    /* all methods/constructors below are no more accessible */
+
+    void _startPlayback() {
         if (mIn != null) {
             mRun = true;
             if (thread == null) {
@@ -202,7 +207,7 @@ public class MjpegViewNative extends MjpegView {
         }
     }
 
-    public void resumePlayback() {
+    void _resumePlayback() {
         if (suspending) {
             if (mIn != null) {
                 mRun = true;
@@ -215,7 +220,7 @@ public class MjpegViewNative extends MjpegView {
         }
     }
 
-    public void stopPlayback() {
+    void _stopPlayback() {
         if (mRun) {
             suspending = true;
         }
@@ -241,76 +246,94 @@ public class MjpegViewNative extends MjpegView {
 
     }
 
-    public void freeCameraMemory() {
+    void _freeCameraMemory() {
         if (mIn != null) {
             mIn.freeCameraMemory();
         }
     }
 
-    public MjpegViewNative(Context context, AttributeSet attrs) {
+    MjpegViewNative(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public void surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
+    void _surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
         if (thread != null) {
             thread.setSurfaceSize(w, h);
         }
     }
 
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    void _surfaceDestroyed(SurfaceHolder holder) {
         surfaceDone = false;
-        stopPlayback();
+        _stopPlayback();
     }
 
-    public MjpegViewNative(Context context) {
+    MjpegViewNative(Context context) {
         super(context);
         init(context);
     }
 
-    public void surfaceCreated(SurfaceHolder holder) {
+    void _surfaceCreated(SurfaceHolder holder) {
         surfaceDone = true;
     }
 
-    public void showFps(boolean b) {
+    void _showFps(boolean b) {
         showFps = b;
     }
 
-    public void setSource(MjpegInputStreamNative source) {
+    void _setSource(MjpegInputStreamNative source) {
         mIn = source;
         if (!suspending) {
-            startPlayback();
+            _startPlayback();
         } else {
-            resumePlayback();
+            _resumePlayback();
         }
     }
 
-    public void setOverlayPaint(Paint p) {
+    void _setOverlayPaint(Paint p) {
         overlayPaint = p;
     }
 
-    public void setOverlayTextColor(int c) {
+    void _setOverlayTextColor(int c) {
         overlayTextColor = c;
     }
 
-    public void setOverlayBackgroundColor(int c) {
+    void _setOverlayBackgroundColor(int c) {
         overlayBackgroundColor = c;
     }
 
-    public void setOverlayPosition(int p) {
+    void _setOverlayPosition(int p) {
         ovlPos = p;
     }
 
-    public void setDisplayMode(int s) {
+    void _setDisplayMode(int s) {
         displayMode = s;
     }
 
-    public void setResolution(int w, int h) {
+    void _setResolution(int w, int h) {
         IMG_WIDTH = w;
         IMG_HEIGHT = h;
     }
 
-    public boolean isStreaming() {
+    boolean _isStreaming() {
         return mRun;
     }
+
+    /* override methods */
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        _surfaceCreated(holder);
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        _surfaceChanged(holder, format, width, height);
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        _surfaceDestroyed(holder);
+    }
+
 }

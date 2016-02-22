@@ -14,12 +14,13 @@ import android.view.SurfaceHolder;
 
 import java.io.IOException;
 
-/**
- * I don't really want to know what the hell it does!
+/*
+ * I don't really understand and want to know what the hell it does!
+ * Maybe one day I will refactor it ;-)
  * <p/>
  * https://code.google.com/archive/p/android-camera-axis
  */
-public class MjpegViewDefault extends MjpegView {
+public class MjpegViewDefault extends AbstractMjpegView {
 
     private static MjpegViewThread thread;
     private MjpegInputStreamDefault mIn = null;
@@ -38,12 +39,14 @@ public class MjpegViewDefault extends MjpegView {
     private Context context;
     private long delay;
 
+    // no more accessible
     class MjpegViewThread extends Thread {
         private SurfaceHolder mSurfaceHolder;
         private int frameCounter = 0;
         private long start;
         private Bitmap ovl;
 
+        // no more accessible
         MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
             mSurfaceHolder = surfaceHolder;
         }
@@ -73,7 +76,8 @@ public class MjpegViewDefault extends MjpegView {
             return null;
         }
 
-        public void setSurfaceSize(int width, int height) {
+        // no more accessible
+        void setSurfaceSize(int width, int height) {
             synchronized (mSurfaceHolder) {
                 dispWidth = width;
                 dispHeight = height;
@@ -174,20 +178,22 @@ public class MjpegViewDefault extends MjpegView {
         }
     }
 
-    public void startPlayback() {
+    /* all methods/constructors below are no more accessible */
+
+    void _startPlayback() {
         if (mIn != null) {
             mRun = true;
             thread.start();
         }
     }
 
-    public void resumePlayback() {
+    void _resumePlayback() {
         mRun = true;
         init(context);
         thread.start();
     }
 
-    public void stopPlayback() {
+    void _stopPlayback() {
         mRun = false;
         boolean retry = true;
         while (retry) {
@@ -199,55 +205,73 @@ public class MjpegViewDefault extends MjpegView {
         }
     }
 
-    public MjpegViewDefault(Context context, AttributeSet attrs) {
+    MjpegViewDefault(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public void surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
+    void _surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
         thread.setSurfaceSize(w, h);
     }
 
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    void _surfaceDestroyed(SurfaceHolder holder) {
         surfaceDone = false;
-        stopPlayback();
+        _stopPlayback();
     }
 
-    public MjpegViewDefault(Context context) {
+    MjpegViewDefault(Context context) {
         super(context);
         init(context);
     }
 
-    public void surfaceCreated(SurfaceHolder holder) {
+    void _surfaceCreated(SurfaceHolder holder) {
         surfaceDone = true;
     }
 
-    public void showFps(boolean b) {
+    void _showFps(boolean b) {
         showFps = b;
     }
 
-    public void setSource(MjpegInputStreamDefault source) {
+    void _setSource(MjpegInputStreamDefault source) {
         mIn = source;
-        startPlayback();
+        _startPlayback();
     }
 
-    public void setOverlayPaint(Paint p) {
+    void _setOverlayPaint(Paint p) {
         overlayPaint = p;
     }
 
-    public void setOverlayTextColor(int c) {
+    void _setOverlayTextColor(int c) {
         overlayTextColor = c;
     }
 
-    public void setOverlayBackgroundColor(int c) {
+    void _setOverlayBackgroundColor(int c) {
         overlayBackgroundColor = c;
     }
 
-    public void setOverlayPosition(int p) {
+    void _setOverlayPosition(int p) {
         ovlPos = p;
     }
 
-    public void setDisplayMode(int s) {
+    void _setDisplayMode(int s) {
         displayMode = s;
     }
+
+    /* override methods */
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        _surfaceCreated(holder);
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        _surfaceChanged(holder, format, width, height);
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        _surfaceDestroyed(holder);
+    }
+
 }
