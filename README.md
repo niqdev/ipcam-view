@@ -1,3 +1,3 @@
-# mjpegview
+# Ipcam MjpegView
 
 > work in progress!

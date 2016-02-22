@@ -1,4 +1,4 @@
-package com.github.niqdev.mjpeg;
+package com.github.niqdev.ipcam;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

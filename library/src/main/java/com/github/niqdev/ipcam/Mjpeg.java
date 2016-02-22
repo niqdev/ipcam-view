@@ -1,4 +1,4 @@
-package com.github.niqdev.mjpeg;
+package com.github.niqdev.ipcam;
 
 import android.text.TextUtils;
 
@@ -47,7 +47,7 @@ public class Mjpeg {
         return new Mjpeg(type);
     }
 
-    public Observable<MjpegInputStream> read(String url, Type type) {
+    public Observable<MjpegInputStream> read(String url) {
         return Observable.defer(() -> {
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
@@ -56,7 +56,7 @@ public class Mjpeg {
                     case DEFAULT: return Observable.just(new MjpegInputStreamDefault(inputStream));
                     case NATIVE: return Observable.just(new MjpegInputStreamNative(inputStream));
                 }
-                throw new IllegalStateException("invalide type");
+                throw new IllegalStateException("invalid type");
             } catch (IOException e) {
                 return Observable.error(e);
             }
