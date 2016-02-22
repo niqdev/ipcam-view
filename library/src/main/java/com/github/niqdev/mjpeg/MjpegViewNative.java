@@ -21,17 +21,6 @@ import java.io.IOException;
  */
 public class MjpegViewNative extends MjpegView {
 
-    public static final String TAG = "MJPEG";
-
-    public final static int POSITION_UPPER_LEFT = 9;
-    public final static int POSITION_UPPER_RIGHT = 3;
-    public final static int POSITION_LOWER_LEFT = 12;
-    public final static int POSITION_LOWER_RIGHT = 6;
-
-    public final static int SIZE_STANDARD = 1;
-    public final static int SIZE_BEST_FIT = 4;
-    public final static int SIZE_FULLSCREEN = 8;
-
     SurfaceHolder holder;
     Context saved_context;
 
@@ -53,10 +42,8 @@ public class MjpegViewNative extends MjpegView {
 
     private Bitmap bmp = null;
 
-    // image size
-
-    public int IMG_WIDTH = 640;
-    public int IMG_HEIGHT = 480;
+    private int IMG_WIDTH = 640;
+    private int IMG_HEIGHT = 480;
 
     public class MjpegViewThread extends Thread {
         private SurfaceHolder mSurfaceHolder;

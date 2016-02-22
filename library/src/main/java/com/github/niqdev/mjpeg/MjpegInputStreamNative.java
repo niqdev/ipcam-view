@@ -244,7 +244,8 @@ public class MjpegInputStreamNative extends MjpegInputStream {
         }
     }
 
-    public void setSkip(int s) {
+    // no more accessible
+    void setSkip(int s) {
         skip = s;
     }
 }

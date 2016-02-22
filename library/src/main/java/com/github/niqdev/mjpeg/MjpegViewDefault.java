@@ -10,7 +10,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 import java.io.IOException;
@@ -22,16 +21,7 @@ import java.io.IOException;
  */
 public class MjpegViewDefault extends MjpegView {
 
-    public final static int POSITION_UPPER_LEFT = 9;
-    public final static int POSITION_UPPER_RIGHT = 3;
-    public final static int POSITION_LOWER_LEFT = 12;
-    public final static int POSITION_LOWER_RIGHT = 6;
-
-    public final static int SIZE_STANDARD = 1;
-    public final static int SIZE_BEST_FIT = 4;
-    public final static int SIZE_FULLSCREEN = 8;
-
-    public static MjpegViewThread thread;
+    private static MjpegViewThread thread;
     private MjpegInputStreamDefault mIn = null;
     private boolean showFps = false;
     private boolean mRun = false;
@@ -48,13 +38,13 @@ public class MjpegViewDefault extends MjpegView {
     private Context context;
     private long delay;
 
-    public class MjpegViewThread extends Thread {
+    class MjpegViewThread extends Thread {
         private SurfaceHolder mSurfaceHolder;
         private int frameCounter = 0;
         private long start;
         private Bitmap ovl;
 
-        public MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
+        MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
             mSurfaceHolder = surfaceHolder;
         }
 
@@ -194,7 +184,6 @@ public class MjpegViewDefault extends MjpegView {
     public void resumePlayback() {
         mRun = true;
         init(context);
-        Log.i("AppLog", "resume");
         thread.start();
     }
 
