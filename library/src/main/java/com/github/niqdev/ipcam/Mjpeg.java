@@ -24,12 +24,17 @@ import java.net.URI;
 import java.net.URL;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  *
  */
 public class Mjpeg {
 
+    /**
+     * Library implementation type
+     */
     public enum Type {
         DEFAULT, NATIVE
     }
@@ -43,8 +48,17 @@ public class Mjpeg {
         this.type = type;
     }
 
-    public static Mjpeg init(Type type) {
+    public static Mjpeg newInstance() {
+        return new Mjpeg(Type.DEFAULT);
+    }
+
+    public static Mjpeg newInstance(Type type) {
         return new Mjpeg(type);
+    }
+
+    public Mjpeg credential(String username, String password) {
+        // TODO
+        return this;
     }
 
     public Observable<MjpegInputStream> read(String url) {
@@ -60,7 +74,9 @@ public class Mjpeg {
             } catch (IOException e) {
                 return Observable.error(e);
             }
-        });
+        })
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread());
     }
 
     // TODO builder.xxx.native().build() {boolean}
@@ -79,7 +95,7 @@ public class Mjpeg {
     }
 
     // TODO deprecated
-    public static MjpegInputStreamNative readNative(String surl) {
+    private MjpegInputStreamNative readNative(String surl) {
         try {
             URL url = new URL(surl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
