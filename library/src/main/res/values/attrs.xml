@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IpCamMjpegView">
+        <attr name="type"/>
+    </declare-styleable>
+
+    <attr name="type" format="enum">
+        <enum name="stream_default" value="0"/>
+        <enum name="stream_native" value="1"/>
+    </attr>
+</resources>

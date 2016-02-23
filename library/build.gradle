@@ -24,6 +24,10 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
     // TODO remove
     useLibrary 'org.apache.http.legacy'
     sourceSets.main.jni.srcDirs = []
