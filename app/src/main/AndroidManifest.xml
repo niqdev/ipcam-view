@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.github.niqdev.ipcam"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="com.github.niqdev.ipcam"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -10,12 +11,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".IpCamDefaultActivity"
+            android:label="@string/activity_ipcam_default"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.niqdev.ipcam.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".IpCamNativeActivity"
+            android:label="@string/activity_ipcam_native"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.niqdev.ipcam.MainActivity"/>
         </activity>
     </application>
 

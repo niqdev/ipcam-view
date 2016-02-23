@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">IpCamMjpeg</string>
+    <string name="activity_ipcam_default">Default</string>
+    <string name="activity_ipcam_native">Native</string>
+
+    <string name="button_default">Default</string>
+    <string name="button_native">Native</string>
 </resources>
