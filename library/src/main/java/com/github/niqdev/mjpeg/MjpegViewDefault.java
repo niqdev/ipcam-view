@@ -274,4 +274,39 @@ public class MjpegViewDefault extends AbstractMjpegView {
         _surfaceDestroyed(holder);
     }
 
+    @Override
+    public void setSource(MjpegInputStream stream) {
+        _setSource((MjpegInputStreamDefault) stream);
+    }
+
+    @Override
+    public void setDisplayMode(DisplayMode mode) {
+        _setDisplayMode(mode.getValue());
+    }
+
+    @Override
+    public void showFps(boolean show) {
+        _showFps(show);
+    }
+
+    @Override
+    public void stopPlayback() {
+        _stopPlayback();
+    }
+
+    @Override
+    public boolean isStreaming() {
+        return mRun;
+    }
+
+    @Override
+    public void setResolution(int width, int height) {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
+    public void freeCameraMemory() {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
 }

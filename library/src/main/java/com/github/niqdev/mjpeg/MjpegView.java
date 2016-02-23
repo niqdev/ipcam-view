@@ -10,22 +10,10 @@ public interface MjpegView {
 
     void stopPlayback();
 
+    boolean isStreaming();
 
+    void setResolution(int width, int height);
 
-    // NATIVE
-    //isStreaming()
-        //stopPlayback
-    //freeCameraMemory() ------ on stopPlayback
-    //setResolution(width, height)
-        //setSource(MjpegInputStream)
-        //setDisplayMode(MjpegView.SIZE_BEST_FIT)
-        //showFps(false)
-
-    // DEFAULT
-    //new MjpegView(this)
-        //stopPlayback
-        //setSource(MjpegInputStream)
-        //setDisplayMode(MjpegView.SIZE_BEST_FIT)
-        //showFps(true)
+    void freeCameraMemory();
 
 }

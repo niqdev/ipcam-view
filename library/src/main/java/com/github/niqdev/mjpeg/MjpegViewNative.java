@@ -336,4 +336,39 @@ public class MjpegViewNative extends AbstractMjpegView {
         _surfaceDestroyed(holder);
     }
 
+    @Override
+    public void setSource(MjpegInputStream stream) {
+        _setSource((MjpegInputStreamNative) stream);
+    }
+
+    @Override
+    public void setDisplayMode(DisplayMode mode) {
+        _setDisplayMode(mode.getValue());
+    }
+
+    @Override
+    public void showFps(boolean show) {
+        _showFps(show);
+    }
+
+    @Override
+    public void stopPlayback() {
+        _stopPlayback();
+    }
+
+    @Override
+    public boolean isStreaming() {
+        return _isStreaming();
+    }
+
+    @Override
+    public void setResolution(int width, int height) {
+        _setResolution(width, height);
+    }
+
+    @Override
+    public void freeCameraMemory() {
+        _freeCameraMemory();
+    }
+
 }
