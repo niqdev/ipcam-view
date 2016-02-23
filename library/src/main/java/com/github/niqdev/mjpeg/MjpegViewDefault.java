@@ -276,6 +276,9 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     @Override
     public void setSource(MjpegInputStream stream) {
+        if (!(stream instanceof MjpegInputStreamDefault)) {
+            throw new IllegalArgumentException("stream must be an instance of MjpegInputStreamDefault");
+        }
         _setSource((MjpegInputStreamDefault) stream);
     }
 

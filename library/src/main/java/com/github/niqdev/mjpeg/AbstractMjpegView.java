@@ -25,6 +25,6 @@ public abstract class AbstractMjpegView extends SurfaceView
         super(context, attrs);
     }
 
-    // TODO attribute
+    // TODO refactor common
 
 }

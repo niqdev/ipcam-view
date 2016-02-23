@@ -85,7 +85,7 @@ public class Mjpeg {
         return this;
     }
 
-    public Observable<MjpegInputStream> read(String url) {
+    public Observable<MjpegInputStream> open(String url) {
         return Observable.defer(() -> {
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();

@@ -24,6 +24,7 @@ android {
         }
     }
 
+    // TODO remove
     useLibrary 'org.apache.http.legacy'
     sourceSets.main.jni.srcDirs = []
 }

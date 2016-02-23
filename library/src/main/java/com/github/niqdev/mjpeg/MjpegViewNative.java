@@ -338,6 +338,9 @@ public class MjpegViewNative extends AbstractMjpegView {
 
     @Override
     public void setSource(MjpegInputStream stream) {
+        if (!(stream instanceof MjpegInputStreamNative)) {
+            throw new IllegalArgumentException("stream must be an instance of MjpegInputStreamNative");
+        }
         _setSource((MjpegInputStreamNative) stream);
     }
 
