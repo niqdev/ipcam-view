@@ -11,13 +11,13 @@
         android:id="@+id/buttonDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonNative"
         android:text="@string/button_default"/>
 
     <Button
         android:id="@+id/buttonNative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonDefault"
         android:text="@string/button_native"/>
 
 </RelativeLayout>

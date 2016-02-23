@@ -1,14 +1,14 @@
 package com.github.niqdev.ipcam;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegView;
 
 import butterknife.Bind;
-import butterknife.OnClick;
+import butterknife.ButterKnife;
 
 public class IpCamDefaultActivity extends AppCompatActivity {
 
@@ -19,6 +19,7 @@ public class IpCamDefaultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipcam_default);
+        ButterKnife.bind(this);
         loadIpcam();
     }
 
