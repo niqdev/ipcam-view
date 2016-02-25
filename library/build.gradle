@@ -9,7 +9,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
     }
 
     compileOptions {
@@ -28,7 +28,6 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
-    // TODO remove
     useLibrary 'org.apache.http.legacy'
     sourceSets.main.jni.srcDirs = []
 }
@@ -41,3 +40,5 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
 }
+
+apply from: '../bintray.gradle'

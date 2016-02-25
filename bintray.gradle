@@ -1,0 +1,76 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://github.com/niqdev/ipcam-view'
+def gitUrl = 'https://github.com/niqdev/ipcam-view.git'
+group = 'com.github.niqdev'
+
+install {
+    repositories.mavenInstaller {
+        // generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                name 'IpCam stream library'
+                url siteUrl
+
+                licenses {
+                    license {
+                        name 'Creative Commons'
+                        url 'http://creativecommons.org/licenses/by/4.0'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'niqdev'
+                        name 'niqdev'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "ipcam-view"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Creative Commons"]
+        publish = true
+    }
+}
