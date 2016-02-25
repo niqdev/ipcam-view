@@ -24,8 +24,6 @@ public class IpCamDefaultActivity extends AppCompatActivity {
     }
 
     private void loadIpcam() {
-        // http://wmccpinetop.axiscam.net/mjpg/video.mjpg
-
         Mjpeg.newInstance()
             //.credential("", "")
             .open("http://plazacam.studentaffairs.duke.edu/mjpg/video.mjpg")

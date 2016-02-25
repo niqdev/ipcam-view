@@ -30,8 +30,9 @@ public class IpCamMjpegView extends SurfaceView implements SurfaceHolder.Callbac
                 mMjpegView = new MjpegViewDefault(context, this, this);
                 break;
             case NATIVE:
-                mMjpegView = new MjpegViewNative(context, this, this);
-                break;
+                throw new UnsupportedOperationException("not implemented");
+                //mMjpegView = new MjpegViewNative(context, this, this);
+                //break;
         }
     }
 

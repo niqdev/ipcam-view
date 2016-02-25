@@ -10,7 +10,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * A library wrapper for handle mjpeg Ipcam streams.
+ * A library wrapper for handle mjpeg streams.
  *
  * @see
  * <ul>
