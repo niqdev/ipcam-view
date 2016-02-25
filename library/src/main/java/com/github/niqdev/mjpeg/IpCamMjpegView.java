@@ -6,14 +6,15 @@ import android.support.annotation.StyleableRes;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
-public class IpCamMjpegView extends AbstractMjpegView {
+public class IpCamMjpegView extends SurfaceView implements SurfaceHolder.Callback, MjpegView {
 
     private MjpegView mMjpegView;
 
     private static final int DEFAULT_TYPE = 0;
 
-    // issue in attrs.xml - default keyword is reserved
+    // issue in attrs.xml - verify reserved keywords
     private static final SparseArray<Mjpeg.Type> TYPE;
     static {
         TYPE = new SparseArray<>();
@@ -26,10 +27,10 @@ public class IpCamMjpegView extends AbstractMjpegView {
 
         switch (getPropertyType(attrs, R.styleable.IpCamMjpegView, R.styleable.IpCamMjpegView_type)) {
             case DEFAULT:
-                mMjpegView = new MjpegViewDefault(context, attrs);
+                mMjpegView = new MjpegViewDefault(context, this, this);
                 break;
             case NATIVE:
-                mMjpegView = new MjpegViewNative(context, attrs);
+                mMjpegView = new MjpegViewNative(context, this, this);
                 break;
         }
     }
@@ -37,11 +38,9 @@ public class IpCamMjpegView extends AbstractMjpegView {
     public Mjpeg.Type getPropertyType(AttributeSet attributeSet, @StyleableRes int[] attrs, int attrIndex) {
         TypedArray typedArray = getContext().getTheme()
             .obtainStyledAttributes(attributeSet, attrs, 0, 0);
-
         try {
             int typeIndex = typedArray.getInt(attrIndex, DEFAULT_TYPE);
             Mjpeg.Type type = TYPE.get(typeIndex);
-
             return type != null ? type : TYPE.get(DEFAULT_TYPE);
         } finally {
             typedArray.recycle();
@@ -50,17 +49,17 @@ public class IpCamMjpegView extends AbstractMjpegView {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        ((SurfaceHolder.Callback) mMjpegView).surfaceCreated(holder);
+        ((AbstractMjpegView) mMjpegView).onSurfaceCreated(holder);
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        ((SurfaceHolder.Callback) mMjpegView).surfaceChanged(holder, format, width, height);
+        ((AbstractMjpegView) mMjpegView).onSurfaceChanged(holder, format, width, height);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        ((SurfaceHolder.Callback) mMjpegView).surfaceDestroyed(holder);
+        ((AbstractMjpegView) mMjpegView).onSurfaceDestroyed(holder);
     }
 
     @Override

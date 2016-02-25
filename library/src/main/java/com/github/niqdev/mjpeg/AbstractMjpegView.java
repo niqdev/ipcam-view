@@ -1,12 +1,8 @@
 package com.github.niqdev.mjpeg;
 
-import android.content.Context;
-import android.util.AttributeSet;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
-public abstract class AbstractMjpegView extends SurfaceView
-        implements SurfaceHolder.Callback, MjpegView {
+public abstract class AbstractMjpegView implements MjpegView {
 
     public final static int POSITION_UPPER_LEFT = 9;
     public final static int POSITION_UPPER_RIGHT = 3;
@@ -17,14 +13,10 @@ public abstract class AbstractMjpegView extends SurfaceView
     public final static int SIZE_BEST_FIT = 4;
     public final static int SIZE_FULLSCREEN = 8;
 
-    public AbstractMjpegView(Context context) {
-        super(context);
-    }
+    public abstract void onSurfaceCreated(SurfaceHolder holder);
 
-    public AbstractMjpegView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+    public abstract void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height);
 
-    // TODO refactor common
+    public abstract void onSurfaceDestroyed(SurfaceHolder holder);
 
 }

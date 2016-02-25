@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import java.io.IOException;
 
@@ -21,6 +22,9 @@ import java.io.IOException;
  * https://code.google.com/archive/p/android-camera-axis
  */
 public class MjpegViewDefault extends AbstractMjpegView {
+
+    private SurfaceHolder.Callback mSurfaceHolderCallback;
+    private SurfaceView mSurfaceView;
 
     private static MjpegViewThread thread;
     private MjpegInputStreamDefault mIn = null;
@@ -47,7 +51,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
         private Bitmap ovl;
 
         // no more accessible
-        MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
+        MjpegViewThread(SurfaceHolder surfaceHolder) {
             mSurfaceHolder = surfaceHolder;
         }
 
@@ -159,10 +163,10 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private void init(Context context) {
 
         this.context = context;
-        SurfaceHolder holder = getHolder();
-        holder.addCallback(this);
-        thread = new MjpegViewThread(holder, context);
-        setFocusable(true);
+        SurfaceHolder holder = mSurfaceView.getHolder();
+        holder.addCallback(mSurfaceHolderCallback);
+        thread = new MjpegViewThread(holder);
+        mSurfaceView.setFocusable(true);
         if (!resume) {
             resume = true;
             overlayPaint = new Paint();
@@ -173,8 +177,8 @@ public class MjpegViewDefault extends AbstractMjpegView {
             overlayBackgroundColor = Color.BLACK;
             ovlPos = MjpegViewDefault.POSITION_LOWER_RIGHT;
             displayMode = MjpegViewDefault.SIZE_STANDARD;
-            dispWidth = getWidth();
-            dispHeight = getHeight();
+            dispWidth = mSurfaceView.getWidth();
+            dispHeight = mSurfaceView.getHeight();
         }
     }
 
@@ -205,11 +209,6 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    MjpegViewDefault(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
-
     void _surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
         thread.setSurfaceSize(w, h);
     }
@@ -219,8 +218,9 @@ public class MjpegViewDefault extends AbstractMjpegView {
         _stopPlayback();
     }
 
-    MjpegViewDefault(Context context) {
-        super(context);
+    MjpegViewDefault(Context context, SurfaceView surfaceView, SurfaceHolder.Callback callback) {
+        this.mSurfaceView = surfaceView;
+        this.mSurfaceHolderCallback = callback;
         init(context);
     }
 
@@ -260,17 +260,17 @@ public class MjpegViewDefault extends AbstractMjpegView {
     /* override methods */
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void onSurfaceCreated(SurfaceHolder holder) {
         _surfaceCreated(holder);
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         _surfaceChanged(holder, format, width, height);
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void onSurfaceDestroyed(SurfaceHolder holder) {
         _surfaceDestroyed(holder);
     }
 
