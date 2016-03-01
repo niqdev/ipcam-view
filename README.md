@@ -3,6 +3,7 @@
 > work in progress!
 
 Android MJPEG video streaming made simple!
+
 A wrapper around the well known [SimpleMjpegView](https://bitbucket.org/neuralassembly/simplemjpegview) and [android-camera-axis](https://code.google.com/archive/p/android-camera-axis/) libraries.
 
 ### Usage
@@ -26,7 +27,7 @@ Add to your layout: [example](app/src/main/res/layout/activity_ipcam_default.xml
 ```
 
 Read stream in your activity/fragment: [example](app/src/main/java/com/github/niqdev/ipcam/IpCamDefaultActivity.java)
-```
+```java
 Mjpeg.newInstance()
   .credential("USERNAME", "PASSWORD")
   .open("IPCAM_URL.mjpg")
