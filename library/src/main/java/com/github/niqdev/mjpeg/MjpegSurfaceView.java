@@ -8,7 +8,7 @@ import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class IpCamMjpegView extends SurfaceView implements SurfaceHolder.Callback, MjpegView {
+public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callback, MjpegView {
 
     private MjpegView mMjpegView;
 
@@ -22,10 +22,10 @@ public class IpCamMjpegView extends SurfaceView implements SurfaceHolder.Callbac
         TYPE.put(1, Mjpeg.Type.NATIVE);
     }
 
-    public IpCamMjpegView(Context context, AttributeSet attrs) {
+    public MjpegSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        switch (getPropertyType(attrs, R.styleable.IpCamMjpegView, R.styleable.IpCamMjpegView_type)) {
+        switch (getPropertyType(attrs, R.styleable.MjpegSurfaceView, R.styleable.MjpegSurfaceView_type)) {
             case DEFAULT:
                 mMjpegView = new MjpegViewDefault(context, this, this);
                 break;

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.github.niqdev.ipcam.IpCamNativeActivity">
 
-    <com.github.niqdev.mjpeg.IpCamMjpegView
+    <com.github.niqdev.mjpeg.MjpegSurfaceView
         android:id="@+id/mjpegViewNative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
