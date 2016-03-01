@@ -1,19 +1,26 @@
+// ./gradlew build
+// ./gradlew bintrayUpload
+
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 def siteUrl = 'https://github.com/niqdev/ipcam-view'
 def gitUrl = 'https://github.com/niqdev/ipcam-view.git'
-group = 'com.github.niqdev'
+def libraryName = 'mjpeg-view'
 
 install {
     repositories.mavenInstaller {
         // generates POM.xml with proper parameters
         pom {
             project {
-                packaging 'aar'
-
-                name 'IpCam stream library'
+                name libraryName
+                description 'Android Mjpeg video streaming'
                 url siteUrl
+
+                packaging 'aar'
+                groupId project.group
+                artifactId libraryName
+                version project.version
 
                 licenses {
                     license {
@@ -66,11 +73,15 @@ bintray {
 
     configurations = ['archives']
     pkg {
-        repo = "maven"
-        name = "ipcam-view"
+        repo = 'maven'
+        name = libraryName
+        version {
+            name = project.version
+            released = new Date()
+        }
         websiteUrl = siteUrl
         vcsUrl = gitUrl
-        licenses = ["Creative Commons"]
+        licenses = ['CC0-1.0']
         publish = true
     }
 }

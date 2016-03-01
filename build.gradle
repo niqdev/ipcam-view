@@ -11,6 +11,9 @@ buildscript {
 }
 
 allprojects {
+    group = 'com.github.niqdev'
+    version = '0.1.0'
+
     repositories {
         jcenter()
     }
