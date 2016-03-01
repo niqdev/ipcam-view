@@ -2,12 +2,16 @@
 
 > work in progress!
 
+Android MJPEG video streaming made simple!
+
+A wrapper around the well known [SimpleMjpegView](https://bitbucket.org/neuralassembly/simplemjpegview) and [android-camera-axis](https://code.google.com/archive/p/android-camera-axis/) libraries.
+
 ```java
 
 // add to layout
 xmlns:stream="http://schemas.android.com/apk/res-auto"
 
-<com.github.niqdev.mjpeg.IpCamMjpegView
+<com.github.niqdev.mjpeg.MjpegSurfaceView
   android:id="@+id/VIEW_NAME"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
@@ -22,3 +26,8 @@ Mjpeg.newInstance()
       mjpegView.showFps(true);
   });
 ```
+
+TODO
+- [x] Default support with `android-camera-axis`
+- [ ] Native support with `SimpleMjpegView`
+- [ ] Handle credential
