@@ -42,5 +42,5 @@ METHODDEF(void) memory_term_source (j_decompress_ptr cinfo);
 
 void processimage (const void *p, int l);
 
-int Java_com_camera_simplemjpeg_MjpegInputStream_pixeltobmp(JNIEnv* env,jobject thiz, jbyteArray jp, jint l, jobject bmp);
-void Java_com_camera_simplemjpeg_MjpegInputStream_freeCameraMemory(JNIEnv* env,jobject thiz);
+int Java_com_github_niqdev_mjpeg_MjpegInputStreamNative_pixeltobmp(JNIEnv* env,jobject thiz, jbyteArray jp, jint l, jobject bmp);
+void Java_com_github_niqdev_mjpeg_MjpegInputStreamNative_freeCameraMemory(JNIEnv* env,jobject thiz);

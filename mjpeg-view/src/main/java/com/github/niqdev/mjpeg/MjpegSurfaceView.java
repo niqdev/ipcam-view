@@ -30,9 +30,8 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                 mMjpegView = new MjpegViewDefault(context, this, this);
                 break;
             case NATIVE:
-                throw new UnsupportedOperationException("not implemented");
-                //mMjpegView = new MjpegViewNative(context, this, this);
-                //break;
+                mMjpegView = new MjpegViewNative(context, this, this);
+                break;
         }
     }
 

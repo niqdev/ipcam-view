@@ -26,7 +26,7 @@ public class IpCamNativeActivity extends AppCompatActivity {
     }
 
     private void loadIpcam() {
-        Mjpeg.newInstance()
+        Mjpeg.newInstance(Mjpeg.Type.NATIVE)
             //.credential("", "")
             .open("http://wmccpinetop.axiscam.net/mjpg/video.mjpg")
             .subscribe(inputStream -> {

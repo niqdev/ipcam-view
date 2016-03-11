@@ -48,6 +48,9 @@ dependencies {
 }
 ```
 
+### Development
+Download [Android NDK](http://developer.android.com/ndk/downloads/index.html#download)
+
 TODO
 - [x] Default support with `android-camera-axis`
 - [ ] Native support with `SimpleMjpegView`

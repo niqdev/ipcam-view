@@ -250,7 +250,7 @@ void processimage (const void *p, int l)
 	
 }
 
-int Java_com_camera_simplemjpeg_MjpegInputStream_pixeltobmp( JNIEnv* env,jobject thiz,
+int Java_com_github_niqdev_mjpeg_MjpegInputStreamNative_pixeltobmp( JNIEnv* env,jobject thiz,
 	 jbyteArray jp, jint l, jobject bmp){
 
 
@@ -309,7 +309,7 @@ int Java_com_camera_simplemjpeg_MjpegInputStream_pixeltobmp( JNIEnv* env,jobject
 		return 0;
 }
 
-void Java_com_camera_simplemjpeg_MjpegInputStream_freeCameraMemory( JNIEnv* env,jobject thiz){
+void Java_com_github_niqdev_mjpeg_MjpegInputStreamNative_freeCameraMemory( JNIEnv* env,jobject thiz){
 
 	if(rgb) free(rgb);
 	rgb = NULL;

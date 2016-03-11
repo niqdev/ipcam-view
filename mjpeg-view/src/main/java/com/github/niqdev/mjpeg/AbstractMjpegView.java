@@ -4,14 +4,14 @@ import android.view.SurfaceHolder;
 
 public abstract class AbstractMjpegView implements MjpegView {
 
-    public final static int POSITION_UPPER_LEFT = 9;
-    public final static int POSITION_UPPER_RIGHT = 3;
-    public final static int POSITION_LOWER_LEFT = 12;
-    public final static int POSITION_LOWER_RIGHT = 6;
+    protected final static int POSITION_UPPER_LEFT = 9;
+    protected final static int POSITION_UPPER_RIGHT = 3;
+    protected final static int POSITION_LOWER_LEFT = 12;
+    protected final static int POSITION_LOWER_RIGHT = 6;
 
-    public final static int SIZE_STANDARD = 1;
-    public final static int SIZE_BEST_FIT = 4;
-    public final static int SIZE_FULLSCREEN = 8;
+    protected final static int SIZE_STANDARD = 1;
+    protected final static int SIZE_BEST_FIT = 4;
+    protected final static int SIZE_FULLSCREEN = 8;
 
     public abstract void onSurfaceCreated(SurfaceHolder holder);
 
