@@ -29,7 +29,13 @@ android {
     }
 
     useLibrary 'org.apache.http.legacy'
-    sourceSets.main.jni.srcDirs = []
+    sourceSets {
+        main.jni.srcDirs = []
+        //main.jniLibs.srcDirs = ['libs']
+    }
+    // TODO
+    //http://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/
+    //http://stackoverflow.com/questions/27421134/system-loadlibrary-couldnt-find-native-library-in-my-case
 }
 
 dependencies {

@@ -50,6 +50,11 @@ dependencies {
 
 ### Development
 Download [Android NDK](http://developer.android.com/ndk/downloads/index.html#download)
+Add to path
+```bash
+export ANDROID_NDK=$HOME/android-ndk-r11-darwin-x86_64
+export PATH=$PATH:$ANDROID_NDK
+```
 
 TODO
 - [x] Default support with `android-camera-axis`
