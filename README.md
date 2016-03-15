@@ -49,14 +49,18 @@ dependencies {
 ```
 
 ### Development
-Download [Android NDK](http://developer.android.com/ndk/downloads/index.html#download)
-Add to path
+Download Android NDK:
+* [manually](http://developer.android.com/ndk/downloads/index.html#download)
+* in Android Studio: File > Other Settings > Default Project Structure > download NDK 
+
+Compile manually (verify your paths)
 ```bash
-export ANDROID_NDK=$HOME/android-ndk-r11-darwin-x86_64
-export PATH=$PATH:$ANDROID_NDK
+$ chmod a+x compileJni.sh
+$ ./compileJni.sh
 ```
 
 TODO
-- [x] Default support with `android-camera-axis`
-- [ ] Native support with `SimpleMjpegView`
+- [x] Default support by `android-camera-axis`
+- [ ] Native support by `SimpleMjpegView`
 - [ ] Handle credential
+- [ ] Play Store demo app
