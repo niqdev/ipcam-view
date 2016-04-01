@@ -1,8 +1,11 @@
 package com.github.niqdev.ipcam;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.Button;
 
 import com.github.niqdev.ipcam.settings.SettingsActivity;
@@ -34,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void verifySettings() {
-        buttonDefault.setEnabled(false);
-        buttonNative.setEnabled(false);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (TextUtils.isEmpty(prefs.getString(SettingsActivity.PREF_IPCAM_URL, ""))) {
+            buttonDefault.setEnabled(false);
+            buttonNative.setEnabled(false);
+        }
     }
 
     @OnClick(R.id.buttonDefault)

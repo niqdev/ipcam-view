@@ -8,7 +8,7 @@
     <EditTextPreference
         android:dependency="authentication"
         android:inputType="text"
-        android:key="authentication_username"
+        android:key="com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_USERNAME"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -17,7 +17,7 @@
     <EditTextPreference
         android:dependency="authentication"
         android:inputType="textPassword"
-        android:key="authentication_password"
+        android:key="com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_PASSWORD"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/pref_title_authentication_password"/>

@@ -22,6 +22,10 @@ import java.util.List;
 
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
+    public static final String PREF_IPCAM_URL = "com.github.niqdev.ipcam.settings.SettingsActivity.IPCAM_URL";
+    public static final String PREF_AUTH_USERNAME = "com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_USERNAME";
+    public static final String PREF_AUTH_PASSWORD = "com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_PASSWORD";
+
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
     /**
@@ -85,9 +89,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         // Trigger the listener immediately with the preference's current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-            PreferenceManager
-                .getDefaultSharedPreferences(preference.getContext())
-                .getString(preference.getKey(), ""));
+                PreferenceManager
+                        .getDefaultSharedPreferences(preference.getContext())
+                        .getString(preference.getKey(), ""));
     }
 
     @Override
@@ -143,9 +147,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_authentication);
 
-        bindPreferenceSummaryToValue(findPreference("ipcam_url"));
-        bindPreferenceSummaryToValue(findPreference("authentication_username"));
-        bindPreferenceSummaryToValue(findPreference("authentication_password"));
+        bindPreferenceSummaryToValue(findPreference(PREF_IPCAM_URL));
+        bindPreferenceSummaryToValue(findPreference(PREF_AUTH_USERNAME));
+        bindPreferenceSummaryToValue(findPreference(PREF_AUTH_PASSWORD));
     }
 
     /**
@@ -189,7 +193,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
-            bindPreferenceSummaryToValue(findPreference("ipcam_url"));
+            bindPreferenceSummaryToValue(findPreference(PREF_IPCAM_URL));
         }
 
         @Override
@@ -215,8 +219,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_authentication);
             setHasOptionsMenu(true);
 
-            bindPreferenceSummaryToValue(findPreference("authentication_username"));
-            bindPreferenceSummaryToValue(findPreference("authentication_password"));
+            bindPreferenceSummaryToValue(findPreference(PREF_AUTH_USERNAME));
+            bindPreferenceSummaryToValue(findPreference(PREF_AUTH_PASSWORD));
         }
 
         @Override
