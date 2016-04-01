@@ -1,0 +1,11 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="@string/pref_default_ipcam_url"
+        android:inputType="textUri"
+        android:key="ipcam_url"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
+        android:title="@string/pref_title_ipcam_url"/>
+
+</PreferenceScreen>
