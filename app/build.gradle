@@ -35,7 +35,8 @@ dependencies {
     compile project(':mjpeg-view')
 
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
 
+    compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.android.support:support-v4:23.2.1'
 }
