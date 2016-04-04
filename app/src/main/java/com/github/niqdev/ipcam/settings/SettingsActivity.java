@@ -44,6 +44,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // Set the summary to reflect the new value.
             preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
 
+        } else if (preference.getKey().equals(PREF_AUTH_PASSWORD)) {
+            preference.setSummary(R.string.pref_hidden_password);
         } else {
             // For all other preferences, set the summary to the value's
             // simple string representation.
