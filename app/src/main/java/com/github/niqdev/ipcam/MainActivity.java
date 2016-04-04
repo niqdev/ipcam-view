@@ -40,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (TextUtils.isEmpty(prefs.getString(SettingsActivity.PREF_IPCAM_URL, ""))) {
             buttonDefault.setEnabled(false);
-            buttonNative.setEnabled(false);
         }
+
+        // TODO disabled
+        buttonNative.setEnabled(false);
     }
 
     @OnClick(R.id.buttonDefault)

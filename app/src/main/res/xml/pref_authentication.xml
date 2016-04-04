@@ -1,7 +1,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- TODO disabled -->
     <SwitchPreference
         android:defaultValue="false"
+        android:enabled="false"
         android:key="authentication"
         android:title="@string/pref_title_authentication"/>
 
