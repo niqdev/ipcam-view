@@ -11,8 +11,6 @@ import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegView;
 
-import java.util.concurrent.TimeUnit;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -39,7 +37,6 @@ public class IpCamDefaultActivity extends AppCompatActivity {
             .open(PreferenceManager
                 .getDefaultSharedPreferences(this)
                 .getString(SettingsActivity.PREF_IPCAM_URL, ""))
-            .timeout(2, TimeUnit.SECONDS)
             .subscribe(
                 inputStream -> {
                     mjpegView.setSource(inputStream);

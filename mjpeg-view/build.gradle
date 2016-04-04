@@ -31,17 +31,14 @@ android {
     useLibrary 'org.apache.http.legacy'
     sourceSets {
         main.jni.srcDirs = []
-        //main.jniLibs.srcDirs = ['libs']
     }
-    // TODO
-    //http://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/
-    //http://stackoverflow.com/questions/27421134/system-loadlibrary-couldnt-find-native-library-in-my-case
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
 
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
