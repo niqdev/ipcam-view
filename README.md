@@ -65,4 +65,3 @@ TODO
 - [x] Default support by `android-camera-axis`
 - [ ] Native support by `SimpleMjpegView`
 - [ ] Handle credential
-- [ ] Play Store demo app

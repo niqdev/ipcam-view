@@ -5,6 +5,7 @@
 
 /local.properties
 /build
+release
 
 *~
 .DS_Store
