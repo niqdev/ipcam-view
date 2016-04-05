@@ -11,14 +11,10 @@ import android.widget.Button;
 import com.github.niqdev.ipcam.settings.SettingsActivity;
 
 import butterknife.Bind;
-import butterknife.BindString;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-
-    @BindString(R.string.action_bar_title)
-    String actionBarTitle;
 
     @Bind(R.id.buttonDefault)
     Button buttonDefault;
@@ -32,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        getSupportActionBar().setTitle(actionBarTitle);
         // load default values first time
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
         verifySettings();

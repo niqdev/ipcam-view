@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">IpCam Demo</string>
-    <string name="action_bar_title">ipcam-view demo</string>
+    <string name="app_name">IPCam Demo</string>
 
     <string name="activity_ipcam_default">Default</string>
     <string name="activity_ipcam_native">Native</string>
