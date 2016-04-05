@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         getSupportActionBar().setTitle(actionBarTitle);
+        // load default values first time
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
         verifySettings();
     }
 
