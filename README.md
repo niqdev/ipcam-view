@@ -1,4 +1,4 @@
-# ipcam-view ![ipcam-view](images/app-logo.png)
+# ipcam-view ![ipcam-view](images/logo.png)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ipcam--view-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3358)
 
