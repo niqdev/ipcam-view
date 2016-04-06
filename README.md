@@ -15,6 +15,8 @@ A wrapper around the well known [SimpleMjpegView](https://bitbucket.org/neuralas
 
 <img src="images/screenshot-settings.png" alt="settings" height="600" />
 
+<a href='https://play.google.com/store/apps/details?id=com.github.niqdev.ipcam&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-ap-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png' width="200"/></a>
+
 ### Usage
 
 Add to your layout: [example](app/src/main/res/layout/activity_ipcam_default.xml)
