@@ -2,7 +2,9 @@ package com.github.niqdev.mjpeg;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 
 import rx.Observable;
@@ -59,14 +61,25 @@ public class Mjpeg {
      *
      * @param username
      * @param password
-     *
      * @return Mjpeg instance
      */
     public Mjpeg credential(String username, String password) {
-        // TODO
+        if (username != null && password != null) {
+            Authenticator.setDefault(new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password.toCharArray());
+                }
+            });
+        }
         return this;
     }
 
+    /**
+     * Connect to a Mjpeg stream.
+     *
+     * @param url
+     * @return Observable<MjpegInputStream> Mjpeg stream
+     */
     public Observable<MjpegInputStream> open(String url) {
         return Observable.defer(() -> {
             try {
