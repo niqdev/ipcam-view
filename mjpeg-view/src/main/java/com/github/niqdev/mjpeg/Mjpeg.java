@@ -59,8 +59,8 @@ public class Mjpeg {
     /**
      * Configure authentication.
      *
-     * @param username
-     * @param password
+     * @param username credential
+     * @param password credential
      * @return Mjpeg instance
      */
     public Mjpeg credential(String username, String password) {
@@ -77,8 +77,8 @@ public class Mjpeg {
     /**
      * Connect to a Mjpeg stream.
      *
-     * @param url
-     * @return Observable<MjpegInputStream> Mjpeg stream
+     * @param url source
+     * @return Observable Mjpeg stream
      */
     public Observable<MjpegInputStream> open(String url) {
         return Observable.defer(() -> {
