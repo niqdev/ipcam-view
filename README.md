@@ -55,7 +55,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.github.niqdev:mjpeg-view:0.1.0'
+    compile 'com.github.niqdev:mjpeg-view:0.2.0'
 }
 ```
 
@@ -73,4 +73,4 @@ $ ./compileJni.sh
 TODO
 - [x] Default support by `android-camera-axis`
 - [ ] Native support by `SimpleMjpegView`
-- [ ] Handle credential
+- [x] Handle credential
