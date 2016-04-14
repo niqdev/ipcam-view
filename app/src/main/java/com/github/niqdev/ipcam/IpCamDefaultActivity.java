@@ -1,5 +1,6 @@
 package com.github.niqdev.ipcam;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,12 @@ public class IpCamDefaultActivity extends AppCompatActivity {
             .getString(key, "");
     }
 
+    private DisplayMode calculateDisplayMode() {
+        int orientation = getResources().getConfiguration().orientation;
+        return orientation == Configuration.ORIENTATION_LANDSCAPE ?
+            DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
+    }
+
     private void loadIpCam() {
         Mjpeg.newInstance()
             .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
@@ -42,7 +49,7 @@ public class IpCamDefaultActivity extends AppCompatActivity {
             .subscribe(
                 inputStream -> {
                     mjpegView.setSource(inputStream);
-                    mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
+                    mjpegView.setDisplayMode(calculateDisplayMode());
                     mjpegView.showFps(true);
                 },
                 throwable -> {
