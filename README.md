@@ -55,7 +55,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.github.niqdev:mjpeg-view:0.2.0'
+    compile 'com.github.niqdev:mjpeg-view:0.2.1'
 }
 ```
 
