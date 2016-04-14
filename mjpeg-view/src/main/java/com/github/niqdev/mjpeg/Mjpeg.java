@@ -1,5 +1,7 @@
 package com.github.niqdev.mjpeg;
 
+import android.text.TextUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Authenticator;
@@ -64,7 +66,7 @@ public class Mjpeg {
      * @return Mjpeg instance
      */
     public Mjpeg credential(String username, String password) {
-        if (username != null && password != null) {
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
             Authenticator.setDefault(new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(username, password.toCharArray());
