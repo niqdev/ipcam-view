@@ -6,13 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.github.niqdev.ipcam.settings.SettingsActivity;
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_PASSWORD;
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_USERNAME;
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_IPCAM_URL;
 
 public class IpCamDefaultActivity extends AppCompatActivity {
 
@@ -26,17 +29,16 @@ public class IpCamDefaultActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadIpcam();
+    private String getPreference(String key) {
+        return PreferenceManager
+            .getDefaultSharedPreferences(this)
+            .getString(key, "");
     }
 
-    private void loadIpcam() {
+    private void loadIpCam() {
         Mjpeg.newInstance()
-            .open(PreferenceManager
-                .getDefaultSharedPreferences(this)
-                .getString(SettingsActivity.PREF_IPCAM_URL, ""))
+            .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
+            .open(getPreference(PREF_IPCAM_URL))
             .subscribe(
                 inputStream -> {
                     mjpegView.setSource(inputStream);
@@ -50,13 +52,15 @@ public class IpCamDefaultActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadIpCam();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         mjpegView.stopPlayback();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

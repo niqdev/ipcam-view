@@ -1,6 +1,5 @@
 package com.github.niqdev.ipcam.settings;
 
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.github.niqdev.ipcam.R;
@@ -45,7 +45,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
 
         } else if (preference.getKey().equals(PREF_AUTH_PASSWORD)) {
-            preference.setSummary(R.string.pref_hidden_password);
+            if (!TextUtils.isEmpty(stringValue)) {
+                preference.setSummary(R.string.pref_hidden_password);
+            }
         } else {
             // For all other preferences, set the summary to the value's
             // simple string representation.
@@ -92,8 +94,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         // Trigger the listener immediately with the preference's current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
             PreferenceManager
-                    .getDefaultSharedPreferences(preference.getContext())
-                    .getString(preference.getKey(), ""));
+                .getDefaultSharedPreferences(preference.getContext())
+                .getString(preference.getKey(), ""));
     }
 
     @Override
