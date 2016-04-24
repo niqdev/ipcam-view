@@ -8,6 +8,8 @@ Android MJPEG video streaming made simple!
 
 A wrapper library around the well known [SimpleMjpegView](https://bitbucket.org/neuralassembly/simplemjpegview) and [android-camera-axis](https://code.google.com/archive/p/android-camera-axis/) projects.
 
+If you have problem to identify your IpCam url, please follow this [link](https://github.com/niqdev/ipcam-view/wiki)
+
 ### Demo app
 
 <img src="images/screenshot-main.png" alt="main" height="600" />
