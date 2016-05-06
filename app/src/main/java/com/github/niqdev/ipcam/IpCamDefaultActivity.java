@@ -20,6 +20,8 @@ import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_IPCAM_URL;
 
 public class IpCamDefaultActivity extends AppCompatActivity {
 
+    private static final int TIMEOUT = 5;
+
     @Bind(R.id.mjpegViewDefault)
     MjpegView mjpegView;
 
@@ -45,7 +47,7 @@ public class IpCamDefaultActivity extends AppCompatActivity {
     private void loadIpCam() {
         Mjpeg.newInstance()
             .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
-            .open(getPreference(PREF_IPCAM_URL))
+            .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
             .subscribe(
                 inputStream -> {
                     mjpegView.setSource(inputStream);

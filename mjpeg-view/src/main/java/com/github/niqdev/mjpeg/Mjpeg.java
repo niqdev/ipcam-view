@@ -1,5 +1,6 @@
 package com.github.niqdev.mjpeg;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -76,13 +78,8 @@ public class Mjpeg {
         return this;
     }
 
-    /**
-     * Connect to a Mjpeg stream.
-     *
-     * @param url source
-     * @return Observable Mjpeg stream
-     */
-    public Observable<MjpegInputStream> open(String url) {
+    @NonNull
+    private Observable<MjpegInputStream> connect(String url) {
         return Observable.defer(() -> {
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
@@ -98,9 +95,33 @@ public class Mjpeg {
             } catch (IOException e) {
                 return Observable.error(e);
             }
-        })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread());
+        });
+    }
+
+    /**
+     * Connect to a Mjpeg stream.
+     *
+     * @param url source
+     * @return Observable Mjpeg stream
+     */
+    public Observable<MjpegInputStream> open(String url) {
+        return connect(url)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * Connect to a Mjpeg stream.
+     *
+     * @param url source
+     * @param timeout in seconds
+     * @return Observable Mjpeg stream
+     */
+    public Observable<MjpegInputStream> open(String url, int timeout) {
+        return connect(url)
+            .timeout(timeout, TimeUnit.SECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread());
     }
 
 }
