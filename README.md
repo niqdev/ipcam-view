@@ -1,8 +1,7 @@
 # ipcam-view ![ipcam-view](images/logo.png)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ipcam--view-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3358)
-
-> work in progress!
+[![Download](https://api.bintray.com/packages/niqdev/maven/mjpeg-view/images/download.svg)](https://bintray.com/niqdev/maven/mjpeg-view/_latestVersion)
 
 Android MJPEG video streaming made simple!
 
@@ -41,9 +40,11 @@ Add to your layout: [example](app/src/main/res/layout/activity_ipcam_default.xml
 
 Read stream in your activity/fragment: [example](app/src/main/java/com/github/niqdev/ipcam/IpCamDefaultActivity.java)
 ```java
+int TIMEOUT = 5; //seconds
+
 Mjpeg.newInstance()
   .credential("USERNAME", "PASSWORD")
-  .open("IPCAM_URL.mjpg")
+  .open("IPCAM_URL.mjpg", TIMEOUT)
   .subscribe(inputStream -> {
       mjpegView.setSource(inputStream);
       mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
@@ -57,7 +58,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.github.niqdev:mjpeg-view:0.2.1'
+    compile 'com.github.niqdev:mjpeg-view:0.3.0'
 }
 ```
 
@@ -72,7 +73,7 @@ $ chmod a+x compileJni.sh
 $ ./compileJni.sh
 ```
 
-TODO
+Features
 - [x] Default support by `android-camera-axis`
 - [ ] Native support by `SimpleMjpegView`
 - [x] Handle credential
