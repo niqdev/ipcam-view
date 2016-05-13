@@ -73,7 +73,7 @@ $ chmod a+x compileJni.sh
 $ ./compileJni.sh
 ```
 
-Features
+### Features
 - [x] Default support by `android-camera-axis`
 - [ ] Native support by `SimpleMjpegView`
 - [x] Handle credential
