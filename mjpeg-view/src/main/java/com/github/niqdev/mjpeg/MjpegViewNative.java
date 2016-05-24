@@ -1,6 +1,5 @@
 package com.github.niqdev.mjpeg;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,7 +8,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -27,7 +25,6 @@ public class MjpegViewNative extends AbstractMjpegView {
     private SurfaceView mSurfaceView;
 
     private SurfaceHolder holder;
-    private Context saved_context;
 
     private MjpegViewThread thread;
     private MjpegInputStreamNative mIn = null;
@@ -58,7 +55,7 @@ public class MjpegViewNative extends AbstractMjpegView {
         private String fps = "";
 
         // no more accessible
-        MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
+        MjpegViewThread(SurfaceHolder surfaceHolder) {
             mSurfaceHolder = surfaceHolder;
         }
 
@@ -179,13 +176,12 @@ public class MjpegViewNative extends AbstractMjpegView {
         }
     }
 
-    private void init(Context context) {
+    private void init() {
 
         //SurfaceHolder holder = getHolder();
         holder = mSurfaceView.getHolder();
-        saved_context = context;
         holder.addCallback(mSurfaceHolderCallback);
-        thread = new MjpegViewThread(holder, context);
+        thread = new MjpegViewThread(holder);
         mSurfaceView.setFocusable(true);
         overlayPaint = new Paint();
         overlayPaint.setTextAlign(Paint.Align.LEFT);
@@ -205,7 +201,7 @@ public class MjpegViewNative extends AbstractMjpegView {
         if (mIn != null) {
             mRun = true;
             if (thread == null) {
-                thread = new MjpegViewThread(holder, saved_context);
+                thread = new MjpegViewThread(holder);
             }
             thread.start();
         }
@@ -217,7 +213,7 @@ public class MjpegViewNative extends AbstractMjpegView {
                 mRun = true;
                 SurfaceHolder holder = mSurfaceView.getHolder();
                 holder.addCallback(mSurfaceHolderCallback);
-                thread = new MjpegViewThread(holder, saved_context);
+                thread = new MjpegViewThread(holder);
                 thread.start();
                 suspending = false;
             }
@@ -265,12 +261,15 @@ public class MjpegViewNative extends AbstractMjpegView {
     void _surfaceDestroyed(SurfaceHolder holder) {
         surfaceDone = false;
         _stopPlayback();
+        if (thread != null) {
+            thread = null;
+        }
     }
 
-    MjpegViewNative(Context context, SurfaceView surfaceView, SurfaceHolder.Callback callback) {
+    MjpegViewNative(SurfaceView surfaceView, SurfaceHolder.Callback callback) {
         this.mSurfaceView = surfaceView;
         this.mSurfaceHolderCallback = callback;
-        init(context);
+        init();
     }
 
     void _surfaceCreated(SurfaceHolder holder) {
