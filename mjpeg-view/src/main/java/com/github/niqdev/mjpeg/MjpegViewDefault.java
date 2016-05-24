@@ -1,6 +1,5 @@
 package com.github.niqdev.mjpeg;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,7 +8,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -40,7 +38,6 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private int displayMode;
     private boolean resume = false;
 
-    private Context context;
     private long delay;
 
     // no more accessible
@@ -160,9 +157,8 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    private void init(Context context) {
+    private void init() {
 
-        this.context = context;
         SurfaceHolder holder = mSurfaceView.getHolder();
         holder.addCallback(mSurfaceHolderCallback);
         thread = new MjpegViewThread(holder);
@@ -193,7 +189,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     void _resumePlayback() {
         mRun = true;
-        init(context);
+        init();
         thread.start();
     }
 
@@ -216,12 +212,15 @@ public class MjpegViewDefault extends AbstractMjpegView {
     void _surfaceDestroyed(SurfaceHolder holder) {
         surfaceDone = false;
         _stopPlayback();
+        if (thread != null) {
+            thread = null;
+        }
     }
 
-    MjpegViewDefault(Context context, SurfaceView surfaceView, SurfaceHolder.Callback callback) {
+    MjpegViewDefault(SurfaceView surfaceView, SurfaceHolder.Callback callback) {
         this.mSurfaceView = surfaceView;
         this.mSurfaceHolderCallback = callback;
-        init(context);
+        init();
     }
 
     void _surfaceCreated(SurfaceHolder holder) {

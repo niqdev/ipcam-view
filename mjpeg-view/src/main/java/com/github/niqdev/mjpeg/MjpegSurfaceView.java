@@ -27,10 +27,10 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
         switch (getPropertyType(attrs, R.styleable.MjpegSurfaceView, R.styleable.MjpegSurfaceView_type)) {
             case DEFAULT:
-                mMjpegView = new MjpegViewDefault(context, this, this);
+                mMjpegView = new MjpegViewDefault(this, this);
                 break;
             case NATIVE:
-                mMjpegView = new MjpegViewNative(context, this, this);
+                mMjpegView = new MjpegViewNative(this, this);
                 break;
         }
     }
