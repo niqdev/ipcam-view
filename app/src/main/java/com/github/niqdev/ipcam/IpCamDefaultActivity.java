@@ -11,7 +11,7 @@ import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_PASSWORD;
@@ -22,7 +22,7 @@ public class IpCamDefaultActivity extends AppCompatActivity {
 
     private static final int TIMEOUT = 5;
 
-    @Bind(R.id.mjpegViewDefault)
+    @BindView(R.id.mjpegViewDefault)
     MjpegView mjpegView;
 
     @Override

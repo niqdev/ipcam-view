@@ -10,16 +10,16 @@ import android.widget.Button;
 
 import com.github.niqdev.ipcam.settings.SettingsActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.buttonDefault)
+    @BindView(R.id.buttonDefault)
     Button buttonDefault;
 
-    @Bind(R.id.buttonNative)
+    @BindView(R.id.buttonNative)
     Button buttonNative;
 
     @Override

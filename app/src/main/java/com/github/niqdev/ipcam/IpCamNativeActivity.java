@@ -7,12 +7,12 @@ import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class IpCamNativeActivity extends AppCompatActivity {
 
-    @Bind(R.id.mjpegViewNative)
+    @BindView(R.id.mjpegViewNative)
     MjpegView mjpegView;
 
     @Override
