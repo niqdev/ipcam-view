@@ -81,7 +81,7 @@ bintray {
         }
         websiteUrl = siteUrl
         vcsUrl = gitUrl
-        licenses = ['CC0-1.0']
+        licenses = ['CC-BY-SA-4.0']
         publish = true
     }
 }
