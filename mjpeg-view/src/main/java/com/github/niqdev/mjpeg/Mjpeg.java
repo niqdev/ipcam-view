@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -106,8 +105,8 @@ public class Mjpeg {
      */
     public Observable<MjpegInputStream> open(String url) {
         return connect(url)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
+            .subscribeOn(Schedulers.computation())
+            .observeOn(Schedulers.io());
     }
 
     /**
@@ -120,8 +119,8 @@ public class Mjpeg {
     public Observable<MjpegInputStream> open(String url, int timeout) {
         return connect(url)
             .timeout(timeout, TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread());
+            .subscribeOn(Schedulers.computation())
+            .observeOn(Schedulers.io());
     }
 
 }
