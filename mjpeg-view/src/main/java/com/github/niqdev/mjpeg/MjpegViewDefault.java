@@ -206,7 +206,9 @@ public class MjpegViewDefault extends AbstractMjpegView {
     }
 
     void _surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
-        thread.setSurfaceSize(w, h);
+        if (thread != null) {
+            thread.setSurfaceSize(w, h);
+        }
     }
 
     void _surfaceDestroyed(SurfaceHolder holder) {
@@ -312,3 +314,4 @@ public class MjpegViewDefault extends AbstractMjpegView {
     }
 
 }
+
