@@ -24,8 +24,8 @@ install {
 
                 licenses {
                     license {
-                        name 'Creative Commons'
-                        url 'http://creativecommons.org/licenses/by/4.0'
+                        name 'MIT'
+                        url 'https://github.com/niqdev/ipcam-view/blob/master/LICENSE'
                     }
                 }
                 developers {
@@ -81,7 +81,7 @@ bintray {
         }
         websiteUrl = siteUrl
         vcsUrl = gitUrl
-        licenses = ['CC-BY-SA-4.0']
+        licenses = ['MIT']
         publish = true
     }
 }
