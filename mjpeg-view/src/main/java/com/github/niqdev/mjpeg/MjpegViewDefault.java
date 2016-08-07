@@ -181,7 +181,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
     /* all methods/constructors below are no more accessible */
 
     void _startPlayback() {
-        if (mIn != null && thread != null) {
+        if (mIn != null && thread != null && thread.getState() == Thread.State.NEW) {
             mRun = true;
             thread.start();
         }
@@ -195,12 +195,14 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     void _stopPlayback() {
         mRun = false;
-        boolean retry = true;
-        while (retry) {
-            try {
-                thread.join();
-                retry = false;
-            } catch (InterruptedException e) {
+        if (thread != null) {
+            boolean retry = true;
+            while (retry) {
+                try {
+                    thread.join();
+                    retry = false;
+                } catch (InterruptedException e) {
+                }
             }
         }
     }
