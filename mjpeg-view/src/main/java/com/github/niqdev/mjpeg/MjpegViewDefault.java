@@ -181,8 +181,13 @@ public class MjpegViewDefault extends AbstractMjpegView {
     /* all methods/constructors below are no more accessible */
 
     void _startPlayback() {
-        if (mIn != null && thread != null && thread.getState() == Thread.State.NEW) {
+        if (mIn != null && thread != null) {
             mRun = true;
+            /*
+             * clear canvas cache
+             * @see https://github.com/niqdev/ipcam-view/issues/14
+             */
+            mSurfaceView.destroyDrawingCache();
             thread.start();
         }
     }
@@ -193,17 +198,30 @@ public class MjpegViewDefault extends AbstractMjpegView {
         thread.start();
     }
 
+    /*
+     * @see https://github.com/niqdev/ipcam-view/issues/14
+     */
     void _stopPlayback() {
         mRun = false;
-        if (thread != null) {
-            boolean retry = true;
-            while (retry) {
-                try {
+        boolean retry = true;
+        while (retry) {
+            try {
+                // make sure the thread is not null
+                if (thread != null) {
                     thread.join();
-                    retry = false;
-                } catch (InterruptedException e) {
                 }
+                retry = false;
+            } catch (InterruptedException e) {
             }
+        }
+
+        // I add this to close the connection
+        if (mIn != null) {
+            try {
+                mIn.close();
+            } catch (IOException e) {
+            }
+            mIn = null;
         }
     }
 
