@@ -215,7 +215,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
             }
         }
 
-        // I add this to close the connection
+        // close the connection
         if (mIn != null) {
             try {
                 mIn.close();
@@ -253,9 +253,17 @@ public class MjpegViewDefault extends AbstractMjpegView {
         showFps = b;
     }
 
+    /*
+     * @see https://github.com/niqdev/ipcam-view/issues/14
+     */
     void _setSource(MjpegInputStreamDefault source) {
         mIn = source;
-        _startPlayback();
+        // make sure resume is calling _resumePlayback()
+        if (!resume) {
+            _startPlayback();
+        } else {
+            _resumePlayback();
+        }
     }
 
     void _setOverlayPaint(Paint p) {
