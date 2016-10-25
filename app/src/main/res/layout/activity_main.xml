@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:stream="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center|center_horizontal"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/buttonDefault"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_default"/>
-
-    <Button
-        android:id="@+id/buttonNative"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonDefault"
-        android:text="@string/button_native"/>
-
-    <Button
-        android:id="@+id/buttonSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonNative"
-        android:text="@string/button_settings"/>
+    <com.github.niqdev.mjpeg.MjpegSurfaceView
+        android:id="@+id/mjpegView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        stream:type="stream_default" />
 
 </RelativeLayout>

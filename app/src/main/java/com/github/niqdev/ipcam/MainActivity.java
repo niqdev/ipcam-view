@@ -1,26 +1,29 @@
 package com.github.niqdev.ipcam;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.widget.Button;
+import android.util.Log;
+import android.widget.Toast;
 
-import com.github.niqdev.ipcam.settings.SettingsActivity;
+import com.github.niqdev.mjpeg.DisplayMode;
+import com.github.niqdev.mjpeg.Mjpeg;
+import com.github.niqdev.mjpeg.MjpegView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_PASSWORD;
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_USERNAME;
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_IPCAM_URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.buttonDefault)
-    Button buttonDefault;
+    private static final int TIMEOUT = 5;
 
-    @BindView(R.id.buttonNative)
-    Button buttonNative;
+    @BindView(R.id.mjpegView)
+    MjpegView mjpegView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,32 +33,48 @@ public class MainActivity extends AppCompatActivity {
 
         // load default values first time
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
-        verifySettings();
+
+        // TODO action bar startActivity(new Intent(this, SettingsActivity.class));
     }
 
-    private void verifySettings() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (TextUtils.isEmpty(prefs.getString(SettingsActivity.PREF_IPCAM_URL, ""))) {
-            buttonDefault.setEnabled(false);
-        }
-
-        // TODO disabled
-        buttonNative.setEnabled(false);
+    private String getPreference(String key) {
+        return PreferenceManager
+            .getDefaultSharedPreferences(this)
+            .getString(key, "");
     }
 
-    @OnClick(R.id.buttonDefault)
-    public void onClickDefault() {
-        startActivity(new Intent(this, IpCamDefaultActivity.class));
+    private DisplayMode calculateDisplayMode() {
+        int orientation = getResources().getConfiguration().orientation;
+        return orientation == Configuration.ORIENTATION_LANDSCAPE ?
+            DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
     }
 
-    @OnClick(R.id.buttonNative)
-    public void onClickNative() {
-        startActivity(new Intent(this, IpCamNativeActivity.class));
+    private void loadIpCam() {
+        Mjpeg.newInstance()
+            .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
+            .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
+            .subscribe(
+                inputStream -> {
+                    mjpegView.setSource(inputStream);
+                    mjpegView.setDisplayMode(calculateDisplayMode());
+                    mjpegView.showFps(true);
+                },
+                throwable -> {
+                    Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
+                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                });
     }
 
-    @OnClick(R.id.buttonSettings)
-    public void onClickSettings() {
-        startActivity(new Intent(this, SettingsActivity.class));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadIpCam();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mjpegView.stopPlayback();
     }
 
 }
