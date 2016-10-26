@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
         // load default values first time
@@ -39,30 +42,30 @@ public class MainActivity extends AppCompatActivity {
 
     private String getPreference(String key) {
         return PreferenceManager
-            .getDefaultSharedPreferences(this)
-            .getString(key, "");
+                .getDefaultSharedPreferences(this)
+                .getString(key, "");
     }
 
     private DisplayMode calculateDisplayMode() {
         int orientation = getResources().getConfiguration().orientation;
         return orientation == Configuration.ORIENTATION_LANDSCAPE ?
-            DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
+                DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
     }
 
     private void loadIpCam() {
         Mjpeg.newInstance()
-            .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
-            .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
-            .subscribe(
-                inputStream -> {
-                    mjpegView.setSource(inputStream);
-                    mjpegView.setDisplayMode(calculateDisplayMode());
-                    mjpegView.showFps(true);
-                },
-                throwable -> {
-                    Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
-                });
+                .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
+                .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
+                .subscribe(
+                        inputStream -> {
+                            mjpegView.setSource(inputStream);
+                            mjpegView.setDisplayMode(calculateDisplayMode());
+                            mjpegView.showFps(true);
+                        },
+                        throwable -> {
+                            Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
+                            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                        });
     }
 
     @Override

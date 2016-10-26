@@ -20,6 +20,7 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 
 ### Usage
 
+TODO
 Add to your layout: [example](app/src/main/res/layout/activity_ipcam_default.xml)
 ```java
 
@@ -38,6 +39,7 @@ Add to your layout: [example](app/src/main/res/layout/activity_ipcam_default.xml
 </RelativeLayout>
 ```
 
+TODO
 Read stream in your activity/fragment: [example](app/src/main/java/com/github/niqdev/ipcam/IpCamDefaultActivity.java)
 ```java
 int TIMEOUT = 5; //seconds
