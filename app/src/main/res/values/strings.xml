@@ -16,4 +16,10 @@
 
     <string name="pref_hidden_password">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</string>
 
+    <string name="setting_url">Url</string>
+    <string name="setting_authentication">Authentication</string>
+    <string name="setting_username">Username</string>
+    <string name="setting_password">Password</string>
+    <string name="setting_save">Save</string>
+
 </resources>
