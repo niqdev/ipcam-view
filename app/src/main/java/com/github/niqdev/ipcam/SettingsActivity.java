@@ -1,8 +1,10 @@
 package com.github.niqdev.ipcam;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.CheckBox;
+import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 
 import butterknife.BindView;
@@ -24,18 +26,23 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.editTextPassword)
     EditText editTextPassword;
 
-    @BindView(R.id.checkBoxAuthentication)
-    CheckBox checkBoxAuthentication;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
     }
 
     @OnClick(R.id.buttonSettings)
-    public void onClickNative() {
-
+    public void onClickSave() {
+        // no validation
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREF_IPCAM_URL, editTextUrl.getText().toString());
+        editor.putString(PREF_AUTH_USERNAME, editTextUrl.getText().toString());
+        editor.putString(PREF_AUTH_PASSWORD, editTextUrl.getText().toString());
+        editor.apply();
     }
 }
