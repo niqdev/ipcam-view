@@ -2,11 +2,13 @@ package com.github.niqdev.ipcam;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.niqdev.ipcam.settings.SettingsActivity;
 
@@ -55,7 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.buttonSettings)
     public void onClickSettings() {
-        startActivity(new Intent(this, SettingsActivity.class));
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
+            startActivity(new Intent(this, SettingsActivity.class));
+        } else {
+            Toast.makeText(this, "Settings not available", Toast.LENGTH_LONG).show();
+        }
     }
 
 }
