@@ -22,8 +22,11 @@ public class IpCamDefaultActivity extends AppCompatActivity {
 
     private static final int TIMEOUT = 5;
 
-    @BindView(R.id.mjpegViewDefault)
-    MjpegView mjpegView;
+    @BindView(R.id.mjpegViewDefault1)
+    MjpegView mjpegView1;
+
+    @BindView(R.id.mjpegViewDefault2)
+    MjpegView mjpegView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,27 +35,29 @@ public class IpCamDefaultActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    private String getPreference(String key) {
-        return PreferenceManager
-            .getDefaultSharedPreferences(this)
-            .getString(key, "");
-    }
-
-    private DisplayMode calculateDisplayMode() {
-        int orientation = getResources().getConfiguration().orientation;
-        return orientation == Configuration.ORIENTATION_LANDSCAPE ?
-            DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
-    }
-
-    private void loadIpCam() {
+    private void loadIpCam1() {
         Mjpeg.newInstance()
-            .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
-            .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
+            .open("http://plazacam.studentaffairs.duke.edu/mjpg/video.mjpg", TIMEOUT)
             .subscribe(
                 inputStream -> {
-                    mjpegView.setSource(inputStream);
-                    mjpegView.setDisplayMode(calculateDisplayMode());
-                    mjpegView.showFps(true);
+                    mjpegView1.setSource(inputStream);
+                    mjpegView1.setDisplayMode(DisplayMode.BEST_FIT);
+                    mjpegView1.showFps(true);
+                },
+                throwable -> {
+                    Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
+                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void loadIpCam2() {
+        Mjpeg.newInstance()
+            .open("http://iris.not.iac.es/axis-cgi/mjpg/video.cgi?resolution=320x240", TIMEOUT)
+            .subscribe(
+                inputStream -> {
+                    mjpegView2.setSource(inputStream);
+                    mjpegView2.setDisplayMode(DisplayMode.BEST_FIT);
+                    mjpegView2.showFps(true);
                 },
                 throwable -> {
                     Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
@@ -63,13 +68,15 @@ public class IpCamDefaultActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadIpCam();
+        loadIpCam1();
+        loadIpCam2();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mjpegView.stopPlayback();
+        mjpegView1.stopPlayback();
+        mjpegView2.stopPlayback();
     }
 
 }
