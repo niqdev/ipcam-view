@@ -24,7 +24,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private SurfaceHolder.Callback mSurfaceHolderCallback;
     private SurfaceView mSurfaceView;
 
-    private static MjpegViewThread thread;
+    private MjpegViewThread thread;
     private MjpegInputStreamDefault mIn = null;
     private boolean showFps = false;
     private boolean mRun = false;
