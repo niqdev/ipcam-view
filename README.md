@@ -62,6 +62,12 @@ dependencies {
 }
 ```
 
+### Apps that use this library
+* [OpenWebNet Android](https://github.com/openwebnet/openwebnet-android)
+* [TankDroid](https://github.com/bmachek/TankDroid)
+
+You are welcome to add your app to the list!
+
 ### Development
 Download Android NDK:
 * [manually](http://developer.android.com/ndk/downloads/index.html#download)
