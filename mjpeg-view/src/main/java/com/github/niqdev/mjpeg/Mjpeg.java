@@ -34,6 +34,8 @@ public class Mjpeg {
     }
 
     private final Type type;
+    
+    private boolean sendConnectionCloseHeader = false;
 
     private Mjpeg(Type type) {
         if (type == null) {
@@ -77,12 +79,26 @@ public class Mjpeg {
         }
         return this;
     }
+    
+    /**
+     * Send a "Connection: close" header to fix 
+     * <code>java.net.ProtocolException: Unexpected status line</code>
+     * 
+     * @return Observable Mjpeg stream
+     */
+    public Mjpeg sendConnectionCloseHeader() {
+        sendConnectionCloseHeader = true;
+        return this;
+    }
 
     @NonNull
     private Observable<MjpegInputStream> connect(String url) {
         return Observable.defer(() -> {
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
+                if (sendConnectionCloseHeader) {
+                    urlConnection.setRequestProperty("Connection", "close");
+                }
                 InputStream inputStream = urlConnection.getInputStream();
                 switch (type) {
                     // handle multiple implementations
