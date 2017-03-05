@@ -22,8 +22,13 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
     private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};
     private final String CONTENT_LENGTH = "Content-Length";
     private final static int HEADER_MAX_LENGTH = 100;
-    private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
+    //private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
+    private final static int FRAME_MAX_LENGTH = 200000;
     private int mContentLength = -1;
+    private byte[] header = null;
+    private byte[] frameData = null;
+    private int headerLen = -1;
+    private int headerLenPrev = -1;
 
     // no more accessible
     MjpegInputStreamDefault(InputStream in) {
@@ -48,7 +53,28 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         return (end < 0) ? (-1) : (end - sequence.length);
     }
 
-    private int parseContentLength(byte[] headerBytes) throws IOException, NumberFormatException {
+    private int getEndOfSeqeunceSimplified(DataInputStream in, byte[] sequence) throws IOException {
+        int startPos = mContentLength / 2;
+        int endPos = 3 * mContentLength / 2;
+
+        skipBytes(headerLen + startPos);
+        
+        int seqIndex = 0;
+        byte c;
+        for (int i = 0; i < endPos - startPos; i++) {
+            c = (byte) in.readUnsignedByte();
+            if (c == sequence[seqIndex]) {
+                seqIndex++;
+                if (seqIndex == sequence.length) {
+                    return headerLen + startPos + i + 1;
+                }
+            } else seqIndex = 0;
+        }
+
+        return -1;
+    }
+
+    private int parseContentLength(byte[] headerBytes) throws IOException, IllegalArgumentException {
         ByteArrayInputStream headerIn = new ByteArrayInputStream(headerBytes);
         Properties props = new Properties();
         props.load(headerIn);
@@ -58,19 +84,37 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
     // no more accessible
     Bitmap readMjpegFrame() throws IOException {
         mark(FRAME_MAX_LENGTH);
-        int headerLen = getStartOfSequence(this, SOI_MARKER);
+        headerLen = getStartOfSequence(this, SOI_MARKER);
         reset();
-        byte[] header = new byte[headerLen];
-        readFully(header);
-        try {
-            mContentLength = parseContentLength(header);
-        } catch (NumberFormatException nfe) {
-            mContentLength = getEndOfSeqeunce(this, EOF_MARKER);
+        
+        if (header == null || headerLen != headerLenPrev) {
+            header = new byte[headerLen]; // header renewed
         }
+        headerLenPrev = headerLen;
+        readFully(header);
+
+        int ContentLengthNew = -1;
+        try {
+            ContentLengthNew = parseContentLength(header);
+        } catch (IllegalArgumentException e) {
+            ContentLengthNew = getEndOfSeqeunceSimplified(this, EOF_MARKER);
+            if (ContentLengthNew < 0) { // Worst case for finding EOF_MARKER
+                reset();
+                ContentLengthNew = getEndOfSeqeunce(this, EOF_MARKER);
+        }
+        }
+        mContentLength = ContentLengthNew;
         reset();
-        byte[] frameData = new byte[mContentLength];
+        
+        if (frameData == null) {
+            frameData = new byte[FRAME_MAX_LENGTH]; // frameData newed
+        }
+        if (mContentLength + HEADER_MAX_LENGTH > FRAME_MAX_LENGTH) {
+            frameData = new byte[mContentLength + HEADER_MAX_LENGTH]; // frameData renewed
+        }
+        
         skipBytes(headerLen);
-        readFully(frameData);
+        readFully(frameData, 0, mContentLength);
         return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData));
     }
 }
