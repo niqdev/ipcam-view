@@ -101,7 +101,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
             if (ContentLengthNew < 0) { // Worst case for finding EOF_MARKER
                 reset();
                 ContentLengthNew = getEndOfSeqeunce(this, EOF_MARKER);
-        }
+            }
         }
         mContentLength = ContentLengthNew;
         reset();
