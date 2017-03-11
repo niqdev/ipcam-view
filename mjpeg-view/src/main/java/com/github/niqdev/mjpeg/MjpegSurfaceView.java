@@ -97,4 +97,8 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         mMjpegView.freeCameraMemory();
     }
 
+    @Override
+    public void onFrameCaptured(OnFrameCapturedListener onFrameCapturedListener){
+        mMjpegView.onFrameCaptured(onFrameCapturedListener);
+    }
 }

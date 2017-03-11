@@ -34,30 +34,30 @@ public class IpCamDefaultActivity extends AppCompatActivity {
 
     private String getPreference(String key) {
         return PreferenceManager
-            .getDefaultSharedPreferences(this)
-            .getString(key, "");
+                .getDefaultSharedPreferences(this)
+                .getString(key, "");
     }
 
     private DisplayMode calculateDisplayMode() {
         int orientation = getResources().getConfiguration().orientation;
         return orientation == Configuration.ORIENTATION_LANDSCAPE ?
-            DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
+                DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
     }
 
     private void loadIpCam() {
         Mjpeg.newInstance()
-            .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
-            .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
-            .subscribe(
-                inputStream -> {
-                    mjpegView.setSource(inputStream);
-                    mjpegView.setDisplayMode(calculateDisplayMode());
-                    mjpegView.showFps(true);
-                },
-                throwable -> {
-                    Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
-                });
+                .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
+                .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
+                .subscribe(
+                        inputStream -> {
+                            mjpegView.setSource(inputStream);
+                            mjpegView.setDisplayMode(calculateDisplayMode());
+                            mjpegView.showFps(true);
+                        },
+                        throwable -> {
+                            Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
+                            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                        });
     }
 
     @Override
