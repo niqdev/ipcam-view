@@ -10,7 +10,7 @@ android {
         applicationId "com.github.niqdev.ipcam"
         minSdkVersion 9
         targetSdkVersion 25
-        versionCode 7
+        versionCode 8
         versionName "1.5.0"
     }
 
