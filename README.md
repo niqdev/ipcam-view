@@ -9,6 +9,14 @@ A wrapper library around the well known [SimpleMjpegView](https://bitbucket.org/
 
 If you have problem to identify your IpCam url, please follow this [link](https://github.com/niqdev/ipcam-view/wiki)
 
+### Features
+- [x] Default support by `android-camera-axis`
+- [ ] Native support by `SimpleMjpegView`
+- [x] Handle credentials
+- [x] Multiple camera in one activity
+- [x] Snapshot
+- [ ] Video recording
+
 ### Demo app
 
 <img src="images/screenshot-main.png" alt="main" height="600" /> <img src="images/screenshot-default.png" alt="default" height="600" />
@@ -80,8 +88,3 @@ Compile manually (verify your paths)
 $ chmod a+x compileJni.sh
 $ ./compileJni.sh
 ```
-
-### Features
-- [x] Default support by `android-camera-axis`
-- [ ] Native support by `SimpleMjpegView`
-- [x] Handle credential
