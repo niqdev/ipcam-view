@@ -375,7 +375,7 @@ public class MjpegViewNative extends AbstractMjpegView {
 
 
     @Override
-    public void onFrameCaptured(OnFrameCapturedListener onFrameCapturedListener) {
+    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
         throw new UnsupportedOperationException("Not implemented yet!");
     }
 }

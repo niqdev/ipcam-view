@@ -244,7 +244,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     void _frameCaptured(Bitmap bitmap){
         if (onFrameCapturedListener != null){
-            onFrameCapturedListener.onEvent(bitmap);
+            onFrameCapturedListener.onFrameCaptured(bitmap);
         }
     }
 
@@ -351,7 +351,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
     }
 
     @Override
-    public void onFrameCaptured(OnFrameCapturedListener onFrameCapturedListener) {
+    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
         this.onFrameCapturedListener = onFrameCapturedListener;
     }
 
