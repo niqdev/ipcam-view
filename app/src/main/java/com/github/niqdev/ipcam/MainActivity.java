@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, IpCamTwoActivity.class));
     }
 
+    @OnClick(R.id.buttonSnapshot)
+    public void onClickSnapshot() {
+        startActivity(new Intent(this, IpCamSnapshotActivity.class));
+    }
+
     @OnClick(R.id.buttonNative)
     public void onClickNative() {
         startActivity(new Intent(this, IpCamNativeActivity.class));

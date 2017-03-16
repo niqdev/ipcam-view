@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_capture"
+        android:icon="@drawable/ic_camera_white_48dp"
+        android:title="@string/menu_snapshot"
+        app:showAsAction="always|withText"/>
+
+</menu>

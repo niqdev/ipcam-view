@@ -23,10 +23,18 @@
         android:text="@string/button_two_camera" />
 
     <Button
-        android:id="@+id/buttonNative"
+        android:id="@+id/buttonSnapshot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonTwoCamera"
+        android:layout_centerInParent="true"
+        android:text="@string/button_snapshot" />
+
+    <Button
+        android:id="@+id/buttonNative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonSnapshot"
         android:layout_centerInParent="true"
         android:text="@string/button_native" />
 

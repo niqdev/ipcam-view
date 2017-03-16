@@ -35,6 +35,14 @@
                 android:value="com.github.niqdev.ipcam.MainActivity" />
         </activity>
         <activity
+            android:name=".IpCamSnapshotActivity"
+            android:label="@string/activity_ipcam_snapshot"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.niqdev.ipcam.MainActivity" />
+        </activity>
+        <activity
             android:name=".IpCamNativeActivity"
             android:label="@string/activity_ipcam_native"
             android:parentActivityName=".MainActivity">
