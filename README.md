@@ -11,10 +11,12 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 
 ### Demo app
 
-<img src="images/screenshot-main.png" alt="main" height="600" />
-<img src="images/screenshot-default.png" alt="default" height="600" />
+<img src="images/screenshot-main.png" alt="main" height="600" /> <img src="images/screenshot-default.png" alt="default" height="600" />
+
+<img src="images/screenshot-two-camera.png" alt="two-camera" height="600" /> <img src="images/screenshot-snapshot.png" alt="snapshot" height="600" />
 
 <img src="images/screenshot-settings.png" alt="settings" height="600" />
+
 
 <a href='https://play.google.com/store/apps/details?id=com.github.niqdev.ipcam&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-ap-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png' width="200"/></a>
 
