@@ -16,4 +16,6 @@ public interface MjpegView {
 
     void freeCameraMemory();
 
+    void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener);
+
 }

@@ -40,6 +40,8 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     private long delay;
 
+    private OnFrameCapturedListener onFrameCapturedListener;
+
     // no more accessible
     class MjpegViewThread extends Thread {
         private SurfaceHolder mSurfaceHolder;
@@ -119,6 +121,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
                         synchronized (mSurfaceHolder) {
                             try {
                                 bm = mIn.readMjpegFrame();
+                                _frameCaptured(bm);
                                 destRect = destRect(bm.getWidth(),
                                         bm.getHeight());
                                 c.drawColor(Color.BLACK);
@@ -239,6 +242,12 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
+    void _frameCaptured(Bitmap bitmap){
+        if (onFrameCapturedListener != null){
+            onFrameCapturedListener.onFrameCaptured(bitmap);
+        }
+    }
+
     MjpegViewDefault(SurfaceView surfaceView, SurfaceHolder.Callback callback) {
         this.mSurfaceView = surfaceView;
         this.mSurfaceHolderCallback = callback;
@@ -339,6 +348,11 @@ public class MjpegViewDefault extends AbstractMjpegView {
     @Override
     public void freeCameraMemory() {
         throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
+    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
+        this.onFrameCapturedListener = onFrameCapturedListener;
     }
 
 }

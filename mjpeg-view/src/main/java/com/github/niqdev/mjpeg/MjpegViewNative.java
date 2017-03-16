@@ -373,4 +373,9 @@ public class MjpegViewNative extends AbstractMjpegView {
         _freeCameraMemory();
     }
 
+
+    @Override
+    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
+        throw new UnsupportedOperationException("Not implemented yet!");
+    }
 }
