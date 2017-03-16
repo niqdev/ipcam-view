@@ -15,7 +15,7 @@
 
     <string name="menu_snapshot">Snapshot</string>
 
-    <string name="textView_version">lib v0.4.0</string>
+    <string name="textView_version">lib v1.0.0</string>
 
     <string name="pref_header_general">General</string>
     <string name="pref_header_authentication">Authentication</string>
