@@ -2,6 +2,7 @@ package com.github.niqdev.mjpeg;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -17,6 +18,7 @@ import java.util.Properties;
  * https://code.google.com/archive/p/android-camera-axis
  */
 public class MjpegInputStreamDefault extends MjpegInputStream {
+    private static final String TAG = MjpegInputStream.class.getSimpleName();
 
     private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};
     private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};
@@ -37,8 +39,12 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
             c = (byte) in.readUnsignedByte();
             if (c == sequence[seqIndex]) {
                 seqIndex++;
-                if (seqIndex == sequence.length) return i + 1;
-            } else seqIndex = 0;
+                if (seqIndex == sequence.length) {
+                    return i + 1;
+                }
+            } else {
+                seqIndex = 0;
+            }
         }
         return -1;
     }
