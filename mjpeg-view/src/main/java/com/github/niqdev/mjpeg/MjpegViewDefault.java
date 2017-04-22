@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -20,6 +21,7 @@ import java.io.IOException;
  * https://code.google.com/archive/p/android-camera-axis
  */
 public class MjpegViewDefault extends AbstractMjpegView {
+    private static final String TAG = MjpegViewDefault.class.getSimpleName();
 
     private SurfaceHolder.Callback mSurfaceHolderCallback;
     private SurfaceView mSurfaceView;
@@ -27,8 +29,8 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private MjpegViewThread thread;
     private MjpegInputStreamDefault mIn = null;
     private boolean showFps = false;
-    private boolean mRun = false;
-    private boolean surfaceDone = false;
+    private volatile boolean mRun = false;
+    private volatile boolean surfaceDone = false;
     private Paint overlayPaint;
     private int overlayTextColor;
     private int overlayBackgroundColor;
@@ -118,6 +120,10 @@ public class MjpegViewDefault extends AbstractMjpegView {
                 if (surfaceDone) {
                     try {
                         c = mSurfaceHolder.lockCanvas();
+                        if (c == null) {
+                            Log.w(TAG, "null canvas, skipping render");
+                            continue;
+                        }
                         synchronized (mSurfaceHolder) {
                             try {
                                 bm = mIn.readMjpegFrame();
@@ -148,12 +154,15 @@ public class MjpegViewDefault extends AbstractMjpegView {
                                     }
                                 }
                             } catch (IOException e) {
-
+                                Log.e(TAG, "encountered exception during render", e);
                             }
                         }
                     } finally {
-                        if (c != null)
+                        if (c != null) {
                             mSurfaceHolder.unlockCanvasAndPost(c);
+                        } else {
+                            Log.w(TAG, "couldn't unlock surface canvas");
+                        }
                     }
                 }
             }
@@ -204,17 +213,18 @@ public class MjpegViewDefault extends AbstractMjpegView {
     /*
      * @see https://github.com/niqdev/ipcam-view/issues/14
      */
-    void _stopPlayback() {
+    synchronized void _stopPlayback() {
         mRun = false;
         boolean retry = true;
         while (retry) {
             try {
                 // make sure the thread is not null
                 if (thread != null) {
-                    thread.join();
+                    thread.join(500);
                 }
                 retry = false;
             } catch (InterruptedException e) {
+                Log.e(TAG, "error stopping playback thread", e);
             }
         }
 
@@ -223,6 +233,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
             try {
                 mIn.close();
             } catch (IOException e) {
+                Log.e(TAG, "error closing input stream", e);
             }
             mIn = null;
         }
