@@ -3,11 +3,13 @@ package com.github.niqdev.mjpeg;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -29,6 +31,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private MjpegViewThread thread;
     private MjpegInputStreamDefault mIn = null;
     private boolean showFps = false;
+    private boolean flipSource = false;
     private volatile boolean mRun = false;
     private volatile boolean surfaceDone = false;
     private Paint overlayPaint;
@@ -126,7 +129,12 @@ public class MjpegViewDefault extends AbstractMjpegView {
                         }
                         synchronized (mSurfaceHolder) {
                             try {
-                                bm = mIn.readMjpegFrame();
+                                if(flipSource)
+                                {
+                                    bm = flip(mIn.readMjpegFrame());
+                                } else {
+                                    bm = mIn.readMjpegFrame();
+                                }
                                 _frameCaptured(bm);
                                 destRect = destRect(bm.getWidth(),
                                         bm.getHeight());
@@ -167,6 +175,15 @@ public class MjpegViewDefault extends AbstractMjpegView {
                 }
             }
         }
+    }
+
+    Bitmap flip(Bitmap src)
+    {
+        Matrix m = new Matrix();
+        m.preScale(-1, 1);
+        Bitmap dst = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false);
+        dst.setDensity(DisplayMetrics.DENSITY_DEFAULT);
+        return dst;
     }
 
     private void init() {
@@ -273,6 +290,10 @@ public class MjpegViewDefault extends AbstractMjpegView {
         showFps = b;
     }
 
+    void _flipSource(boolean b) {
+        flipSource = b;
+    }
+
     /*
      * @see https://github.com/niqdev/ipcam-view/issues/14
      */
@@ -339,6 +360,11 @@ public class MjpegViewDefault extends AbstractMjpegView {
     @Override
     public void showFps(boolean show) {
         _showFps(show);
+    }
+
+    @Override
+    public void flipSource(boolean flip) {
+        _flipSource(flip);
     }
 
     @Override

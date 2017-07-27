@@ -8,6 +8,8 @@ public interface MjpegView {
 
     void showFps(boolean show);
 
+    void flipSource(boolean flip);
+
     void stopPlayback();
 
     boolean isStreaming();
