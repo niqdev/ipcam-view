@@ -354,6 +354,11 @@ public class MjpegViewNative extends AbstractMjpegView {
     }
 
     @Override
+    public void flipSource(boolean flip) {
+
+    }
+
+    @Override
     public void stopPlayback() {
         _stopPlayback();
     }
