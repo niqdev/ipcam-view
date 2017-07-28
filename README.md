@@ -15,6 +15,7 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 - [x] Handle credentials
 - [x] Multiple camera in one activity
 - [x] Snapshot
+- [x] Flip image
 - [ ] Video recording
 
 ### Demo app
@@ -68,7 +69,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.github.niqdev:mjpeg-view:1.1.0'
+    compile 'com.github.niqdev:mjpeg-view:1.2.0'
 }
 ```
 
