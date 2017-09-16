@@ -20,4 +20,9 @@ public interface MjpegView {
 
     void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener);
 
+    void setCustomBackgroundColor(int backgroundColor);
+
+    void setFpsOverlayBackgroundColor(int overlayBackgroundColor);
+
+    void setFpsOverlayTextColor(int overlayTextColor);
 }

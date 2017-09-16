@@ -35,6 +35,7 @@ public class MjpegViewNative extends AbstractMjpegView {
     private Paint overlayPaint;
     private int overlayTextColor;
     private int overlayBackgroundColor;
+    private int backgroundColor;
     private int ovlPos;
     private int dispWidth;
     private int dispHeight;
@@ -138,7 +139,7 @@ public class MjpegViewNative extends AbstractMjpegView {
 
                         c = mSurfaceHolder.lockCanvas();
                         synchronized (mSurfaceHolder) {
-
+                            c.drawColor(backgroundColor);
                             c.drawBitmap(bmp, null, destRect, p);
 
                             if (showFps) {
@@ -189,6 +190,7 @@ public class MjpegViewNative extends AbstractMjpegView {
         overlayPaint.setTypeface(Typeface.DEFAULT);
         overlayTextColor = Color.WHITE;
         overlayBackgroundColor = Color.BLACK;
+        backgroundColor = Color.BLACK;
         ovlPos = MjpegViewNative.POSITION_LOWER_RIGHT;
         displayMode = MjpegViewNative.SIZE_STANDARD;
         dispWidth = mSurfaceView.getWidth();
@@ -382,5 +384,20 @@ public class MjpegViewNative extends AbstractMjpegView {
     @Override
     public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
         throw new UnsupportedOperationException("Not implemented yet!");
+    }
+
+    @Override
+    public void setCustomBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    @Override
+    public void setFpsOverlayBackgroundColor(int overlayBackgroundColor) {
+        this.overlayBackgroundColor = overlayBackgroundColor;
+    }
+
+    @Override
+    public void setFpsOverlayTextColor(int overlayTextColor) {
+        this.overlayTextColor = overlayTextColor;
     }
 }
