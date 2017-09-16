@@ -63,6 +63,13 @@ Mjpeg.newInstance()
   });
 ```
 
+Customize colors
+```java
+mjpegView.setCustomBackgroundColor(Color.TRANSPARENT);
+mjpegView.setFpsOverlayBackgroundColor(Color.DKGRAY);
+mjpegView.setFpsOverlayTextColor(Color.WHITE);
+```
+
 ### Gradle dependency
 ```
 repositories {
