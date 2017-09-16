@@ -37,6 +37,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private Paint overlayPaint;
     private int overlayTextColor;
     private int overlayBackgroundColor;
+    private int backgroundColor;
     private int ovlPos;
     private int dispWidth;
     private int dispHeight;
@@ -138,7 +139,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
                                 _frameCaptured(bm);
                                 destRect = destRect(bm.getWidth(),
                                         bm.getHeight());
-                                c.drawColor(Color.BLACK);
+                                c.drawColor(backgroundColor);
                                 c.drawBitmap(bm, null, destRect, p);
                                 if (showFps) {
                                     p.setXfermode(mode);
@@ -200,6 +201,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
             overlayPaint.setTypeface(Typeface.DEFAULT);
             overlayTextColor = Color.WHITE;
             overlayBackgroundColor = Color.BLACK;
+            backgroundColor = Color.BLACK;
             ovlPos = MjpegViewDefault.POSITION_LOWER_RIGHT;
             displayMode = MjpegViewDefault.SIZE_STANDARD;
             dispWidth = mSurfaceView.getWidth();
@@ -392,5 +394,19 @@ public class MjpegViewDefault extends AbstractMjpegView {
         this.onFrameCapturedListener = onFrameCapturedListener;
     }
 
+    @Override
+    public void setCustomBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    @Override
+    public void setFpsOverlayBackgroundColor(int overlayBackgroundColor) {
+        this.overlayBackgroundColor = overlayBackgroundColor;
+    }
+
+    @Override
+    public void setFpsOverlayTextColor(int overlayTextColor) {
+        this.overlayTextColor = overlayTextColor;
+    }
 }
 

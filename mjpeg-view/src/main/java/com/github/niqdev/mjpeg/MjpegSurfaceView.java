@@ -106,4 +106,19 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener){
         mMjpegView.setOnFrameCapturedListener(onFrameCapturedListener);
     }
+
+    @Override
+    public void setCustomBackgroundColor(int backgroundColor) {
+        mMjpegView.setCustomBackgroundColor(backgroundColor);
+    }
+
+    @Override
+    public void setFpsOverlayBackgroundColor(int overlayBackgroundColor) {
+        mMjpegView.setFpsOverlayBackgroundColor(overlayBackgroundColor);
+    }
+
+    @Override
+    public void setFpsOverlayTextColor(int overlayTextColor) {
+        mMjpegView.setFpsOverlayTextColor(overlayTextColor);
+    }
 }
