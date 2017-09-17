@@ -64,16 +64,22 @@ Mjpeg.newInstance()
 ```
 <br />
 
-##### Customize colors
+#### Customize colors
 If you want to get a transparent background for the surface itself (while stream is loading) as well as for the stream background, you need to use the following xml attribute for your MjpegSurfaceView:
 ```java
 stream:transparentBackground="true"
 ```
 <br />
+If you want to hide the MjpegView later, you might need to reset the transparency due to internal behaviour of applying transparency. Use the following method for this purpose.
+
+```java
+mjpegView.resetTransparentBackground();
+```
+
+<br />
 You can also set other colors than transparent. Be aware that these colors will only be applied on a running stream. That means you can't change the color of the surface itself which you will see while the stream is loading.
 
 <b>Attention:</b> This only works when ```transparentBackground``` is not set to ```true```. In addition (thanks to SurfaceView) you are not able to directly set transparent background color here.
-
 ```java
 mjpegView.setCustomBackgroundColor(Color.DKGRAY);
 ```
@@ -87,7 +93,13 @@ If you wish to change the colors of the fps overlay you can do it via code.
 mjpegView.setFpsOverlayBackgroundColor(Color.DKGRAY);
 mjpegView.setFpsOverlayTextColor(Color.WHITE);
 ```
+<br />
 
+#### Clear current shown picture
+The canvas keeps the current image even if you stop the stream. For example if you stop and hide your stream and start it again later you will see the last image until the new stream is loaded and live. You can clear this last image with the following code.
+```java
+mjpegView.clearStream();
+```
 
 ### Gradle dependency
 ```
