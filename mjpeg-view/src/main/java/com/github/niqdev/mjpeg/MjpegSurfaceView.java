@@ -2,6 +2,7 @@ package com.github.niqdev.mjpeg;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.PixelFormat;
 import android.support.annotation.StyleableRes;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -24,14 +25,25 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     public MjpegSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        boolean transparentBackground = getPropertyBoolean(attrs, R.styleable.MjpegSurfaceView, R.styleable.MjpegSurfaceView_transparentBackground);
+        int backgroundColor = getPropertyColor(attrs, R.styleable.MjpegSurfaceView, R.styleable.MjpegSurfaceView_backgroundColor);
+
+        if (transparentBackground) {
+            setZOrderOnTop(true);
+            getHolder().setFormat(PixelFormat.TRANSPARENT);
+        }
 
         switch (getPropertyType(attrs, R.styleable.MjpegSurfaceView, R.styleable.MjpegSurfaceView_type)) {
             case DEFAULT:
-                mMjpegView = new MjpegViewDefault(this, this);
+                mMjpegView = new MjpegViewDefault(this, this, transparentBackground);
                 break;
             case NATIVE:
-                mMjpegView = new MjpegViewNative(this, this);
+                mMjpegView = new MjpegViewNative(this, this, transparentBackground);
                 break;
+        }
+
+        if (mMjpegView != null && backgroundColor != -1) {
+            this.setCustomBackgroundColor(backgroundColor);
         }
     }
 
@@ -42,6 +54,26 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             int typeIndex = typedArray.getInt(attrIndex, DEFAULT_TYPE);
             Mjpeg.Type type = TYPE.get(typeIndex);
             return type != null ? type : TYPE.get(DEFAULT_TYPE);
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
+    public boolean getPropertyBoolean(AttributeSet attributeSet, @StyleableRes int[] attrs, int attrIndex) {
+        TypedArray typedArray = getContext().getTheme()
+                .obtainStyledAttributes(attributeSet, attrs, 0, 0);
+        try {
+            return typedArray.getBoolean(attrIndex, false);
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
+    public int getPropertyColor(AttributeSet attributeSet, @StyleableRes int[] attrs, int attrIndex) {
+        TypedArray typedArray = getContext().getTheme()
+                .obtainStyledAttributes(attributeSet, attrs, 0, 0);
+        try {
+            return typedArray.getColor(attrIndex, -1);
         } finally {
             typedArray.recycle();
         }

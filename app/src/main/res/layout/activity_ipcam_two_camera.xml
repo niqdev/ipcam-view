@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            stream:transparentBackground="false"
             stream:type="stream_default" />
 
         <com.github.niqdev.mjpeg.MjpegSurfaceView
@@ -26,6 +27,8 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
+            stream:transparentBackground="false"
+            stream:backgroundColor="@android:color/darker_gray"
             stream:type="stream_default" />
     </LinearLayout>
 

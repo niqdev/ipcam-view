@@ -27,6 +27,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     private SurfaceHolder.Callback mSurfaceHolderCallback;
     private SurfaceView mSurfaceView;
+    private boolean transparentBackground;
 
     private MjpegViewThread thread;
     private MjpegInputStreamDefault mIn = null;
@@ -61,6 +62,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
 
         private Rect destRect(int bmw, int bmh) {
+
             int tempx;
             int tempy;
             if (displayMode == MjpegViewDefault.SIZE_STANDARD) {
@@ -124,6 +126,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
                 if (surfaceDone) {
                     try {
                         c = mSurfaceHolder.lockCanvas();
+
                         if (c == null) {
                             Log.w(TAG, "null canvas, skipping render");
                             continue;
@@ -139,8 +142,15 @@ public class MjpegViewDefault extends AbstractMjpegView {
                                 _frameCaptured(bm);
                                 destRect = destRect(bm.getWidth(),
                                         bm.getHeight());
-                                c.drawColor(backgroundColor);
+
+                                if (transparentBackground) {
+                                    c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                                } else {
+                                    c.drawColor(backgroundColor);
+                                }
+
                                 c.drawBitmap(bm, null, destRect, p);
+
                                 if (showFps) {
                                     p.setXfermode(mode);
                                     if (ovl != null) {
@@ -278,9 +288,10 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    MjpegViewDefault(SurfaceView surfaceView, SurfaceHolder.Callback callback) {
+    MjpegViewDefault(SurfaceView surfaceView, SurfaceHolder.Callback callback, boolean transparentBackground) {
         this.mSurfaceView = surfaceView;
         this.mSurfaceHolderCallback = callback;
+        this.transparentBackground = transparentBackground;
         init();
     }
 

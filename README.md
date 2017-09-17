@@ -62,13 +62,32 @@ Mjpeg.newInstance()
       mjpegView.showFps(true);
   });
 ```
+<br />
 
-Customize colors
+##### Customize colors
+If you want to get a transparent background for the surface itself (while stream is loading) as well as for the stream background, you need to use the following xml attribute for your MjpegSurfaceView:
 ```java
-mjpegView.setCustomBackgroundColor(Color.TRANSPARENT);
+stream:transparentBackground="true"
+```
+<br />
+You can also set other colors than transparent. Be aware that these colors will only be applied on a running stream. That means you can't change the color of the surface itself which you will see while the stream is loading.
+
+<b>Attention:</b> This only works when ```transparentBackground``` is not set to ```true```. In addition (thanks to SurfaceView) you are not able to directly set transparent background color here.
+
+```java
+mjpegView.setCustomBackgroundColor(Color.DKGRAY);
+```
+```java
+stream:backgroundColor="@android:color/darker_gray"
+```
+<br />
+If you wish to change the colors of the fps overlay you can do it via code.
+
+```java
 mjpegView.setFpsOverlayBackgroundColor(Color.DKGRAY);
 mjpegView.setFpsOverlayTextColor(Color.WHITE);
 ```
+
 
 ### Gradle dependency
 ```
