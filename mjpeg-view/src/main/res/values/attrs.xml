@@ -2,6 +2,8 @@
 <resources>
     <declare-styleable name="MjpegSurfaceView">
         <attr name="type"/>
+        <attr name="transparentBackground" format="boolean" />
+        <attr name="backgroundColor" format="color" />
     </declare-styleable>
 
     <attr name="type" format="enum">

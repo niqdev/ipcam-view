@@ -23,6 +23,7 @@ public class MjpegViewNative extends AbstractMjpegView {
 
     private SurfaceHolder.Callback mSurfaceHolderCallback;
     private SurfaceView mSurfaceView;
+    private boolean transparentBackground;
 
     private SurfaceHolder holder;
 
@@ -139,7 +140,12 @@ public class MjpegViewNative extends AbstractMjpegView {
 
                         c = mSurfaceHolder.lockCanvas();
                         synchronized (mSurfaceHolder) {
-                            c.drawColor(backgroundColor);
+                            if (transparentBackground) {
+                                c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                            } else {
+                                c.drawColor(backgroundColor);
+                            }
+
                             c.drawBitmap(bmp, null, destRect, p);
 
                             if (showFps) {
@@ -268,9 +274,10 @@ public class MjpegViewNative extends AbstractMjpegView {
         }
     }
 
-    MjpegViewNative(SurfaceView surfaceView, SurfaceHolder.Callback callback) {
+    MjpegViewNative(SurfaceView surfaceView, SurfaceHolder.Callback callback, boolean transparentBackground) {
         this.mSurfaceView = surfaceView;
         this.mSurfaceHolderCallback = callback;
+        this.transparentBackground = transparentBackground;
         init();
     }
 
