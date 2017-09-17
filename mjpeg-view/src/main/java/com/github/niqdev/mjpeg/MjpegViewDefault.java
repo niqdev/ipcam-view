@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -418,6 +419,33 @@ public class MjpegViewDefault extends AbstractMjpegView {
     @Override
     public void setFpsOverlayTextColor(int overlayTextColor) {
         this.overlayTextColor = overlayTextColor;
+    }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return mSurfaceView;
+    }
+
+    @Override
+    public void resetTransparentBackground() {
+        mSurfaceView.setZOrderOnTop(false);
+        mSurfaceView.getHolder().setFormat(PixelFormat.OPAQUE);
+    }
+
+    @Override
+    public void clearStream() {
+        Canvas c = null;
+
+        try {
+            c = mSurfaceView.getHolder().lockCanvas();
+            c.drawColor(0, PorterDuff.Mode.CLEAR);
+        } finally {
+            if (c != null) {
+                mSurfaceView.getHolder().unlockCanvasAndPost(c);
+            } else {
+                Log.w(TAG, "couldn't unlock surface canvas");
+            }
+        }
     }
 }
 

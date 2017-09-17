@@ -4,10 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -20,6 +22,7 @@ import java.io.IOException;
  * https://bitbucket.org/neuralassembly/simplemjpegview
  */
 public class MjpegViewNative extends AbstractMjpegView {
+    private static final String TAG = MjpegViewDefault.class.getSimpleName();
 
     private SurfaceHolder.Callback mSurfaceHolderCallback;
     private SurfaceView mSurfaceView;
@@ -406,5 +409,32 @@ public class MjpegViewNative extends AbstractMjpegView {
     @Override
     public void setFpsOverlayTextColor(int overlayTextColor) {
         this.overlayTextColor = overlayTextColor;
+    }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return mSurfaceView;
+    }
+
+    @Override
+    public void resetTransparentBackground() {
+        mSurfaceView.setZOrderOnTop(false);
+        mSurfaceView.getHolder().setFormat(PixelFormat.OPAQUE);
+    }
+
+    @Override
+    public void clearStream() {
+        Canvas c = null;
+
+        try {
+            c = mSurfaceView.getHolder().lockCanvas();
+            c.drawColor(0, PorterDuff.Mode.CLEAR);
+        } finally {
+            if (c != null) {
+                mSurfaceView.getHolder().unlockCanvasAndPost(c);
+            } else {
+                Log.w(TAG, "couldn't unlock surface canvas");
+            }
+        }
     }
 }

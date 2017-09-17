@@ -1,5 +1,7 @@
 package com.github.niqdev.mjpeg;
 
+import android.view.SurfaceView;
+
 public interface MjpegView {
 
     void setSource(MjpegInputStream stream);
@@ -25,4 +27,10 @@ public interface MjpegView {
     void setFpsOverlayBackgroundColor(int overlayBackgroundColor);
 
     void setFpsOverlayTextColor(int overlayTextColor);
+
+    SurfaceView getSurfaceView();
+
+    void resetTransparentBackground();
+
+    void clearStream();
 }
