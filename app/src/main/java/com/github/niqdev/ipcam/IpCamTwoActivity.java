@@ -1,6 +1,5 @@
 package com.github.niqdev.ipcam;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -51,8 +50,6 @@ public class IpCamTwoActivity extends AppCompatActivity {
             //.open("http://50.244.186.65:8081/mjpg/video.mjpg?COUNTER", TIMEOUT)
             .subscribe(
                 inputStream -> {
-                    mjpegView2.setFpsOverlayBackgroundColor(Color.DKGRAY);
-                    mjpegView2.setFpsOverlayTextColor(Color.WHITE);
                     mjpegView2.setSource(inputStream);
                     mjpegView2.setDisplayMode(DisplayMode.BEST_FIT);
                     mjpegView2.showFps(true);

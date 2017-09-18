@@ -153,4 +153,24 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public void setFpsOverlayTextColor(int overlayTextColor) {
         mMjpegView.setFpsOverlayTextColor(overlayTextColor);
     }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return this;
+    }
+
+    @Override
+    public void resetTransparentBackground() {
+        mMjpegView.resetTransparentBackground();
+    }
+
+    @Override
+    public void setTransparentBackground() {
+        mMjpegView.setTransparentBackground();
+    }
+
+    @Override
+    public void clearStream() {
+        mMjpegView.clearStream();
+    }
 }
