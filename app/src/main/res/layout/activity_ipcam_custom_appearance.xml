@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:stream="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.github.niqdev.ipcam.IpCamDefaultActivity">
+
+    <LinearLayout
+        android:id="@+id/layoutProgressWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/textView_progress" />
+
+    </LinearLayout>
+
+    <com.github.niqdev.mjpeg.MjpegSurfaceView
+        android:id="@+id/mjpegViewCustomAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        stream:transparentBackground="true"
+        stream:type="stream_default" />
+
+</RelativeLayout>

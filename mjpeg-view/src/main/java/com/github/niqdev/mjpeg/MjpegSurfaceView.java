@@ -165,6 +165,11 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     @Override
+    public void setTransparentBackground() {
+        mMjpegView.setTransparentBackground();
+    }
+
+    @Override
     public void clearStream() {
         mMjpegView.clearStream();
     }

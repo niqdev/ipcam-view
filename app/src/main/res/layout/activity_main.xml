@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,10 +38,18 @@
         android:text="@string/button_native" />
 
     <Button
-        android:id="@+id/buttonSettings"
+        android:id="@+id/buttonCustomAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonNative"
+        android:layout_centerInParent="true"
+        android:text="@string/button_custom_appearance" />
+
+    <Button
+        android:id="@+id/buttonSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonCustomAppearance"
         android:layout_centerInParent="true"
         android:text="@string/button_settings" />
 

@@ -32,5 +32,7 @@ public interface MjpegView {
 
     void resetTransparentBackground();
 
+    void setTransparentBackground();
+
     void clearStream();
 }

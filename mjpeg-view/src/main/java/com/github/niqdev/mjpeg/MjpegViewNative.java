@@ -423,6 +423,12 @@ public class MjpegViewNative extends AbstractMjpegView {
     }
 
     @Override
+    public void setTransparentBackground() {
+        mSurfaceView.setZOrderOnTop(true);
+        mSurfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
+    }
+
+    @Override
     public void clearStream() {
         Canvas c = null;
 

@@ -51,6 +51,14 @@
                 android:value="com.github.niqdev.ipcam.MainActivity" />
         </activity>
         <activity
+            android:name=".IpCamCustomAppearanceActivity"
+            android:label="@string/activity_ipcam_custom_appearance"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.niqdev.ipcam.MainActivity" />
+        </activity>
+        <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/activity_settings"
             android:parentActivityName=".MainActivity">

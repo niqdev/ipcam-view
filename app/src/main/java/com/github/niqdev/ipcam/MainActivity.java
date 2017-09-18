@@ -65,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, IpCamNativeActivity.class));
     }
 
+    @OnClick(R.id.buttonCustomAppearance)
+    public void onClickCustomAppearance() {
+        startActivity(new Intent(this, IpCamCustomAppearanceActivity.class));
+    }
+
     @OnClick(R.id.buttonSettings)
     public void onClickSettings() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB) {
