@@ -65,9 +65,12 @@ Mjpeg.newInstance()
 <br />
 
 #### Customize colors
-If you want to get a transparent background for the surface itself (while stream is loading) as well as for the stream background, you need to use the following xml attribute for your MjpegSurfaceView:
+If you want to get a transparent background for the surface itself (while stream is loading) as well as for the stream background, you can use one of the following ways:
 ```java
 stream:transparentBackground="true"
+```
+```java
+mjpegView.setTransparentBackground();
 ```
 <br />
 If you want to hide the MjpegView later, you might need to reset the transparency due to internal behaviour of applying transparency. Use the following method for this purpose.
@@ -75,8 +78,9 @@ If you want to hide the MjpegView later, you might need to reset the transparenc
 ```java
 mjpegView.resetTransparentBackground();
 ```
+For more information on hiding and showing a stream with transparent background have a look at ```IpCamCustomAppearanceActivity``` of the demo app.
 
-<br />
+<br /><br />
 You can also set other colors than transparent. Be aware that these colors will only be applied on a running stream. That means you can't change the color of the surface itself which you will see while the stream is loading.
 
 <b>Attention:</b> This only works when ```transparentBackground``` is not set to ```true```. In addition (thanks to SurfaceView) you are not able to directly set transparent background color here.

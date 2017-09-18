@@ -1,5 +1,6 @@
 package com.github.niqdev.ipcam;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +17,11 @@ import com.github.niqdev.mjpeg.MjpegView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Activity to show the possibilities of transparent stream background
+ * and the actions which need to be done when hiding and showing the
+ * stream with transparent background
+ */
 public class IpCamCustomAppearanceActivity extends AppCompatActivity {
 
     private static final int TIMEOUT = 5;
@@ -41,6 +47,8 @@ public class IpCamCustomAppearanceActivity extends AppCompatActivity {
             .subscribe(
                 inputStream -> {
                     progressWrapper.setVisibility(View.GONE);
+                    mjpegView.setFpsOverlayBackgroundColor(Color.DKGRAY);
+                    mjpegView.setFpsOverlayTextColor(Color.WHITE);
                     mjpegView.setSource(inputStream);
                     mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
                     mjpegView.showFps(true);
