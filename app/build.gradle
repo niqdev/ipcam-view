@@ -10,8 +10,8 @@ android {
         applicationId "com.github.niqdev.ipcam"
         minSdkVersion 9
         targetSdkVersion 25
-        versionCode 8
-        versionName "1.5.0"
+        versionCode 9
+        versionName "1.6.0"
     }
 
     buildTypes {
@@ -34,7 +34,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    // latest version: 1.0.0
+    // latest version: 1.3.2
     compile project(':mjpeg-view')
 
     testCompile 'junit:junit:4.12'
