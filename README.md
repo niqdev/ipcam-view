@@ -17,6 +17,7 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 - [x] Snapshot
 - [x] Flip image
 - [ ] Video recording
+- [x] Custom appearance
 
 ### Demo app
 
@@ -24,7 +25,7 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 
 <img src="images/screenshot-two-camera.png" alt="two-camera" height="600" /> <img src="images/screenshot-snapshot.png" alt="snapshot" height="600" />
 
-<img src="images/screenshot-settings.png" alt="settings" height="600" />
+<img src="images/screenshot-custom-appearance.png" alt="custom-appearance" height="600" /> <img src="images/screenshot-settings.png" alt="settings" height="600" />
 
 
 <a href='https://play.google.com/store/apps/details?id=com.github.niqdev.ipcam&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-ap-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png' width="200"/></a>
@@ -64,43 +65,39 @@ Mjpeg.newInstance()
 ```
 <br />
 
-#### Customize colors
-If you want to get a transparent background for the surface itself (while stream is loading) as well as for the stream background, you can use one of the following ways:
+### Customize appearance
+
+To get a transparent background for the surface itself (while stream is loading) as well as for the stream background
 ```java
 stream:transparentBackground="true"
 ```
 ```java
 mjpegView.setTransparentBackground();
 ```
-<br />
-If you want to hide the MjpegView later, you might need to reset the transparency due to internal behaviour of applying transparency. Use the following method for this purpose.
 
+To hide the MjpegView later, you might need to reset the transparency due to internal behaviour of applying transparency
 ```java
 mjpegView.resetTransparentBackground();
 ```
-For more information on hiding and showing a stream with transparent background have a look at ```IpCamCustomAppearanceActivity``` of the demo app.
 
-<br /><br />
+To set other colors than transparent, be aware that will only be applied on a running stream i.e. you can't change the color of the surface itself which you will see while the stream is loading
+
 You can also set other colors than transparent. Be aware that these colors will only be applied on a running stream. That means you can't change the color of the surface itself which you will see while the stream is loading.
 
-<b>Attention:</b> This only works when ```transparentBackground``` is not set to ```true```. In addition (thanks to SurfaceView) you are not able to directly set transparent background color here.
+Note that it only works when `transparentBackground` is not set to `true` and you are not able to directly set transparent background color here
 ```java
 mjpegView.setCustomBackgroundColor(Color.DKGRAY);
-```
-```java
+// OR
 stream:backgroundColor="@android:color/darker_gray"
 ```
-<br />
-If you wish to change the colors of the fps overlay you can do it via code.
 
+To change the colors of the fps overlay
 ```java
 mjpegView.setFpsOverlayBackgroundColor(Color.DKGRAY);
 mjpegView.setFpsOverlayTextColor(Color.WHITE);
 ```
-<br />
 
-#### Clear current shown picture
-The canvas keeps the current image even if you stop the stream. For example if you stop and hide your stream and start it again later you will see the last image until the new stream is loaded and live. You can clear this last image with the following code.
+To clear the last frame since the canvas keeps the current image even if you stop the stream, e.g. hide/show
 ```java
 mjpegView.clearStream();
 ```
