@@ -69,10 +69,9 @@ Mjpeg.newInstance()
 
 To get a transparent background for the surface itself (while stream is loading) as well as for the stream background
 ```java
-stream:transparentBackground="true"
-```
-```java
 mjpegView.setTransparentBackground();
+// OR
+stream:transparentBackground="true"
 ```
 
 To hide the MjpegView later, you might need to reset the transparency due to internal behaviour of applying transparency
@@ -80,11 +79,9 @@ To hide the MjpegView later, you might need to reset the transparency due to int
 mjpegView.resetTransparentBackground();
 ```
 
-To set other colors than transparent, be aware that will only be applied on a running stream i.e. you can't change the color of the surface itself which you will see while the stream is loading
+To set other colors than transparent, be aware that they will only be applied on a running stream i.e. you can't change the color of the surface itself which you will see while the stream is loading
 
-You can also set other colors than transparent. Be aware that these colors will only be applied on a running stream. That means you can't change the color of the surface itself which you will see while the stream is loading.
-
-Note that it only works when `transparentBackground` is not set to `true` and you are not able to directly set transparent background color here
+Note that it only works when `transparentBackground` is not set to `true` and that you are not able to directly set transparent background color here
 ```java
 mjpegView.setCustomBackgroundColor(Color.DKGRAY);
 // OR
