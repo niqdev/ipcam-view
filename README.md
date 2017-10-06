@@ -19,6 +19,16 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 - [ ] Video recording
 - [x] Custom appearance
 
+### Gradle dependency
+```java
+repositories {
+    jcenter()
+}
+dependencies {
+    compile 'com.github.niqdev:mjpeg-view:1.3.2'
+}
+```
+
 ### Demo app
 
 <img src="images/screenshot-main.png" alt="main" height="600" /> <img src="images/screenshot-default.png" alt="default" height="600" />
@@ -63,7 +73,6 @@ Mjpeg.newInstance()
       mjpegView.showFps(true);
   });
 ```
-<br />
 
 ### Customize appearance
 
@@ -97,16 +106,6 @@ mjpegView.setFpsOverlayTextColor(Color.WHITE);
 To clear the last frame since the canvas keeps the current image even if you stop the stream, e.g. hide/show
 ```java
 mjpegView.clearStream();
-```
-
-### Gradle dependency
-```
-repositories {
-    jcenter()
-}
-dependencies {
-    compile 'com.github.niqdev:mjpeg-view:1.3.2'
-}
 ```
 
 ### Apps that use this library
