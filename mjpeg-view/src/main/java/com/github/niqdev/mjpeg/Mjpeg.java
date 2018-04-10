@@ -97,7 +97,7 @@ public class Mjpeg {
     }
 
     @NonNull
-    private Observable<MjpegInputStream> connect(String url, String user, String password) {
+    private Observable<MjpegInputStream> connect(String url, String username, String password) {
         return Observable.defer(() -> {
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
@@ -107,9 +107,9 @@ public class Mjpeg {
                     urlConnection.setRequestProperty("Connection", "close");
                 }
 
-                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
                     DigestAuthentication auth = DigestAuthentication.fromResponse(urlConnection);
-                    auth.username(user).password(password);
+                    auth.username(username).password(password);
 
                     urlConnection = (HttpURLConnection) new URL(url).openConnection();
                     String authentication = auth.getAuthorizationForRequest("GET", urlConnection.getURL().getPath());
