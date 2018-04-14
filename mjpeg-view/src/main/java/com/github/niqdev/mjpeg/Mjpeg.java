@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.albroco.barebonesdigest.DigestAuthentication;
+import com.albroco.barebonesdigest.DigestChallengeResponse;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Authenticator;
@@ -94,13 +97,23 @@ public class Mjpeg {
     }
 
     @NonNull
-    private Observable<MjpegInputStream> connect(String url) {
+    private Observable<MjpegInputStream> connect(String url, String username, String password) {
         return Observable.defer(() -> {
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
                 urlConnection.setRequestProperty("Cache-Control", "no-cache");
+
                 if (sendConnectionCloseHeader) {
                     urlConnection.setRequestProperty("Connection", "close");
+                }
+
+                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+                    DigestAuthentication auth = DigestAuthentication.fromResponse(urlConnection);
+                    auth.username(username).password(password);
+
+                    urlConnection = (HttpURLConnection) new URL(url).openConnection();
+                    String authentication = auth.getAuthorizationForRequest("GET", urlConnection.getURL().getPath());
+                    urlConnection.setRequestProperty(DigestChallengeResponse.HTTP_HEADER_AUTHORIZATION, authentication);
                 }
 
                 InputStream inputStream = urlConnection.getInputStream();
@@ -126,7 +139,7 @@ public class Mjpeg {
      * @return Observable Mjpeg stream
      */
     public Observable<MjpegInputStream> open(String url) {
-        return connect(url)
+        return connect(url, null, null)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
     }
@@ -139,10 +152,29 @@ public class Mjpeg {
      * @return Observable Mjpeg stream
      */
     public Observable<MjpegInputStream> open(String url, int timeout) {
-        return connect(url)
+        return connect(url, null, null)
             .timeout(timeout, TimeUnit.SECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * Connect to a Mjpeg stream.
+     *
+     * @param url source
+     * @param timeout in seconds
+     * @param userDigestAuth in seconds
+     * @param passDigestAuth in seconds
+     * @return Observable Mjpeg stream
+     */
+    public Observable<MjpegInputStream> openWithDigestAuth(String url,
+                                                           int timeout,
+                                                           String userDigestAuth,
+                                                           String passDigestAuth) {
+        return connect(url, userDigestAuth, passDigestAuth)
+                .timeout(timeout, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 }
