@@ -26,7 +26,8 @@
     <string name="pref_header_authentication">Authentication</string>
 
     <string name="pref_title_ipcam_url">Url</string>
-    <string name="pref_default_ipcam_url">http://plazacam.studentaffairs.duke.edu/mjpg/video.mjpg</string>
+    <!-- http://www.insecam.org -->
+    <string name="pref_default_ipcam_url">http://192.121.142.39:80/mjpg/video.mjpg</string>
 
     <string name="pref_title_authentication">Use credentials</string>
     <string name="pref_title_authentication_username">Username</string>
