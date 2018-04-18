@@ -43,7 +43,7 @@ public class IpCamCustomAppearanceActivity extends AppCompatActivity {
         progressWrapper.setVisibility(View.VISIBLE);
 
         Mjpeg.newInstance()
-            .open("http://cascam.ou.edu/axis-cgi/mjpg/video.cgi?resolution=320x240", TIMEOUT)
+            .open("http://62.176.195.157:80/mjpg/video.mjpg", TIMEOUT)
             .subscribe(
                 inputStream -> {
                     progressWrapper.setVisibility(View.GONE);
