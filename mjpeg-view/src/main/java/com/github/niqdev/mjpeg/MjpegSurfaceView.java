@@ -115,6 +115,16 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     @Override
+    public void flipHorizontal() {
+        mMjpegView.flipHorizontal();
+    }
+
+    @Override
+    public void flipVertical() {
+        mMjpegView.flipVertical();
+    }
+
+    @Override
     public void stopPlayback() {
         mMjpegView.stopPlayback();
     }
