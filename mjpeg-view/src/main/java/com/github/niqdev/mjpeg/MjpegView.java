@@ -12,9 +12,9 @@ public interface MjpegView {
 
     void flipSource(boolean flip);
 
-    void flipHorizontal();
+    void flipHorizontal(boolean flip);
 
-    void flipVertical();
+    void flipVertical(boolean flip);
 
     void stopPlayback();
 

@@ -367,16 +367,16 @@ public class MjpegViewNative extends AbstractMjpegView {
 
     @Override
     public void flipSource(boolean flip) {
-        flipHorizontal();
+        flipHorizontal(flip);
     }
 
     @Override
-    public void flipHorizontal() {
+    public void flipHorizontal(boolean flip) {
 
     }
 
     @Override
-    public void flipVertical() {
+    public void flipVertical(boolean flip) {
 
     }
 

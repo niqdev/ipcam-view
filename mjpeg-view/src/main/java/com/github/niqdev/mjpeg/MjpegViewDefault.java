@@ -135,7 +135,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
                         }
                         synchronized (mSurfaceHolder) {
                             try {
-                                if( flipHorizontal || flipVertical )
+                                if(flipHorizontal || flipVertical)
                                 {
                                     bm = flip(mIn.readMjpegFrame());
                                 } else {
@@ -307,12 +307,12 @@ public class MjpegViewDefault extends AbstractMjpegView {
         showFps = b;
     }
 
-    void _flipHorizontal() {
-        flipHorizontal = true;
+    void _flipHorizontal(boolean b) {
+        flipHorizontal = b;
     }
 
-    void _flipVertical() {
-        flipVertical = true;
+    void _flipVertical(boolean b) {
+        flipVertical = b;
     }
 
     /*
@@ -385,17 +385,17 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     @Override
     public void flipSource(boolean flip) {
-        _flipHorizontal();
+        _flipHorizontal(flip);
     }
 
     @Override
-    public void flipHorizontal() {
-        _flipHorizontal();
+    public void flipHorizontal(boolean flip) {
+        _flipHorizontal(flip);
     }
 
     @Override
-    public void flipVertical() {
-        _flipVertical();
+    public void flipVertical(boolean flip) {
+        _flipVertical(flip);
     }
 
     @Override
