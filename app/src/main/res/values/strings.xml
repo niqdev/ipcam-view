@@ -19,7 +19,7 @@
     <string name="menu_toggleStreamOff">Hide stream</string>
     <string name="menu_toggleStreamOn">Show stream</string>
 
-    <string name="textView_version">lib v1.3.2</string>
+    <string name="textView_version">lib v1.4.0</string>
     <string name="textView_progress">Loading&#8230;</string>
 
     <string name="pref_header_general">General</string>
