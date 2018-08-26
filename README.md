@@ -108,6 +108,12 @@ To clear the last frame since the canvas keeps the current image even if you sto
 mjpegView.clearStream();
 ```
 
+To flip the image
+```java
+mjpegView.flipHorizontal(true);
+mjpegView.flipVertical(true);
+```
+
 ### Apps that use this library
 * [OpenWebNet Android](https://github.com/openwebnet/openwebnet-android)
 * [TankDroid](https://github.com/bmachek/TankDroid)
