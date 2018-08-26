@@ -1,5 +1,6 @@
 package com.github.niqdev.ipcam;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,6 +17,8 @@ import butterknife.ButterKnife;
 
 import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_PASSWORD;
 import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_USERNAME;
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_FLIP_HORIZONTAL;
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_FLIP_VERTICAL;
 import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_IPCAM_URL;
 
 public class IpCamDefaultActivity extends AppCompatActivity {
@@ -32,10 +35,19 @@ public class IpCamDefaultActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    private String getPreference(String key) {
+    private SharedPreferences getSharedPreferences() {
         return PreferenceManager
-            .getDefaultSharedPreferences(this)
+                .getDefaultSharedPreferences(this);
+    }
+
+    private String getPreference(String key) {
+        return getSharedPreferences()
             .getString(key, "");
+    }
+
+    private Boolean getBooleanPreference(String key) {
+        return getSharedPreferences()
+                .getBoolean(key, false);
     }
 
     private DisplayMode calculateDisplayMode() {
@@ -52,6 +64,8 @@ public class IpCamDefaultActivity extends AppCompatActivity {
                 inputStream -> {
                     mjpegView.setSource(inputStream);
                     mjpegView.setDisplayMode(calculateDisplayMode());
+                    mjpegView.flipHorizontal(getBooleanPreference(PREF_FLIP_HORIZONTAL));
+                    mjpegView.flipVertical(getBooleanPreference(PREF_FLIP_VERTICAL));
                     mjpegView.showFps(true);
                 },
                 throwable -> {
