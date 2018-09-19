@@ -37,8 +37,12 @@ dependencies {
 
 <img src="images/screenshot-custom-appearance.png" alt="custom-appearance" height="600" /> <img src="images/screenshot-settings.png" alt="settings" height="600" />
 
-
-<a href='https://play.google.com/store/apps/details?id=com.github.niqdev.ipcam&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-ap-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png' width="200"/></a>
+[<img src="https://f-droid.org/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="100">](https://f-droid.org/packages/com.github.niqdev.ipcam/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="100">](https://play.google.com/store/apps/details?id=com.github.niqdev.ipcam)
 
 ### Usage
 
