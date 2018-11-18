@@ -91,7 +91,7 @@ public class Mjpeg {
      * @param cookie cookie string
      * @return Mjpeg instance
      */
-    public Mjpeg addCookies(String cookie)  {
+    public Mjpeg addCookie(String cookie)  {
 
         if(cookie != null && !cookie.isEmpty()) {
             msCookieManager.getCookieStore().add(null,HttpCookie.parse(cookie).get(0));
