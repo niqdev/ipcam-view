@@ -169,7 +169,7 @@ public class Mjpeg {
             urlConnection.setRequestProperty("Connection", "close");
         }
 
-        if (msCookieManager.getCookieStore().getCookies().size() > 0) {
+        if (!msCookieManager.getCookieStore().getCookies().isEmpty()) {
             urlConnection.setRequestProperty("Cookie",
                     TextUtils.join(";",  msCookieManager.getCookieStore().getCookies()));
         }
