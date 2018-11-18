@@ -93,7 +93,7 @@ public class Mjpeg {
      */
     public Mjpeg addCookie(String cookie)  {
 
-        if(cookie != null && !cookie.isEmpty()) {
+        if(!TextUtils.isEmpty(cookie)) {
             msCookieManager.getCookieStore().add(null,HttpCookie.parse(cookie).get(0));
         }
         return this;
