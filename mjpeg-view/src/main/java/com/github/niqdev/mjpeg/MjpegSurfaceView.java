@@ -125,6 +125,11 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     @Override
+    public void setRotate(float degrees) {
+        mMjpegView.setRotate(degrees);
+    }
+
+    @Override
     public void stopPlayback() {
         mMjpegView.stopPlayback();
     }

@@ -118,6 +118,11 @@ mjpegView.flipHorizontal(true);
 mjpegView.flipVertical(true);
 ```
 
+To rotate the image
+```java
+mjpegView.setRotate(90);  // degrees
+```
+
 ### Apps that use this library
 * [OpenWebNet Android](https://github.com/openwebnet/openwebnet-android)
 * [TankDroid](https://github.com/bmachek/TankDroid)

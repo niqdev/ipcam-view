@@ -20,6 +20,7 @@ import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_AUTH_USERNA
 import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_FLIP_HORIZONTAL;
 import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_FLIP_VERTICAL;
 import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_IPCAM_URL;
+import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_ROTATE_DEGREES;
 
 public class IpCamDefaultActivity extends AppCompatActivity {
 
@@ -66,6 +67,7 @@ public class IpCamDefaultActivity extends AppCompatActivity {
                     mjpegView.setDisplayMode(calculateDisplayMode());
                     mjpegView.flipHorizontal(getBooleanPreference(PREF_FLIP_HORIZONTAL));
                     mjpegView.flipVertical(getBooleanPreference(PREF_FLIP_VERTICAL));
+                    mjpegView.setRotate(Float.parseFloat(getPreference(PREF_ROTATE_DEGREES)));
                     mjpegView.showFps(true);
                 },
                 throwable -> {
