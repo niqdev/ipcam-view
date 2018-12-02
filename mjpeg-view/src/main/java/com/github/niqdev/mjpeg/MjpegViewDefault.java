@@ -35,6 +35,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private boolean showFps = false;
     private boolean flipHorizontal = false;
     private boolean flipVertical = false;
+    private float rotateDegrees = 0;
     private volatile boolean mRun = false;
     private volatile boolean surfaceDone = false;
     private Paint overlayPaint;
@@ -135,12 +136,12 @@ public class MjpegViewDefault extends AbstractMjpegView {
                         }
                         synchronized (mSurfaceHolder) {
                             try {
+                                bm = mIn.readMjpegFrame();
                                 if(flipHorizontal || flipVertical)
-                                {
-                                    bm = flip(mIn.readMjpegFrame());
-                                } else {
-                                    bm = mIn.readMjpegFrame();
-                                }
+                                    bm = flip(bm);
+                                if(rotateDegrees != 0)
+                                    bm = rotate(bm, rotateDegrees);
+
                                 _frameCaptured(bm);
                                 destRect = destRect(bm.getWidth(),
                                         bm.getHeight());
@@ -198,6 +199,14 @@ public class MjpegViewDefault extends AbstractMjpegView {
         m.preScale(sx, sy);
         Bitmap dst = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false);
         dst.setDensity(DisplayMetrics.DENSITY_DEFAULT);
+        return dst;
+    }
+
+    Bitmap rotate(Bitmap src, float degrees)
+    {
+        Matrix m = new Matrix();
+        m.setRotate(degrees);
+        Bitmap dst = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false);
         return dst;
     }
 
@@ -396,6 +405,11 @@ public class MjpegViewDefault extends AbstractMjpegView {
     @Override
     public void flipVertical(boolean flip) {
         _flipVertical(flip);
+    }
+
+    @Override
+    public void setRotate(float degrees) {
+        rotateDegrees = degrees;
     }
 
     @Override

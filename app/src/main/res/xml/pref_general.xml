@@ -18,4 +18,12 @@
         android:key="com.github.niqdev.ipcam.settings.SettingsActivity.FLIP_VERTICAL"
         android:title="Flip image vertically" />
 
+    <ListPreference
+        android:defaultValue="0"
+        android:key="com.github.niqdev.ipcam.settings.SettingsActivity.ROTATE_DEGREES"
+        android:entries="@array/rotate_degrees_entries"
+        android:entryValues="@array/rotate_degrees_entry_values"
+        android:summary="%s"
+        android:title="Rotate image (degrees)" />
+
 </PreferenceScreen>

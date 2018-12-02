@@ -381,6 +381,11 @@ public class MjpegViewNative extends AbstractMjpegView {
     }
 
     @Override
+    public void setRotate(float degrees) {
+
+    }
+
+    @Override
     public void stopPlayback() {
         _stopPlayback();
     }
