@@ -12,7 +12,7 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 ### Features
 - [x] Default support by `android-camera-axis`
 - [ ] Native support by `SimpleMjpegView`
-- [x] Handle credentials
+- [x] Handle credentials and cookies
 - [x] Multiple camera in one activity
 - [x] Snapshot
 - [x] Flip image
@@ -25,7 +25,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.github.niqdev:mjpeg-view:1.4.0'
+    compile 'com.github.niqdev:mjpeg-view:1.5.0'
 }
 ```
 

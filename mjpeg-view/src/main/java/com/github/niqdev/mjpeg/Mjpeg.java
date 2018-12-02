@@ -92,7 +92,6 @@ public class Mjpeg {
      * @return Mjpeg instance
      */
     public Mjpeg addCookie(String cookie)  {
-
         if(!TextUtils.isEmpty(cookie)) {
             msCookieManager.getCookieStore().add(null,HttpCookie.parse(cookie).get(0));
         }
@@ -162,8 +161,7 @@ public class Mjpeg {
      * Configure request properties
      * @param urlConnection the url connection to add properties and cookies to
      */
-    private void loadConnectionProperties(HttpURLConnection urlConnection)
-    {
+    private void loadConnectionProperties(HttpURLConnection urlConnection) {
         urlConnection.setRequestProperty("Cache-Control", "no-cache");
         if (sendConnectionCloseHeader) {
             urlConnection.setRequestProperty("Connection", "close");
@@ -171,7 +169,7 @@ public class Mjpeg {
 
         if (!msCookieManager.getCookieStore().getCookies().isEmpty()) {
             urlConnection.setRequestProperty("Cookie",
-                    TextUtils.join(";",  msCookieManager.getCookieStore().getCookies()));
+                TextUtils.join(";",  msCookieManager.getCookieStore().getCookies()));
         }
     }
 }
