@@ -27,7 +27,7 @@
 
     <string name="pref_title_ipcam_url">Url</string>
     <!-- http://www.insecam.org -->
-    <string name="pref_default_ipcam_url">http://207.210.131.138:80/mjpg/video.mjpg</string>
+    <string name="pref_default_ipcam_url">http://80.24.57.252:60001/mjpg/video.mjpg</string>
 
     <string name="pref_title_authentication">Use credentials</string>
     <string name="pref_title_authentication_username">Username</string>
