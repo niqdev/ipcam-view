@@ -7,6 +7,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Authenticator;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
@@ -27,6 +28,8 @@ import rx.schedulers.Schedulers;
  */
 public class Mjpeg {
     private static final String TAG = Mjpeg.class.getSimpleName();
+
+    private static java.net.CookieManager msCookieManager = new java.net.CookieManager();
 
     /**
      * Library implementation type
@@ -81,7 +84,21 @@ public class Mjpeg {
         }
         return this;
     }
-    
+
+    /**
+     * Configure cookies.
+     *
+     * @param cookie cookie string
+     * @return Mjpeg instance
+     */
+    public Mjpeg addCookie(String cookie)  {
+
+        if(!TextUtils.isEmpty(cookie)) {
+            msCookieManager.getCookieStore().add(null,HttpCookie.parse(cookie).get(0));
+        }
+        return this;
+    }
+
     /**
      * Send a "Connection: close" header to fix 
      * <code>java.net.ProtocolException: Unexpected status line</code>
@@ -98,11 +115,7 @@ public class Mjpeg {
         return Observable.defer(() -> {
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(url).openConnection();
-                urlConnection.setRequestProperty("Cache-Control", "no-cache");
-                if (sendConnectionCloseHeader) {
-                    urlConnection.setRequestProperty("Connection", "close");
-                }
-
+                loadConnectionProperties(urlConnection);
                 InputStream inputStream = urlConnection.getInputStream();
                 switch (type) {
                     // handle multiple implementations
@@ -145,4 +158,20 @@ public class Mjpeg {
             .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * Configure request properties
+     * @param urlConnection the url connection to add properties and cookies to
+     */
+    private void loadConnectionProperties(HttpURLConnection urlConnection)
+    {
+        urlConnection.setRequestProperty("Cache-Control", "no-cache");
+        if (sendConnectionCloseHeader) {
+            urlConnection.setRequestProperty("Connection", "close");
+        }
+
+        if (!msCookieManager.getCookieStore().getCookies().isEmpty()) {
+            urlConnection.setRequestProperty("Cookie",
+                    TextUtils.join(";",  msCookieManager.getCookieStore().getCookies()));
+        }
+    }
 }
