@@ -57,7 +57,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         return (end < 0) ? (-1) : (end - sequence.length);
     }
 
-    private int parseContentLength(byte[] headerBytes) throws IOException, NumberFormatException {
+    private int parseContentLength(byte[] headerBytes) throws IOException, IllegalArgumentException {
         ByteArrayInputStream headerIn = new ByteArrayInputStream(headerBytes);
         Properties props = new Properties();
         props.load(headerIn);
@@ -73,7 +73,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         readFully(header);
         try {
             mContentLength = parseContentLength(header);
-        } catch (NumberFormatException nfe) {
+        } catch (IllegalArgumentException iae) {
             mContentLength = getEndOfSeqeunce(this, EOF_MARKER);
         }
         reset();
