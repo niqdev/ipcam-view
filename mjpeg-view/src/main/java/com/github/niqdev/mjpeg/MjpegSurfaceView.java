@@ -3,7 +3,7 @@ package com.github.niqdev.mjpeg;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PixelFormat;
-import android.support.annotation.StyleableRes;
+import androidx.annotation.StyleableRes;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
