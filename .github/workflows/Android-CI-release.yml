@@ -31,8 +31,6 @@ jobs:
         run: ./gradlew clean build
         env:
           VERSION: ${{ github.ref }}
-          bintray.user: ${{ secrets.BINTRY_USER }}
-          bintray.apikey: ${{ secrets.BINTRY_APIKEY }}
       - run: |
           assetsAAR=$(find . -name *release.aar | while read -r asset ; do echo "-a $asset" ; done)
           hub release create ${assetsAAR} -m ${{steps.tagger.outputs.tag}} ${{steps.tagger.outputs.tag}}
