@@ -35,7 +35,7 @@ dependencies {
     // latest version: 1.4.0
     implementation project(':mjpeg-view')
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
