@@ -12,7 +12,7 @@ buildscript {
 
 allprojects {
     group = 'com.github.niqdev'
-    version = '1.7.0'
+    version = getTag()
 
     repositories {
         google()
@@ -22,4 +22,22 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+@SuppressWarnings("unused")
+static def getGitCommitCount() {
+    def process = "git rev-list HEAD --count".execute()
+    return process.text.toInteger()
+}
+
+@SuppressWarnings("unused")
+static def getTag() {
+    // with local un-commited changes a -DIRTY is added
+    def processChanges = "git diff-index --name-only HEAD --".execute()
+    def dirty = ""
+    if (!processChanges.text.toString().trim().isEmpty())
+        dirty = "-DIRTY"
+
+    def process = "git describe --tags".execute()
+    return process.text.toString().trim() + dirty
 }
