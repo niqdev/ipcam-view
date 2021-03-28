@@ -4,7 +4,7 @@
 *.iml
 
 /local.properties
-/build
+build
 release
 
 *~
