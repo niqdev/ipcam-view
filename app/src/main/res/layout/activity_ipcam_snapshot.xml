@@ -12,12 +12,6 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.github.niqdev.mjpeg.MjpegSurfaceView
-            android:id="@+id/mjpegViewSnapshot"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            stream:type="stream_default" />
-
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="150dp"
@@ -26,6 +20,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             stream:srcCompat="@mipmap/ic_launcher" />
+
+        <com.github.niqdev.mjpeg.MjpegSurfaceView
+            android:id="@+id/mjpegViewSnapshot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            stream:type="stream_default" />
     </RelativeLayout>
 
 </LinearLayout>
