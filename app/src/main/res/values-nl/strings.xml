@@ -2,14 +2,14 @@
     <string name="app_name">IPCam Demo</string>
 
     <string name="activity_ipcam_default">Standaard</string>
-    <string name="activity_ipcam_two">Twee camera's</string>
+    <string name="activity_ipcam_two">Twee camera\'s</string>
     <string name="activity_ipcam_snapshot">Momentopname</string>
     <string name="activity_ipcam_native">Oorspronkelijk</string>
     <string name="activity_ipcam_custom_appearance">Aangepaste weergave</string>
     <string name="activity_settings">Instellingen</string>
 
     <string name="button_default">Standaard</string>
-    <string name="button_two_camera">Twee camera's</string>
+    <string name="button_two_camera">Twee camera\'s</string>
     <string name="button_snapshot">Momentopname</string>
     <string name="button_native">Oorspronkelijk</string>
     <string name="button_settings">Instellingen</string>
