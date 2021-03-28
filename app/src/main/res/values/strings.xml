@@ -33,6 +33,6 @@
     <string name="pref_title_authentication_username">Username</string>
     <string name="pref_title_authentication_password">Password</string>
 
-    <string name="pref_hidden_password">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</string>
+    <string name="pref_hidden_password" translatable="false">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</string>
 
 </resources>
