@@ -2,7 +2,6 @@ package com.github.niqdev.ipcam;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +13,7 @@ import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,20 +43,20 @@ public class IpCamCustomAppearanceActivity extends AppCompatActivity {
         progressWrapper.setVisibility(View.VISIBLE);
 
         Mjpeg.newInstance()
-            .open("http://62.176.195.157:80/mjpg/video.mjpg", TIMEOUT)
-            .subscribe(
-                inputStream -> {
-                    progressWrapper.setVisibility(View.GONE);
-                    mjpegView.setFpsOverlayBackgroundColor(Color.DKGRAY);
-                    mjpegView.setFpsOverlayTextColor(Color.WHITE);
-                    mjpegView.setSource(inputStream);
-                    mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
-                    mjpegView.showFps(true);
-                },
-                throwable -> {
-                    Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
-                });
+                .open("http://62.176.195.157:80/mjpg/video.mjpg", TIMEOUT)
+                .subscribe(
+                        inputStream -> {
+                            progressWrapper.setVisibility(View.GONE);
+                            mjpegView.setFpsOverlayBackgroundColor(Color.DKGRAY);
+                            mjpegView.setFpsOverlayTextColor(Color.WHITE);
+                            mjpegView.setSource(inputStream);
+                            mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
+                            mjpegView.showFps(true);
+                        },
+                        throwable -> {
+                            Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
+                            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                        });
     }
 
     @Override
