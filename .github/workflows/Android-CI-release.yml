@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Publish release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+      - name: Install JDK ${{ matrix.java_version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Get the version
+        id: tagger
+        uses: jimschubert/query-tag-action@v2
+        with:
+          skip-unshallow: 'true'
+          abbrev: false
+          commit-ish: HEAD
+      - name: Install Android SDK
+        uses: malinskiy/action-android/install-sdk@release/0.1.1
+      - name: Build project
+        run: ./gradlew clean build
+        env:
+          VERSION: ${{ github.ref }}
+          bintray.user: ${{ secrets.BINTRY_USER }}
+          bintray.apikey: ${{ secrets.BINTRY_APIKEY }}
+      - run: |
+          assetsAAR=$(find . -name *release.aar | while read -r asset ; do echo "-a $asset" ; done)
+          hub release create ${assetsAAR} -m ${{steps.tagger.outputs.tag}} ${{steps.tagger.outputs.tag}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ github.ref }}
