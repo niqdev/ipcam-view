@@ -1,6 +1,7 @@
 # ipcam-view ![ipcam-view](images/logo.png)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ipcam--view-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3358)
+[![JitPack](https://jitpack.io/v/niqdev/ipcam-view.svg)](https://jitpack.io/#niqdev/ipcam-view)
 
 Android MJPEG video streaming made simple!
 
@@ -21,10 +22,10 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 ### Gradle dependency
 ```java
 repositories {
-    jcenter()
+    maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compile 'com.github.niqdev:mjpeg-view:1.7.0'
+    implementation 'com.github.niqdev:ipcam-view:<LATEST_RELEASE>'
 }
 ```
 
