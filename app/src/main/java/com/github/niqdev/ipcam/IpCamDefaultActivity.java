@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +11,7 @@ import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,7 +43,7 @@ public class IpCamDefaultActivity extends AppCompatActivity {
 
     private String getPreference(String key) {
         return getSharedPreferences()
-            .getString(key, "");
+                .getString(key, "");
     }
 
     private Boolean getBooleanPreference(String key) {
@@ -54,26 +54,26 @@ public class IpCamDefaultActivity extends AppCompatActivity {
     private DisplayMode calculateDisplayMode() {
         int orientation = getResources().getConfiguration().orientation;
         return orientation == Configuration.ORIENTATION_LANDSCAPE ?
-            DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
+                DisplayMode.FULLSCREEN : DisplayMode.BEST_FIT;
     }
 
     private void loadIpCam() {
         Mjpeg.newInstance()
-            .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
-            .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
-            .subscribe(
-                inputStream -> {
-                    mjpegView.setSource(inputStream);
-                    mjpegView.setDisplayMode(calculateDisplayMode());
-                    mjpegView.flipHorizontal(getBooleanPreference(PREF_FLIP_HORIZONTAL));
-                    mjpegView.flipVertical(getBooleanPreference(PREF_FLIP_VERTICAL));
-                    mjpegView.setRotate(Float.parseFloat(getPreference(PREF_ROTATE_DEGREES)));
-                    mjpegView.showFps(true);
-                },
-                throwable -> {
-                    Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
-                });
+                .credential(getPreference(PREF_AUTH_USERNAME), getPreference(PREF_AUTH_PASSWORD))
+                .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
+                .subscribe(
+                        inputStream -> {
+                            mjpegView.setSource(inputStream);
+                            mjpegView.setDisplayMode(calculateDisplayMode());
+                            mjpegView.flipHorizontal(getBooleanPreference(PREF_FLIP_HORIZONTAL));
+                            mjpegView.flipVertical(getBooleanPreference(PREF_FLIP_VERTICAL));
+                            mjpegView.setRotate(Float.parseFloat(getPreference(PREF_ROTATE_DEGREES)));
+                            mjpegView.showFps(true);
+                        },
+                        throwable -> {
+                            Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
+                            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                        });
     }
 
     @Override

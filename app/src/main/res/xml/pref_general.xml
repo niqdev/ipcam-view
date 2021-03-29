@@ -6,24 +6,24 @@
         android:key="com.github.niqdev.ipcam.settings.SettingsActivity.IPCAM_URL"
         android:selectAllOnFocus="true"
         android:singleLine="false"
-        android:title="@string/pref_title_ipcam_url"/>
+        android:title="@string/pref_title_ipcam_url" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="com.github.niqdev.ipcam.settings.SettingsActivity.FLIP_HORIZONTAL"
-        android:title="Flip image horizontally" />
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/rotate_degrees_entries"
+        android:entryValues="@array/rotate_degrees_entry_values"
+        android:key="com.github.niqdev.ipcam.settings.SettingsActivity.ROTATE_DEGREES"
+        android:summary="%s"
+        android:title="Rotate image (degrees)" />
 
     <SwitchPreference
         android:defaultValue="false"
         android:key="com.github.niqdev.ipcam.settings.SettingsActivity.FLIP_VERTICAL"
         android:title="Flip image vertically" />
 
-    <ListPreference
-        android:defaultValue="0"
-        android:key="com.github.niqdev.ipcam.settings.SettingsActivity.ROTATE_DEGREES"
-        android:entries="@array/rotate_degrees_entries"
-        android:entryValues="@array/rotate_degrees_entry_values"
-        android:summary="%s"
-        android:title="Rotate image (degrees)" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="com.github.niqdev.ipcam.settings.SettingsActivity.FLIP_HORIZONTAL"
+        android:title="Flip image horizontally" />
 
 </PreferenceScreen>

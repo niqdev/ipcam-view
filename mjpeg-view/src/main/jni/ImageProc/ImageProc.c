@@ -271,7 +271,7 @@ int Java_com_github_niqdev_mjpeg_MjpegInputStreamNative_pixeltobmp( JNIEnv* env,
 		int height = IMG_HEIGHT;
 		
 
-			if(bmp==NULL) return;
+			if(bmp==NULL) return -1;
 			if ((ret = AndroidBitmap_getInfo(env, bmp, &info)) < 0) {
 				LOGE("AndroidBitmap_getInfo() failed ! error=%d", ret);
 				(*env)->ReleaseByteArrayElements(env, jp, p, 0);
@@ -305,7 +305,7 @@ int Java_com_github_niqdev_mjpeg_MjpegInputStreamNative_pixeltobmp( JNIEnv* env,
 			AndroidBitmap_unlockPixels(env, bmp);
 
 		(*env)->ReleaseByteArrayElements(env, jp, p, 0);
-		
+
 		return 0;
 }
 

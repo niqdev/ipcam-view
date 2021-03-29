@@ -1,12 +1,12 @@
 package com.github.niqdev.ipcam;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,14 +27,14 @@ public class IpCamNativeActivity extends AppCompatActivity {
 
     private void loadIpcam() {
         Mjpeg.newInstance(Mjpeg.Type.NATIVE)
-            //.credential("", "")
-            .open("http://wmccpinetop.axiscam.net/mjpg/video.mjpg")
-            .subscribe(inputStream -> {
-                mjpegView.setSource(inputStream);
-                // TODO if (inputStream != null) inputStream.setSkip(1)
-                mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
-                mjpegView.showFps(true);
-            });
+                //.credential("", "")
+                .open("http://wmccpinetop.axiscam.net/mjpg/video.mjpg")
+                .subscribe(inputStream -> {
+                    mjpegView.setSource(inputStream);
+                    // TODO if (inputStream != null) inputStream.setSkip(1)
+                    mjpegView.setDisplayMode(DisplayMode.BEST_FIT);
+                    mjpegView.showFps(true);
+                });
     }
 
     @Override

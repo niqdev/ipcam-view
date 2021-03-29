@@ -1,10 +1,12 @@
 .gradle
 
-.idea/
+.idea/*
+!.idea/codeStyles/
+
 *.iml
 
 /local.properties
-/build
+build
 release
 
 *~

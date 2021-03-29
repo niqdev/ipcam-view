@@ -52,6 +52,278 @@ public class MjpegViewNative extends AbstractMjpegView {
     private int IMG_WIDTH = 640;
     private int IMG_HEIGHT = 480;
 
+    MjpegViewNative(SurfaceView surfaceView, SurfaceHolder.Callback callback, boolean transparentBackground) {
+        this.mSurfaceView = surfaceView;
+        this.mSurfaceHolderCallback = callback;
+        this.transparentBackground = transparentBackground;
+        init();
+    }
+
+    private void init() {
+
+        //SurfaceHolder holder = getHolder();
+        holder = mSurfaceView.getHolder();
+        holder.addCallback(mSurfaceHolderCallback);
+        thread = new MjpegViewThread(holder);
+        mSurfaceView.setFocusable(true);
+        overlayPaint = new Paint();
+        overlayPaint.setTextAlign(Paint.Align.LEFT);
+        overlayPaint.setTextSize(12);
+        overlayPaint.setTypeface(Typeface.DEFAULT);
+        overlayTextColor = Color.WHITE;
+        overlayBackgroundColor = Color.BLACK;
+        backgroundColor = Color.BLACK;
+        ovlPos = MjpegViewNative.POSITION_LOWER_RIGHT;
+        displayMode = MjpegViewNative.SIZE_STANDARD;
+        dispWidth = mSurfaceView.getWidth();
+        dispHeight = mSurfaceView.getHeight();
+    }
+
+    /* all methods/constructors below are no more accessible */
+
+    void _startPlayback() {
+        if (mIn != null) {
+            mRun = true;
+            if (thread == null) {
+                thread = new MjpegViewThread(holder);
+            }
+            thread.start();
+        }
+    }
+
+    void _resumePlayback() {
+        if (suspending) {
+            if (mIn != null) {
+                mRun = true;
+                SurfaceHolder holder = mSurfaceView.getHolder();
+                holder.addCallback(mSurfaceHolderCallback);
+                thread = new MjpegViewThread(holder);
+                thread.start();
+                suspending = false;
+            }
+        }
+    }
+
+    void _stopPlayback() {
+        if (mRun) {
+            suspending = true;
+        }
+        mRun = false;
+        if (thread != null) {
+            boolean retry = true;
+            while (retry) {
+                try {
+                    thread.join();
+                    retry = false;
+                } catch (InterruptedException e) {
+                }
+            }
+            thread = null;
+        }
+        if (mIn != null) {
+            try {
+                mIn.close();
+            } catch (IOException e) {
+            }
+            mIn = null;
+        }
+
+    }
+
+    void _freeCameraMemory() {
+        if (mIn != null) {
+            mIn.freeCameraMemory();
+        }
+    }
+
+    void _surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
+        if (thread != null) {
+            thread.setSurfaceSize(w, h);
+        }
+    }
+
+    void _surfaceDestroyed(SurfaceHolder holder) {
+        surfaceDone = false;
+        _stopPlayback();
+        if (thread != null) {
+            thread = null;
+        }
+    }
+
+    void _surfaceCreated(SurfaceHolder holder) {
+        surfaceDone = true;
+    }
+
+    void _showFps(boolean b) {
+        showFps = b;
+    }
+
+    void _setSource(MjpegInputStreamNative source) {
+        mIn = source;
+        if (!suspending) {
+            _startPlayback();
+        } else {
+            _resumePlayback();
+        }
+    }
+
+    void _setOverlayPaint(Paint p) {
+        overlayPaint = p;
+    }
+
+    void _setOverlayTextColor(int c) {
+        overlayTextColor = c;
+    }
+
+    void _setOverlayBackgroundColor(int c) {
+        overlayBackgroundColor = c;
+    }
+
+    void _setOverlayPosition(int p) {
+        ovlPos = p;
+    }
+
+    void _setDisplayMode(int s) {
+        displayMode = s;
+    }
+
+    void _setResolution(int w, int h) {
+        IMG_WIDTH = w;
+        IMG_HEIGHT = h;
+    }
+
+    boolean _isStreaming() {
+        return mRun;
+    }
+
+    @Override
+    public void onSurfaceCreated(SurfaceHolder holder) {
+        _surfaceCreated(holder);
+    }
+
+    /* override methods */
+
+    @Override
+    public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        _surfaceChanged(holder, format, width, height);
+    }
+
+    @Override
+    public void onSurfaceDestroyed(SurfaceHolder holder) {
+        _surfaceDestroyed(holder);
+    }
+
+    @Override
+    public void setSource(MjpegInputStream stream) {
+        if (!(stream instanceof MjpegInputStreamNative)) {
+            throw new IllegalArgumentException("stream must be an instance of MjpegInputStreamNative");
+        }
+        _setSource((MjpegInputStreamNative) stream);
+    }
+
+    @Override
+    public void setDisplayMode(DisplayMode mode) {
+        _setDisplayMode(mode.getValue());
+    }
+
+    @Override
+    public void showFps(boolean show) {
+        _showFps(show);
+    }
+
+    @Override
+    public void flipSource(boolean flip) {
+        flipHorizontal(flip);
+    }
+
+    @Override
+    public void flipHorizontal(boolean flip) {
+
+    }
+
+    @Override
+    public void flipVertical(boolean flip) {
+
+    }
+
+    @Override
+    public void setRotate(float degrees) {
+
+    }
+
+    @Override
+    public void stopPlayback() {
+        _stopPlayback();
+    }
+
+    @Override
+    public boolean isStreaming() {
+        return _isStreaming();
+    }
+
+    @Override
+    public void setResolution(int width, int height) {
+        _setResolution(width, height);
+    }
+
+    @Override
+    public void freeCameraMemory() {
+        _freeCameraMemory();
+    }
+
+    @Override
+    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
+        throw new UnsupportedOperationException("Not implemented yet!");
+    }
+
+    @Override
+    public void setCustomBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    @Override
+    public void setFpsOverlayBackgroundColor(int overlayBackgroundColor) {
+        this.overlayBackgroundColor = overlayBackgroundColor;
+    }
+
+    @Override
+    public void setFpsOverlayTextColor(int overlayTextColor) {
+        this.overlayTextColor = overlayTextColor;
+    }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return mSurfaceView;
+    }
+
+    @Override
+    public void resetTransparentBackground() {
+        mSurfaceView.setZOrderOnTop(false);
+        mSurfaceView.getHolder().setFormat(PixelFormat.OPAQUE);
+    }
+
+    @Override
+    public void setTransparentBackground() {
+        mSurfaceView.setZOrderOnTop(true);
+        mSurfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
+    }
+
+    @Override
+    public void clearStream() {
+        Canvas c = null;
+
+        try {
+            c = mSurfaceView.getHolder().lockCanvas();
+            c.drawColor(0, PorterDuff.Mode.CLEAR);
+        } finally {
+            if (c != null) {
+                mSurfaceView.getHolder().unlockCanvasAndPost(c);
+            } else {
+                Log.w(TAG, "couldn't unlock surface canvas");
+            }
+        }
+    }
+
     // no more accessible
     class MjpegViewThread extends Thread {
         private SurfaceHolder mSurfaceHolder;
@@ -182,279 +454,6 @@ public class MjpegViewNative extends AbstractMjpegView {
                         if (c != null) mSurfaceHolder.unlockCanvasAndPost(c);
                     }
                 }
-            }
-        }
-    }
-
-    private void init() {
-
-        //SurfaceHolder holder = getHolder();
-        holder = mSurfaceView.getHolder();
-        holder.addCallback(mSurfaceHolderCallback);
-        thread = new MjpegViewThread(holder);
-        mSurfaceView.setFocusable(true);
-        overlayPaint = new Paint();
-        overlayPaint.setTextAlign(Paint.Align.LEFT);
-        overlayPaint.setTextSize(12);
-        overlayPaint.setTypeface(Typeface.DEFAULT);
-        overlayTextColor = Color.WHITE;
-        overlayBackgroundColor = Color.BLACK;
-        backgroundColor = Color.BLACK;
-        ovlPos = MjpegViewNative.POSITION_LOWER_RIGHT;
-        displayMode = MjpegViewNative.SIZE_STANDARD;
-        dispWidth = mSurfaceView.getWidth();
-        dispHeight = mSurfaceView.getHeight();
-    }
-
-    /* all methods/constructors below are no more accessible */
-
-    void _startPlayback() {
-        if (mIn != null) {
-            mRun = true;
-            if (thread == null) {
-                thread = new MjpegViewThread(holder);
-            }
-            thread.start();
-        }
-    }
-
-    void _resumePlayback() {
-        if (suspending) {
-            if (mIn != null) {
-                mRun = true;
-                SurfaceHolder holder = mSurfaceView.getHolder();
-                holder.addCallback(mSurfaceHolderCallback);
-                thread = new MjpegViewThread(holder);
-                thread.start();
-                suspending = false;
-            }
-        }
-    }
-
-    void _stopPlayback() {
-        if (mRun) {
-            suspending = true;
-        }
-        mRun = false;
-        if (thread != null) {
-            boolean retry = true;
-            while (retry) {
-                try {
-                    thread.join();
-                    retry = false;
-                } catch (InterruptedException e) {
-                }
-            }
-            thread = null;
-        }
-        if (mIn != null) {
-            try {
-                mIn.close();
-            } catch (IOException e) {
-            }
-            mIn = null;
-        }
-
-    }
-
-    void _freeCameraMemory() {
-        if (mIn != null) {
-            mIn.freeCameraMemory();
-        }
-    }
-
-    void _surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
-        if (thread != null) {
-            thread.setSurfaceSize(w, h);
-        }
-    }
-
-    void _surfaceDestroyed(SurfaceHolder holder) {
-        surfaceDone = false;
-        _stopPlayback();
-        if (thread != null) {
-            thread = null;
-        }
-    }
-
-    MjpegViewNative(SurfaceView surfaceView, SurfaceHolder.Callback callback, boolean transparentBackground) {
-        this.mSurfaceView = surfaceView;
-        this.mSurfaceHolderCallback = callback;
-        this.transparentBackground = transparentBackground;
-        init();
-    }
-
-    void _surfaceCreated(SurfaceHolder holder) {
-        surfaceDone = true;
-    }
-
-    void _showFps(boolean b) {
-        showFps = b;
-    }
-
-    void _setSource(MjpegInputStreamNative source) {
-        mIn = source;
-        if (!suspending) {
-            _startPlayback();
-        } else {
-            _resumePlayback();
-        }
-    }
-
-    void _setOverlayPaint(Paint p) {
-        overlayPaint = p;
-    }
-
-    void _setOverlayTextColor(int c) {
-        overlayTextColor = c;
-    }
-
-    void _setOverlayBackgroundColor(int c) {
-        overlayBackgroundColor = c;
-    }
-
-    void _setOverlayPosition(int p) {
-        ovlPos = p;
-    }
-
-    void _setDisplayMode(int s) {
-        displayMode = s;
-    }
-
-    void _setResolution(int w, int h) {
-        IMG_WIDTH = w;
-        IMG_HEIGHT = h;
-    }
-
-    boolean _isStreaming() {
-        return mRun;
-    }
-
-    /* override methods */
-
-    @Override
-    public void onSurfaceCreated(SurfaceHolder holder) {
-        _surfaceCreated(holder);
-    }
-
-    @Override
-    public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        _surfaceChanged(holder, format, width, height);
-    }
-
-    @Override
-    public void onSurfaceDestroyed(SurfaceHolder holder) {
-        _surfaceDestroyed(holder);
-    }
-
-    @Override
-    public void setSource(MjpegInputStream stream) {
-        if (!(stream instanceof MjpegInputStreamNative)) {
-            throw new IllegalArgumentException("stream must be an instance of MjpegInputStreamNative");
-        }
-        _setSource((MjpegInputStreamNative) stream);
-    }
-
-    @Override
-    public void setDisplayMode(DisplayMode mode) {
-        _setDisplayMode(mode.getValue());
-    }
-
-    @Override
-    public void showFps(boolean show) {
-        _showFps(show);
-    }
-
-    @Override
-    public void flipSource(boolean flip) {
-        flipHorizontal(flip);
-    }
-
-    @Override
-    public void flipHorizontal(boolean flip) {
-
-    }
-
-    @Override
-    public void flipVertical(boolean flip) {
-
-    }
-
-    @Override
-    public void setRotate(float degrees) {
-
-    }
-
-    @Override
-    public void stopPlayback() {
-        _stopPlayback();
-    }
-
-    @Override
-    public boolean isStreaming() {
-        return _isStreaming();
-    }
-
-    @Override
-    public void setResolution(int width, int height) {
-        _setResolution(width, height);
-    }
-
-    @Override
-    public void freeCameraMemory() {
-        _freeCameraMemory();
-    }
-
-
-    @Override
-    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
-        throw new UnsupportedOperationException("Not implemented yet!");
-    }
-
-    @Override
-    public void setCustomBackgroundColor(int backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
-
-    @Override
-    public void setFpsOverlayBackgroundColor(int overlayBackgroundColor) {
-        this.overlayBackgroundColor = overlayBackgroundColor;
-    }
-
-    @Override
-    public void setFpsOverlayTextColor(int overlayTextColor) {
-        this.overlayTextColor = overlayTextColor;
-    }
-
-    @Override
-    public SurfaceView getSurfaceView() {
-        return mSurfaceView;
-    }
-
-    @Override
-    public void resetTransparentBackground() {
-        mSurfaceView.setZOrderOnTop(false);
-        mSurfaceView.getHolder().setFormat(PixelFormat.OPAQUE);
-    }
-
-    @Override
-    public void setTransparentBackground() {
-        mSurfaceView.setZOrderOnTop(true);
-        mSurfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
-    }
-
-    @Override
-    public void clearStream() {
-        Canvas c = null;
-
-        try {
-            c = mSurfaceView.getHolder().lockCanvas();
-            c.drawColor(0, PorterDuff.Mode.CLEAR);
-        } finally {
-            if (c != null) {
-                mSurfaceView.getHolder().unlockCanvasAndPost(c);
-            } else {
-                Log.w(TAG, "couldn't unlock surface canvas");
             }
         }
     }

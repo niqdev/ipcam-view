@@ -52,147 +52,14 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     private OnFrameCapturedListener onFrameCapturedListener;
 
-    // no more accessible
-    class MjpegViewThread extends Thread {
-        private SurfaceHolder mSurfaceHolder;
-        private int frameCounter = 0;
-        private long start;
-        private Bitmap ovl;
-
-        // no more accessible
-        MjpegViewThread(SurfaceHolder surfaceHolder) {
-            mSurfaceHolder = surfaceHolder;
-        }
-
-        private Rect destRect(int bmw, int bmh) {
-
-            int tempx;
-            int tempy;
-            if (displayMode == MjpegViewDefault.SIZE_STANDARD) {
-                tempx = (dispWidth / 2) - (bmw / 2);
-                tempy = (dispHeight / 2) - (bmh / 2);
-                return new Rect(tempx, tempy, bmw + tempx, bmh + tempy);
-            }
-            if (displayMode == MjpegViewDefault.SIZE_BEST_FIT) {
-                float bmasp = (float) bmw / (float) bmh;
-                bmw = dispWidth;
-                bmh = (int) (dispWidth / bmasp);
-                if (bmh > dispHeight) {
-                    bmh = dispHeight;
-                    bmw = (int) (dispHeight * bmasp);
-                }
-                tempx = (dispWidth / 2) - (bmw / 2);
-                tempy = (dispHeight / 2) - (bmh / 2);
-                return new Rect(tempx, tempy, bmw + tempx, bmh + tempy);
-            }
-            if (displayMode == MjpegViewDefault.SIZE_FULLSCREEN)
-                return new Rect(0, 0, dispWidth, dispHeight);
-            return null;
-        }
-
-        // no more accessible
-        void setSurfaceSize(int width, int height) {
-            synchronized (mSurfaceHolder) {
-                dispWidth = width;
-                dispHeight = height;
-            }
-        }
-
-        private Bitmap makeFpsOverlay(Paint p, String text) {
-            Rect b = new Rect();
-            p.getTextBounds(text, 0, text.length(), b);
-            int bwidth = b.width() + 2;
-            int bheight = b.height() + 2;
-            Bitmap bm = Bitmap.createBitmap(bwidth, bheight,
-                    Bitmap.Config.ARGB_8888);
-            Canvas c = new Canvas(bm);
-            p.setColor(overlayBackgroundColor);
-            c.drawRect(0, 0, bwidth, bheight, p);
-            p.setColor(overlayTextColor);
-            c.drawText(text, -b.left + 1,
-                    (bheight / 2) - ((p.ascent() + p.descent()) / 2) + 1, p);
-            return bm;
-        }
-
-        public void run() {
-            start = System.currentTimeMillis();
-            PorterDuffXfermode mode = new PorterDuffXfermode(
-                    PorterDuff.Mode.DST_OVER);
-            Bitmap bm;
-            int width;
-            int height;
-            Rect destRect;
-            Canvas c = null;
-            Paint p = new Paint();
-            String fps = "";
-            while (mRun) {
-                if (surfaceDone) {
-                    try {
-                        c = mSurfaceHolder.lockCanvas();
-
-                        if (c == null) {
-                            Log.w(TAG, "null canvas, skipping render");
-                            continue;
-                        }
-                        synchronized (mSurfaceHolder) {
-                            try {
-                                bm = mIn.readMjpegFrame();
-                                if(flipHorizontal || flipVertical)
-                                    bm = flip(bm);
-                                if(rotateDegrees != 0)
-                                    bm = rotate(bm, rotateDegrees);
-
-                                _frameCaptured(bm);
-                                destRect = destRect(bm.getWidth(),
-                                        bm.getHeight());
-
-                                if (transparentBackground) {
-                                    c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                                } else {
-                                    c.drawColor(backgroundColor);
-                                }
-
-                                c.drawBitmap(bm, null, destRect, p);
-
-                                if (showFps) {
-                                    p.setXfermode(mode);
-                                    if (ovl != null) {
-                                        height = ((ovlPos & 1) == 1) ? destRect.top
-                                                : destRect.bottom
-                                                - ovl.getHeight();
-                                        width = ((ovlPos & 8) == 8) ? destRect.left
-                                                : destRect.right
-                                                - ovl.getWidth();
-                                        c.drawBitmap(ovl, width, height, null);
-                                    }
-                                    p.setXfermode(null);
-                                    frameCounter++;
-                                    if ((System.currentTimeMillis() - start) >= 1000) {
-                                        fps = String.valueOf(frameCounter)
-                                                + "fps";
-                                        frameCounter = 0;
-                                        start = System.currentTimeMillis();
-                                        ovl = makeFpsOverlay(overlayPaint, fps);
-                                    }
-                                }
-                            } catch (IOException e) {
-                                Log.e(TAG, "encountered exception during render", e);
-                            }
-                        }
-                    } finally {
-                        if (c != null) {
-                            mSurfaceHolder.unlockCanvasAndPost(c);
-                        } else {
-                            Log.w(TAG, "couldn't unlock surface canvas");
-                        }
-                    }
-                }
-            }
-        }
+    MjpegViewDefault(SurfaceView surfaceView, SurfaceHolder.Callback callback, boolean transparentBackground) {
+        this.mSurfaceView = surfaceView;
+        this.mSurfaceHolderCallback = callback;
+        this.transparentBackground = transparentBackground;
+        init();
     }
 
-    Bitmap flip(Bitmap src)
-    {
+    Bitmap flip(Bitmap src) {
         Matrix m = new Matrix();
         float sx = flipHorizontal ? -1 : 1;
         float sy = flipVertical ? -1 : 1;
@@ -202,8 +69,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
         return dst;
     }
 
-    Bitmap rotate(Bitmap src, float degrees)
-    {
+    Bitmap rotate(Bitmap src, float degrees) {
         Matrix m = new Matrix();
         m.setRotate(degrees);
         Bitmap dst = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false);
@@ -295,17 +161,10 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    void _frameCaptured(Bitmap bitmap){
-        if (onFrameCapturedListener != null){
+    void _frameCaptured(Bitmap bitmap) {
+        if (onFrameCapturedListener != null) {
             onFrameCapturedListener.onFrameCaptured(bitmap);
         }
-    }
-
-    MjpegViewDefault(SurfaceView surfaceView, SurfaceHolder.Callback callback, boolean transparentBackground) {
-        this.mSurfaceView = surfaceView;
-        this.mSurfaceHolderCallback = callback;
-        this.transparentBackground = transparentBackground;
-        init();
     }
 
     void _surfaceCreated(SurfaceHolder holder) {
@@ -357,12 +216,12 @@ public class MjpegViewDefault extends AbstractMjpegView {
         displayMode = s;
     }
 
-    /* override methods */
-
     @Override
     public void onSurfaceCreated(SurfaceHolder holder) {
         _surfaceCreated(holder);
     }
+
+    /* override methods */
 
     @Override
     public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -481,6 +340,145 @@ public class MjpegViewDefault extends AbstractMjpegView {
                 mSurfaceView.getHolder().unlockCanvasAndPost(c);
             } else {
                 Log.w(TAG, "couldn't unlock surface canvas");
+            }
+        }
+    }
+
+    // no more accessible
+    class MjpegViewThread extends Thread {
+        private SurfaceHolder mSurfaceHolder;
+        private int frameCounter = 0;
+        private long start;
+        private Bitmap ovl;
+
+        // no more accessible
+        MjpegViewThread(SurfaceHolder surfaceHolder) {
+            mSurfaceHolder = surfaceHolder;
+        }
+
+        private Rect destRect(int bmw, int bmh) {
+
+            int tempx;
+            int tempy;
+            if (displayMode == MjpegViewDefault.SIZE_STANDARD) {
+                tempx = (dispWidth / 2) - (bmw / 2);
+                tempy = (dispHeight / 2) - (bmh / 2);
+                return new Rect(tempx, tempy, bmw + tempx, bmh + tempy);
+            }
+            if (displayMode == MjpegViewDefault.SIZE_BEST_FIT) {
+                float bmasp = (float) bmw / (float) bmh;
+                bmw = dispWidth;
+                bmh = (int) (dispWidth / bmasp);
+                if (bmh > dispHeight) {
+                    bmh = dispHeight;
+                    bmw = (int) (dispHeight * bmasp);
+                }
+                tempx = (dispWidth / 2) - (bmw / 2);
+                tempy = (dispHeight / 2) - (bmh / 2);
+                return new Rect(tempx, tempy, bmw + tempx, bmh + tempy);
+            }
+            if (displayMode == MjpegViewDefault.SIZE_FULLSCREEN)
+                return new Rect(0, 0, dispWidth, dispHeight);
+            return null;
+        }
+
+        // no more accessible
+        void setSurfaceSize(int width, int height) {
+            synchronized (mSurfaceHolder) {
+                dispWidth = width;
+                dispHeight = height;
+            }
+        }
+
+        private Bitmap makeFpsOverlay(Paint p, String text) {
+            Rect b = new Rect();
+            p.getTextBounds(text, 0, text.length(), b);
+            int bwidth = b.width() + 2;
+            int bheight = b.height() + 2;
+            Bitmap bm = Bitmap.createBitmap(bwidth, bheight,
+                    Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(bm);
+            p.setColor(overlayBackgroundColor);
+            c.drawRect(0, 0, bwidth, bheight, p);
+            p.setColor(overlayTextColor);
+            c.drawText(text, -b.left + 1,
+                    (bheight / 2) - ((p.ascent() + p.descent()) / 2) + 1, p);
+            return bm;
+        }
+
+        public void run() {
+            start = System.currentTimeMillis();
+            PorterDuffXfermode mode = new PorterDuffXfermode(
+                    PorterDuff.Mode.DST_OVER);
+            Bitmap bm;
+            int width;
+            int height;
+            Rect destRect;
+            Canvas c = null;
+            Paint p = new Paint();
+            String fps = "";
+            while (mRun) {
+                if (surfaceDone) {
+                    try {
+                        c = mSurfaceHolder.lockCanvas();
+
+                        if (c == null) {
+                            Log.w(TAG, "null canvas, skipping render");
+                            continue;
+                        }
+                        synchronized (mSurfaceHolder) {
+                            try {
+                                bm = mIn.readMjpegFrame();
+                                if (flipHorizontal || flipVertical)
+                                    bm = flip(bm);
+                                if (rotateDegrees != 0)
+                                    bm = rotate(bm, rotateDegrees);
+
+                                _frameCaptured(bm);
+                                destRect = destRect(bm.getWidth(),
+                                        bm.getHeight());
+
+                                if (transparentBackground) {
+                                    c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                                } else {
+                                    c.drawColor(backgroundColor);
+                                }
+
+                                c.drawBitmap(bm, null, destRect, p);
+
+                                if (showFps) {
+                                    p.setXfermode(mode);
+                                    if (ovl != null) {
+                                        height = ((ovlPos & 1) == 1) ? destRect.top
+                                                : destRect.bottom
+                                                - ovl.getHeight();
+                                        width = ((ovlPos & 8) == 8) ? destRect.left
+                                                : destRect.right
+                                                - ovl.getWidth();
+                                        c.drawBitmap(ovl, width, height, null);
+                                    }
+                                    p.setXfermode(null);
+                                    frameCounter++;
+                                    if ((System.currentTimeMillis() - start) >= 1000) {
+                                        fps = String.valueOf(frameCounter)
+                                                + "fps";
+                                        frameCounter = 0;
+                                        start = System.currentTimeMillis();
+                                        ovl = makeFpsOverlay(overlayPaint, fps);
+                                    }
+                                }
+                            } catch (IOException e) {
+                                Log.e(TAG, "encountered exception during render", e);
+                            }
+                        }
+                    } finally {
+                        if (c != null) {
+                            mSurfaceHolder.unlockCanvasAndPost(c);
+                        } else {
+                            Log.w(TAG, "couldn't unlock surface canvas");
+                        }
+                    }
+                }
             }
         }
     }

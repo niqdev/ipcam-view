@@ -18,21 +18,9 @@ import java.util.Properties;
  */
 public class MjpegInputStreamNative extends MjpegInputStream {
 
-    private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};
-    private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};
-    private final String CONTENT_LENGTH = "Content-Length";
-    private static final int HEADER_MAX_LENGTH = 100;
-    // private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
-    private static final int FRAME_MAX_LENGTH = 200000;
-    private int mContentLength = -1;
-    byte[] header = null;
-    byte[] frameData = null;
-    int headerLen = -1;
-    int headerLenPrev = -1;
-
-    int skip = 1;
-    int count = 0;
-
+    private final static int HEADER_MAX_LENGTH = 100;
+    //private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
+    private final static int FRAME_MAX_LENGTH = 200000;
     private static final String TAG = "MJPEG";
     private static final boolean DEBUG = false;
 
@@ -40,14 +28,25 @@ public class MjpegInputStreamNative extends MjpegInputStream {
         System.loadLibrary("ImageProc");
     }
 
-    public native int pixeltobmp(byte[] jp, int l, Bitmap bmp);
-
-    public native void freeCameraMemory();
+    private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};
+    private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};
+    private final String CONTENT_LENGTH = "Content-Length";
+    byte[] header = null;
+    byte[] frameData = null;
+    int headerLen = -1;
+    int headerLenPrev = -1;
+    int skip = 1;
+    int count = 0;
+    private int mContentLength = -1;
 
     // no more accessible
     MjpegInputStreamNative(InputStream in) {
         super(new BufferedInputStream(in, FRAME_MAX_LENGTH));
     }
+
+    public native int pixeltobmp(byte[] jp, int l, Bitmap bmp);
+
+    public native void freeCameraMemory();
 
     private int getEndOfSeqeunce(DataInputStream in, byte[] sequence) throws IOException {
 

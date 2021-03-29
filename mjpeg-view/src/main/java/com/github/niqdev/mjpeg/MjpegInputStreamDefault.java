@@ -2,10 +2,6 @@ package com.github.niqdev.mjpeg;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.DisplayMetrics;
-import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -22,12 +18,11 @@ import java.util.Properties;
  */
 public class MjpegInputStreamDefault extends MjpegInputStream {
     private static final String TAG = MjpegInputStream.class.getSimpleName();
-
+    private final static int HEADER_MAX_LENGTH = 100;
+    private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
     private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};
     private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};
     private final String CONTENT_LENGTH = "Content-Length";
-    private final static int HEADER_MAX_LENGTH = 100;
-    private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
     private int mContentLength = -1;
 
     // no more accessible
@@ -57,7 +52,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         return (end < 0) ? (-1) : (end - sequence.length);
     }
 
-    private int parseContentLength(byte[] headerBytes) throws IOException, NumberFormatException {
+    private int parseContentLength(byte[] headerBytes) throws IOException, IllegalArgumentException {
         ByteArrayInputStream headerIn = new ByteArrayInputStream(headerBytes);
         Properties props = new Properties();
         props.load(headerIn);
@@ -73,7 +68,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         readFully(header);
         try {
             mContentLength = parseContentLength(header);
-        } catch (NumberFormatException nfe) {
+        } catch (IllegalArgumentException iae) {
             mContentLength = getEndOfSeqeunce(this, EOF_MARKER);
         }
         reset();

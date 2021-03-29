@@ -3,25 +3,26 @@ package com.github.niqdev.mjpeg;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PixelFormat;
-import android.support.annotation.StyleableRes;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import androidx.annotation.StyleableRes;
+
 public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callback, MjpegView {
 
-    private MjpegView mMjpegView;
-
     private static final int DEFAULT_TYPE = 0;
-
     // issue in attrs.xml - verify reserved keywords
     private static final SparseArray<Mjpeg.Type> TYPE;
+
     static {
         TYPE = new SparseArray<>();
         TYPE.put(0, Mjpeg.Type.DEFAULT);
         TYPE.put(1, Mjpeg.Type.NATIVE);
     }
+
+    private MjpegView mMjpegView;
 
     public MjpegSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,7 +50,7 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     public Mjpeg.Type getPropertyType(AttributeSet attributeSet, @StyleableRes int[] attrs, int attrIndex) {
         TypedArray typedArray = getContext().getTheme()
-            .obtainStyledAttributes(attributeSet, attrs, 0, 0);
+                .obtainStyledAttributes(attributeSet, attrs, 0, 0);
         try {
             int typeIndex = typedArray.getInt(attrIndex, DEFAULT_TYPE);
             Mjpeg.Type type = TYPE.get(typeIndex);
@@ -150,7 +151,7 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     @Override
-    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener){
+    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
         mMjpegView.setOnFrameCapturedListener(onFrameCapturedListener);
     }
 
