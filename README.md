@@ -1,7 +1,6 @@
 # ipcam-view ![ipcam-view](images/logo.png)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ipcam--view-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3358)
-[![Download](https://api.bintray.com/packages/niqdev/maven/mjpeg-view/images/download.svg)](https://bintray.com/niqdev/maven/mjpeg-view/_latestVersion)
 
 Android MJPEG video streaming made simple!
 

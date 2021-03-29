@@ -43,8 +43,6 @@ dependencies {
     api 'io.reactivex:rxandroid:1.2.1'
 }
 
-apply from: '../bintray.gradle'
-
 task hello(dependsOn: build) {
     println ''
     println '         _              _          _            _            _     _          _ '
