@@ -48,7 +48,8 @@ public class MjpegInputStreamNative extends MjpegInputStream {
 
     public native void freeCameraMemory();
 
-    private int getEndOfSeqeunce(DataInputStream in, byte[] sequence) throws IOException {
+    private int getEndOfSeqeunce(DataInputStream in, byte[] sequence)
+            throws IOException {
 
         int seqIndex = 0;
         byte c;
@@ -66,12 +67,14 @@ public class MjpegInputStreamNative extends MjpegInputStream {
         return -1;
     }
 
-    private int getStartOfSequence(DataInputStream in, byte[] sequence) throws IOException {
+    private int getStartOfSequence(DataInputStream in, byte[] sequence)
+            throws IOException {
         int end = getEndOfSeqeunce(in, sequence);
         return (end < 0) ? (-1) : (end - sequence.length);
     }
 
-    private int getEndOfSeqeunceSimplified(DataInputStream in, byte[] sequence) throws IOException {
+    private int getEndOfSeqeunceSimplified(DataInputStream in, byte[] sequence)
+            throws IOException {
         int startPos = mContentLength / 2;
         int endPos = 3 * mContentLength / 2;
 
@@ -93,7 +96,8 @@ public class MjpegInputStreamNative extends MjpegInputStream {
         return -1;
     }
 
-    private int parseContentLength(byte[] headerBytes) throws IOException, IllegalArgumentException {
+    private int parseContentLength(byte[] headerBytes)
+            throws IOException, IllegalArgumentException {
         ByteArrayInputStream headerIn = new ByteArrayInputStream(headerBytes);
         Properties props = new Properties();
         props.load(headerIn);
