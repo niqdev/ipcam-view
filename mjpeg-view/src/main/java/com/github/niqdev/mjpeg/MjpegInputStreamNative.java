@@ -1,7 +1,6 @@
 package com.github.niqdev.mjpeg;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -65,7 +64,6 @@ public class MjpegInputStreamNative extends MjpegInputStream {
             } else seqIndex = 0;
         }
 
-
         return -1;
     }
 
@@ -82,7 +80,6 @@ public class MjpegInputStreamNative extends MjpegInputStream {
 
         skipBytes(headerLen + startPos);
 
-
         int seqIndex = 0;
         byte c;
         for (int i = 0; i < endPos - startPos; i++) {
@@ -96,84 +93,15 @@ public class MjpegInputStreamNative extends MjpegInputStream {
             } else seqIndex = 0;
         }
 
-
         return -1;
     }
 
     private int parseContentLength(byte[] headerBytes)
-            throws IOException, NumberFormatException, IllegalArgumentException {
+            throws IOException, IllegalArgumentException {
         ByteArrayInputStream headerIn = new ByteArrayInputStream(headerBytes);
         Properties props = new Properties();
         props.load(headerIn);
         return Integer.parseInt(props.getProperty(CONTENT_LENGTH));
-    }
-
-    // no more accessible (not used!)
-    private Bitmap readMjpegFrame() throws IOException {
-        mark(FRAME_MAX_LENGTH);
-        int headerLen;
-        try {
-            headerLen = getStartOfSequence(this, SOI_MARKER);
-        } catch (IOException e) {
-            if (DEBUG) Log.d(TAG, "IOException in betting headerLen.");
-            reset();
-            return null;
-        }
-        reset();
-
-        if (header == null || headerLen != headerLenPrev) {
-            header = new byte[headerLen];
-            if (DEBUG) Log.d(TAG, "header renewed " + headerLenPrev + " -> " + headerLen);
-        }
-        headerLenPrev = headerLen;
-        readFully(header);
-
-        int ContentLengthNew = -1;
-        try {
-            ContentLengthNew = parseContentLength(header);
-        } catch (NumberFormatException nfe) {
-            ContentLengthNew = getEndOfSeqeunceSimplified(this, EOF_MARKER);
-
-            if (ContentLengthNew < 0) {
-                if (DEBUG) Log.d(TAG, "Worst case for finding EOF_MARKER");
-                reset();
-                ContentLengthNew = getEndOfSeqeunce(this, EOF_MARKER);
-            }
-        } catch (IllegalArgumentException e) {
-            if (DEBUG) Log.d(TAG, "IllegalArgumentException in parseContentLength");
-            ContentLengthNew = getEndOfSeqeunceSimplified(this, EOF_MARKER);
-
-            if (ContentLengthNew < 0) {
-                if (DEBUG) Log.d(TAG, "Worst case for finding EOF_MARKER");
-                reset();
-                ContentLengthNew = getEndOfSeqeunce(this, EOF_MARKER);
-            }
-        } catch (IOException e) {
-            if (DEBUG) Log.d(TAG, "IOException in parseContentLength");
-            reset();
-            return null;
-        }
-        mContentLength = ContentLengthNew;
-        reset();
-
-        if (frameData == null) {
-            frameData = new byte[FRAME_MAX_LENGTH];
-            if (DEBUG) Log.d(TAG, "frameData newed cl=" + FRAME_MAX_LENGTH);
-        }
-        if (mContentLength + HEADER_MAX_LENGTH > FRAME_MAX_LENGTH) {
-            frameData = new byte[mContentLength + HEADER_MAX_LENGTH];
-            if (DEBUG) Log.d(TAG, "frameData renewed cl=" + (mContentLength + HEADER_MAX_LENGTH));
-        }
-
-        skipBytes(headerLen);
-
-        readFully(frameData, 0, mContentLength);
-
-        if (count++ % skip == 0) {
-            return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData, 0, mContentLength));
-        } else {
-            return null;
-        }
     }
 
     // no more accessible
@@ -224,13 +152,9 @@ public class MjpegInputStreamNative extends MjpegInputStream {
         mContentLength = ContentLengthNew;
         reset();
 
-        if (frameData == null) {
-            frameData = new byte[FRAME_MAX_LENGTH];
-            if (DEBUG) Log.d(TAG, "frameData newed cl=" + FRAME_MAX_LENGTH);
-        }
-        if (mContentLength + HEADER_MAX_LENGTH > FRAME_MAX_LENGTH) {
-            frameData = new byte[mContentLength + HEADER_MAX_LENGTH];
-            if (DEBUG) Log.d(TAG, "frameData renewed cl=" + (mContentLength + HEADER_MAX_LENGTH));
+        if (frameData == null || mContentLength > frameData.length) {
+            frameData = new byte[mContentLength]; // + HEADER_MAX_LENGTH];
+            if (DEBUG) Log.d(TAG, "frameData renewed cl=" + mContentLength);
         }
 
         skipBytes(headerLen);
