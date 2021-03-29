@@ -6,13 +6,12 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
     }
 }
 
 allprojects {
     group = 'com.github.niqdev'
-    version = '1.7.0'
+    version = getTag()
 
     repositories {
         google()
@@ -22,4 +21,22 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+@SuppressWarnings("unused")
+static def getGitCommitCount() {
+    def process = "git rev-list HEAD --count".execute()
+    return process.text.toInteger()
+}
+
+@SuppressWarnings("unused")
+static def getTag() {
+    // with local un-commited changes a -DIRTY is added
+    def processChanges = "git diff-index --name-only HEAD --".execute()
+    def dirty = ""
+    if (!processChanges.text.toString().trim().isEmpty())
+        dirty = "-DIRTY"
+
+    def process = "git describe --tags".execute()
+    return process.text.toString().trim() + dirty
 }
