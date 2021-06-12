@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">IPCam View</string>
+
+    <string name="activity_ipcam_default">Padrão</string>
+    <string name="activity_ipcam_two">Duas câmeras</string>
+    <string name="activity_ipcam_snapshot">Captura de imagem</string>
+    <string name="activity_ipcam_native">Nativo</string>
+    <string name="activity_ipcam_custom_appearance">Aparência personalizada</string>
+    <string name="activity_settings">Configurações</string>
+
+    <string name="button_default">Padrão</string>
+    <string name="button_two_camera">Duas câmeras</string>
+    <string name="button_snapshot">Captura de imagem</string>
+    <string name="button_native">Nativo</string>
+    <string name="button_settings">Configurações</string>
+    <string name="button_custom_appearance">Aparência personalizada</string>
+
+    <string name="menu_snapshot">Captura de imagem</string>
+    <string name="menu_toggleStreamOff">Ocultar transmissão</string>
+    <string name="menu_toggleStreamOn">Mostrar transmissão</string>
+
+    <string name="textView_version">lib v1.6.0</string>
+    <string name="textView_progress">Carregando&#8230;</string>
+
+    <string name="pref_header_general">Geral</string>
+    <string name="pref_header_authentication">Autenticação</string>
+
+    <string name="pref_title_ipcam_url">Url</string>
+    <!-- http://www.insecam.org -->
+    <string name="pref_default_ipcam_url">http://80.24.57.252:60001/mjpg/video.mjpg</string>
+
+    <string name="pref_title_authentication">Usar credenciais</string>
+    <string name="pref_title_authentication_username">Nome de usuário</string>
+    <string name="pref_title_authentication_password">Senha</string>
+    
+</resources>
