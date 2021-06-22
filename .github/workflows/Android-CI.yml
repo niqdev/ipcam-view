@@ -50,7 +50,7 @@ jobs:
       - name: Code checks
         run: ./gradlew check
       - name: Archive Lint report
-        uses: actions/upload-artifact@v2.2.3
+        uses: actions/upload-artifact@v2.2.4
         if: ${{ always() }}
         with:
           name: IP-Cam-Lint-report
