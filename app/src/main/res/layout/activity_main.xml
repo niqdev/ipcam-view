@@ -1,63 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/buttonDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:text="@string/button_default" />
 
     <Button
         android:id="@+id/buttonTwoCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonDefault"
-        android:layout_centerInParent="true"
         android:text="@string/button_two_camera" />
 
     <Button
         android:id="@+id/buttonSnapshot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonTwoCamera"
-        android:layout_centerInParent="true"
         android:text="@string/button_snapshot" />
 
     <Button
         android:id="@+id/buttonNative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonSnapshot"
-        android:layout_centerInParent="true"
         android:text="@string/button_native" />
-
+    
     <Button
         android:id="@+id/buttonCustomAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonNative"
-        android:layout_centerInParent="true"
         android:text="@string/button_custom_appearance" />
 
     <Button
         android:id="@+id/buttonSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonCustomAppearance"
-        android:layout_centerInParent="true"
         android:text="@string/button_settings" />
 
     <TextView
+        android:id="@+id/text_lib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:text="@string/textView_version" />
 
-</RelativeLayout>
+</LinearLayout>
