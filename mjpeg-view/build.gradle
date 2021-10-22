@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 
 android {
     compileSdkVersion 30
@@ -51,4 +54,14 @@ task hello(dependsOn: build) {
     println '\\/_/     \\/_/ \\/_________/\\/________\\_\\/   \\/_____/ \\/__________/       \\_\\/    '
     println ':see https://github.com/niqdev/ipcam-view\n'
     println '*--~> [' + project.group + ':' + rootProject.name + ':' + project.version + '] <~--*\n'
+}
+
+project.afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+            }
+        }
+    }
 }
