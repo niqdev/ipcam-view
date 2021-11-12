@@ -1,6 +1,7 @@
 package com.github.niqdev.mjpeg;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 /*
@@ -161,7 +163,13 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    void _frameCaptured(Bitmap bitmap) {
+    void _frameCapturedWithByteData(byte[] imageByte,byte[] header) {
+        if (onFrameCapturedListener != null) {
+            onFrameCapturedListener.onFrameCapturedWithHeader(imageByte,header);
+        }
+    }
+
+    void _frameCapturedWithBitmap(Bitmap bitmap) {
         if (onFrameCapturedListener != null) {
             onFrameCapturedListener.onFrameCaptured(bitmap);
         }
@@ -428,13 +436,16 @@ public class MjpegViewDefault extends AbstractMjpegView {
                         }
                         synchronized (mSurfaceHolder) {
                             try {
-                                bm = mIn.readMjpegFrame();
+                                byte[] header= mIn.readHeader();
+                                byte[] imageData = mIn.readMjpegFrame(header);
+                                bm=BitmapFactory.decodeStream(new ByteArrayInputStream(imageData));
                                 if (flipHorizontal || flipVertical)
                                     bm = flip(bm);
                                 if (rotateDegrees != 0)
                                     bm = rotate(bm, rotateDegrees);
 
-                                _frameCaptured(bm);
+                                _frameCapturedWithByteData(imageData,header);
+                                _frameCapturedWithBitmap(bm);
                                 destRect = destRect(bm.getWidth(),
                                         bm.getHeight());
 
