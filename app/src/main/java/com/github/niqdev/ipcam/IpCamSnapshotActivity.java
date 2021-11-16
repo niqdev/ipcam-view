@@ -25,9 +25,11 @@ import com.github.niqdev.mjpeg.MjpegView;
 import com.github.niqdev.mjpeg.OnFrameCapturedListener;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -62,7 +64,8 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
     private Timer timer = new Timer();
     int cnt = 0;
     private boolean isRecording = false;
-
+    private FileOutputStream fos;
+    private BufferedOutputStream bos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,10 +171,10 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
         timer.schedule(timerTask, 0, 1000);
         timerText.setVisibility(View.VISIBLE);
         timerText.setText("00:00:00");
-        FileOutputStream   fos = null;
         try {
-            fos = new FileOutputStream(createSavingFile().getAbsolutePath());
-            BufferedOutputStream  bos = new BufferedOutputStream(fos);
+             fos = new FileOutputStream(createSavingFile().getAbsolutePath());
+             bos = new BufferedOutputStream(fos);
+            isRecording=true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -190,8 +193,16 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
     }
 
     @Override
-    public void onFrameCapturedWithHeader(Bitmap bitmap, byte[] header) {
-        lastPreview = bitmap;
+    public void onFrameCapturedWithHeader(byte[] bitmapData, byte[] header) {
+        if (isRecording) {
+            try {
+                bos.write(header);
+                bos.write(bitmapData);
+                bos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private File createSavingFile() {

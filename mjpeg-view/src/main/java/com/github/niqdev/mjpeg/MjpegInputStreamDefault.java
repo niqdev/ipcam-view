@@ -67,7 +67,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         return  header;
     }
     // no more accessible
-     Bitmap readMjpegFrame(byte[] header) throws IOException {
+     byte[] readMjpegFrame(byte[] header) throws IOException {
         try {
             mContentLength = parseContentLength(header);
         } catch (IllegalArgumentException iae) {
@@ -77,7 +77,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         byte[] frameData = new byte[mContentLength];
         skipBytes(header.length);
         readFully(frameData);
-        return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData));
+        return frameData;
     }
 
     // no more accessible
