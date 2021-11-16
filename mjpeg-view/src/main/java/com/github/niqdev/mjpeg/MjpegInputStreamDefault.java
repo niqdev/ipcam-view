@@ -58,6 +58,27 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         props.load(headerIn);
         return Integer.parseInt(props.getProperty(CONTENT_LENGTH));
     }
+    byte[] readHeader() throws IOException{
+        mark(FRAME_MAX_LENGTH);
+        int headerLen = getStartOfSequence(this, SOI_MARKER);
+        reset();
+        byte[] header = new byte[headerLen];
+        readFully(header);
+        return  header;
+    }
+    // no more accessible
+     Bitmap readMjpegFrame(byte[] header) throws IOException {
+        try {
+            mContentLength = parseContentLength(header);
+        } catch (IllegalArgumentException iae) {
+            mContentLength = getEndOfSeqeunce(this, EOF_MARKER);
+        }
+        reset();
+        byte[] frameData = new byte[mContentLength];
+        skipBytes(header.length);
+        readFully(frameData);
+        return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData));
+    }
 
     // no more accessible
     Bitmap readMjpegFrame() throws IOException {
@@ -77,4 +98,5 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         readFully(frameData);
         return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData));
     }
+
 }

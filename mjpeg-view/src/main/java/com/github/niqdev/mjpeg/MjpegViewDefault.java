@@ -161,11 +161,12 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    void _frameCaptured(Bitmap bitmap) {
+    void _frameCaptured(Bitmap bitmap,byte[] header) {
         if (onFrameCapturedListener != null) {
-            onFrameCapturedListener.onFrameCaptured(bitmap);
+            onFrameCapturedListener.onFrameCapturedWithHeader(bitmap,header);
         }
     }
+
 
     void _surfaceCreated(SurfaceHolder holder) {
         surfaceDone = true;
@@ -428,13 +429,14 @@ public class MjpegViewDefault extends AbstractMjpegView {
                         }
                         synchronized (mSurfaceHolder) {
                             try {
-                                bm = mIn.readMjpegFrame();
+                                byte[] header= mIn.readHeader();
+                                bm = mIn.readMjpegFrame(header);
                                 if (flipHorizontal || flipVertical)
                                     bm = flip(bm);
                                 if (rotateDegrees != 0)
                                     bm = rotate(bm, rotateDegrees);
 
-                                _frameCaptured(bm);
+                                _frameCaptured(bm,header);
                                 destRect = destRect(bm.getWidth(),
                                         bm.getHeight());
 
