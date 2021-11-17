@@ -2,7 +2,6 @@ package com.github.niqdev.ipcam;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +16,6 @@ import com.github.niqdev.mjpeg.MjpegView;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.github.niqdev.ipcam.settings.SettingsActivity.PREF_IPCAM_URL;
 
 /**
  * Activity to show the possibilities of transparent stream background
@@ -41,15 +38,12 @@ public class IpCamCustomAppearanceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ipcam_custom_appearance);
         ButterKnife.bind(this);
     }
-    private String getPreference(String key) {
-        return PreferenceManager
-                .getDefaultSharedPreferences(this)
-                .getString(key, "");
-    }
+
     private void loadIpCam() {
         progressWrapper.setVisibility(View.VISIBLE);
+
         Mjpeg.newInstance()
-                .open(getPreference(PREF_IPCAM_URL), TIMEOUT)
+                .open("http://62.176.195.157:80/mjpg/video.mjpg", TIMEOUT)
                 .subscribe(
                         inputStream -> {
                             progressWrapper.setVisibility(View.GONE);
