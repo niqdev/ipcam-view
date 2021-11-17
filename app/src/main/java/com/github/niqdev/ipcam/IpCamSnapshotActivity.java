@@ -234,7 +234,7 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
     private File createMjpegFile() {
         Date T = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String szFileName = "jpg-" + sdf.format(T);
+        String szFileName = "video-" + sdf.format(T);
         try {
             String path = getExternalFilesDir(null).getPath() + "/" + szFileName + ".mjpeg";
             File file = new File(path);
