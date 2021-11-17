@@ -236,7 +236,7 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String szFileName = "jpg-" + sdf.format(T);
         try {
-            String path = getExternalFilesDir(null).getPath() + "/" + szFileName + ".jpg";
+            String path = getExternalFilesDir(null).getPath() + "/" + szFileName + ".mjpeg";
             File file = new File(path);
             if (!file.exists()) {
                 file.createNewFile();
