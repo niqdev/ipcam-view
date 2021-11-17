@@ -23,6 +23,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             stream:srcCompat="@mipmap/ic_launcher" />
 
         <TextView
