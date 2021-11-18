@@ -224,7 +224,7 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
             if (!file.exists()) {
                 file.createNewFile();
             }
-            Log.d(TAG, "adb pull " + file.getAbsolutePath());
+            Log.d(TAG, "file path is " + file.getAbsolutePath());
             return file;
         } catch (IOException e) {
             Log.v(TAG, e.getMessage());
