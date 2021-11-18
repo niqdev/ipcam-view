@@ -34,7 +34,7 @@
              android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:textSize="18sp"
-            android:textColor="@color/red"
+            android:textColor="@android:color/holo_red_dark"
             android:layout_alignParentTop="true"
            />
     </RelativeLayout>

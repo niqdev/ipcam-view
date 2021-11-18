@@ -226,7 +226,7 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
             }
             Log.d(TAG, "adb pull " + file.getAbsolutePath());
             return file;
-        } catch (Exception e) {
+        } catch (IOException e) {
             Log.v(TAG, e.getMessage());
         }
         return null;
@@ -241,10 +241,10 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
             if (!file.exists()) {
                 file.createNewFile();
             }
-            Log.d(TAG, "adb pull " + file.getAbsolutePath());
+            Log.d(TAG, "file path is " + file.getAbsolutePath());
             return file;
-        } catch (Exception e) {
-            Log.v(TAG, e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
