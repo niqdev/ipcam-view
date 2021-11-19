@@ -142,7 +142,7 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
     public void saveBitmapToFile(Bitmap bmp) {
         FileOutputStream fos = null;
         BufferedOutputStream bos = null;
-        String imagePath=createJpgFile().getAbsolutePath();
+        String imagePath = createJpgFile().getAbsolutePath();
         try {
             fos = new FileOutputStream(imagePath);
             bos = new BufferedOutputStream(fos);
@@ -151,7 +151,7 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
             byte[] jpegByteArray = jpegByteArrayOutputStream.toByteArray();
             bos.write(jpegByteArray);
             bos.flush();
-            Toast.makeText(this,"saved image:"+imagePath,Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "saved image:" + imagePath, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,8 +181,10 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
         timerText.setVisibility(View.VISIBLE);
         timerText.setText("00:00:00");
         try {
-            fos = new FileOutputStream(createMjpegFile().getAbsolutePath());
+            String mjpegFilePath = createMjpegFile().getAbsolutePath();
+            fos = new FileOutputStream(mjpegFilePath);
             bos = new BufferedOutputStream(fos);
+            Toast.makeText(this, "start recording, file path is:" + mjpegFilePath, Toast.LENGTH_LONG).show();
             isRecording = true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -231,6 +233,7 @@ public class IpCamSnapshotActivity extends AppCompatActivity implements OnFrameC
         }
         return null;
     }
+
     private File createMjpegFile() {
         Date T = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
