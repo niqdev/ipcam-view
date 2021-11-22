@@ -96,7 +96,7 @@ public class MjpegRecordingHandler implements OnFrameCapturedListener {
             Log.d(TAG, "file path is " + file.getAbsolutePath());
             return file;
         } catch (IOException e) {
-            Log.v(TAG, e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
         return null;
     }
@@ -138,7 +138,7 @@ public class MjpegRecordingHandler implements OnFrameCapturedListener {
                 bos.write(bitmapData);
                 bos.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+               Log.e(TAG, e.getMessage());
             }
         }
     }
