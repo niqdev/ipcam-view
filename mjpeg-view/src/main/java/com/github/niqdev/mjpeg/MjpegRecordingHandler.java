@@ -1,10 +1,9 @@
-package com.github.niqdev.ipcam;
+package com.github.niqdev.mjpeg;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
-import com.github.niqdev.mjpeg.OnFrameCapturedListener;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -39,14 +38,16 @@ public class MjpegRecordingHandler implements OnFrameCapturedListener {
             e.printStackTrace();
         }
     }
+
     /**
      * stop recording the live image
      */
     public void stopRecording() {
         isRecording = false;
     }
+
     public boolean isRecording() {
-        return  isRecording;
+        return isRecording;
     }
 
     public void setRecording(boolean recording) {
@@ -84,35 +85,15 @@ public class MjpegRecordingHandler implements OnFrameCapturedListener {
      * @return File
      */
     private File createJpgFile() {
-        Date T = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String szFileName = "photo-" + sdf.format(T);
-        try {
-            String path = context.getExternalFilesDir(null).getPath() + "/" + szFileName + ".jpg";
-            File file = new File(path);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            Log.d(TAG, "file path is " + file.getAbsolutePath());
-            return file;
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        return null;
+        return createSavingFile("photo", "jpg");
     }
 
-
-    /**
-     * Create mjpeg file in app external cache directory. the directory path is /sdcard/Android/data/com.github.niqdev.ipcam/files
-     *
-     * @return File
-     */
-    private File createMjpegFile() {
+    private File createSavingFile(String prefix, String extension) {
         Date T = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String szFileName = "video-" + sdf.format(T);
+        String szFileName = prefix + "-" + sdf.format(T);
         try {
-            String path = context.getExternalFilesDir(null).getPath() + "/" + szFileName + ".mjpeg";
+            String path = context.getExternalFilesDir(null).getPath() + "/" + szFileName + "." + extension;
             File file = new File(path);
             if (!file.exists()) {
                 file.createNewFile();
@@ -123,6 +104,15 @@ public class MjpegRecordingHandler implements OnFrameCapturedListener {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Create mjpeg file in app external cache directory. the directory path is /sdcard/Android/data/com.github.niqdev.ipcam/files
+     *
+     * @return File
+     */
+    private File createMjpegFile() {
+        return createSavingFile("video", "mjpeg");
     }
 
     @Override
@@ -138,7 +128,7 @@ public class MjpegRecordingHandler implements OnFrameCapturedListener {
                 bos.write(bitmapData);
                 bos.flush();
             } catch (IOException e) {
-               Log.e(TAG, e.getMessage());
+                Log.e(TAG, e.getMessage());
             }
         }
     }
