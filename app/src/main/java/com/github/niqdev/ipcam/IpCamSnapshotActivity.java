@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
+import com.github.niqdev.mjpeg.MjpegRecordingHandler;
 import com.github.niqdev.mjpeg.MjpegView;
 
 import java.io.BufferedOutputStream;
