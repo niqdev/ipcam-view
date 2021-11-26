@@ -30,7 +30,7 @@ public class MjpegInputStreamNative extends MjpegInputStream {
 
     private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};
     private final byte[] EOF_MARKER = {(byte) 0xFF, (byte) 0xD9};
-    private final String CONTENT_LENGTH = "Content-Length";
+    private final String CONTENT_LENGTH = "Content-length";
     byte[] header = null;
     byte[] frameData = null;
     int headerLen = -1;
