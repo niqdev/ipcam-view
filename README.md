@@ -16,7 +16,7 @@ If you have problem to identify your IpCam url, please follow this [link](https:
 - [x] Multiple camera in one activity
 - [x] Snapshot
 - [x] Flip and rotate image
-- [ ] Video recording
+- [x] Video recording
 - [x] Custom appearance
 
 ### Gradle dependency
@@ -35,7 +35,9 @@ dependencies {
 
 <img src="images/screenshot-two-camera.png" alt="two-camera" height="600" /> <img src="images/screenshot-snapshot.png" alt="snapshot" height="600" />
 
-<img src="images/screenshot-custom-appearance.png" alt="custom-appearance" height="600" /> <img src="images/screenshot-settings.png" alt="settings" height="600" />
+<img src="images/screenshot-video.jpg" alt="video" height="600" /> <img src="images/screenshot-custom-appearance.png" alt="custom-appearance" height="600" />
+
+<img src="images/screenshot-settings.png" alt="settings" height="600" />
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
      alt="Get it on F-Droid"
