@@ -7,5 +7,9 @@
         android:icon="@drawable/ic_camera_white_48dp"
         android:title="@string/menu_snapshot"
         app:showAsAction="always|withText" />
-
+    <item
+        android:id="@+id/action_recording"
+        android:icon="@drawable/ic_videocam_white_48dp"
+        android:title="@string/menu_snapshot"
+        app:showAsAction="always|withText" />
 </menu>
