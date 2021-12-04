@@ -18,7 +18,6 @@ import java.util.Properties;
  */
 public class MjpegInputStreamNative extends MjpegInputStream {
 
-    private final static int HEADER_MAX_LENGTH = 100;
     //private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
     private final static int FRAME_MAX_LENGTH = 200000;
     private static final String TAG = "MJPEG";

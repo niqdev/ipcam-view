@@ -29,7 +29,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         super(new BufferedInputStream(in, FRAME_MAX_LENGTH));
     }
 
-    private int getEndOfSeqeunce(DataInputStream in, byte[] sequence) throws IOException {
+    private int getEndOfSequence(DataInputStream in, byte[] sequence) throws IOException {
         int seqIndex = 0;
         byte c;
         for (int i = 0; i < FRAME_MAX_LENGTH; i++) {
@@ -47,7 +47,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
     }
 
     private int getStartOfSequence(DataInputStream in, byte[] sequence) throws IOException {
-        int end = getEndOfSeqeunce(in, sequence);
+        int end = getEndOfSequence(in, sequence);
         return (end < 0) ? (-1) : (end - sequence.length);
     }
 
@@ -57,20 +57,22 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         props.load(headerIn);
         return Integer.parseInt(props.getProperty(CONTENT_LENGTH));
     }
-    byte[] readHeader() throws IOException{
+
+    byte[] readHeader() throws IOException {
         mark(FRAME_MAX_LENGTH);
         int headerLen = getStartOfSequence(this, SOI_MARKER);
         reset();
         byte[] header = new byte[headerLen];
         readFully(header);
-        return  header;
+        return header;
     }
+
     // no more accessible
-     byte[] readMjpegFrame(byte[] header) throws IOException {
+    byte[] readMjpegFrame(byte[] header) throws IOException {
         try {
             mContentLength = parseContentLength(header);
         } catch (IllegalArgumentException iae) {
-            mContentLength = getEndOfSeqeunce(this, EOF_MARKER);
+            mContentLength = getEndOfSequence(this, EOF_MARKER);
         }
         reset();
         byte[] frameData = new byte[mContentLength];
@@ -89,7 +91,7 @@ public class MjpegInputStreamDefault extends MjpegInputStream {
         try {
             mContentLength = parseContentLength(header);
         } catch (IllegalArgumentException iae) {
-            mContentLength = getEndOfSeqeunce(this, EOF_MARKER);
+            mContentLength = getEndOfSequence(this, EOF_MARKER);
         }
         reset();
         byte[] frameData = new byte[mContentLength];

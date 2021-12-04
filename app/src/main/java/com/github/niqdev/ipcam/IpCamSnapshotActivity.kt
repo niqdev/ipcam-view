@@ -22,7 +22,7 @@ class IpCamSnapshotActivity : AppCompatActivity() {
 
     private var timer = Timer()
     var cnt = 0
-    private var recordingHandler: MjpegRecordingHandler? = null
+    private lateinit var recordingHandler: MjpegRecordingHandler
 
     private lateinit var binding: ActivityIpcamSnapshotBinding
 
@@ -37,28 +37,32 @@ class IpCamSnapshotActivity : AppCompatActivity() {
     }
 
     private fun getPreference(key: String): String? = PreferenceManager
-            .getDefaultSharedPreferences(this)
-            .getString(key, "")
+        .getDefaultSharedPreferences(this)
+        .getString(key, "")
 
     private fun calculateDisplayMode(): DisplayMode {
         val orientation = resources.configuration.orientation
-        return if (orientation == Configuration.ORIENTATION_LANDSCAPE) DisplayMode.FULLSCREEN else DisplayMode.BEST_FIT
+        return if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+            DisplayMode.FULLSCREEN
+        else
+            DisplayMode.BEST_FIT
     }
 
     private fun loadIpCam() {
         Mjpeg.newInstance()
-                .credential(getPreference(SettingsActivity.PREF_AUTH_USERNAME), getPreference(SettingsActivity.PREF_AUTH_PASSWORD))
-                .open(getPreference(SettingsActivity.PREF_IPCAM_URL), TIMEOUT)
-                .subscribe(
-                        { inputStream: MjpegInputStream? ->
-                            binding.mjpegViewSnapshot.setSource(inputStream)
-                            binding.mjpegViewSnapshot.setDisplayMode(calculateDisplayMode())
-                            binding.mjpegViewSnapshot.showFps(true)
-                        }
-                ) { throwable: Throwable ->
-                    Log.e(javaClass.simpleName, "mjpeg error", throwable)
-                    Toast.makeText(this, "Error ${throwable.javaClass.simpleName}\n${getPreference(SettingsActivity.PREF_IPCAM_URL)}", Toast.LENGTH_LONG).show()
+            .credential(getPreference(SettingsActivity.PREF_AUTH_USERNAME), getPreference(SettingsActivity.PREF_AUTH_PASSWORD))
+            .open(getPreference(SettingsActivity.PREF_IPCAM_URL), TIMEOUT)
+            .subscribe(
+                { inputStream: MjpegInputStream ->
+                    binding.mjpegViewSnapshot.setSource(inputStream)
+                    binding.mjpegViewSnapshot.setDisplayMode(calculateDisplayMode())
+                    binding.mjpegViewSnapshot.showFps(true)
                 }
+            ) { throwable: Throwable ->
+                Log.e(javaClass.simpleName, "mjpeg error", throwable)
+                Toast.makeText(this, "Error ${throwable.javaClass.simpleName}\n${getPreference(SettingsActivity.PREF_IPCAM_URL)}", Toast.LENGTH_LONG)
+                    .show()
+            }
     }
 
     private fun getStringTime(cnt: Int): String {
@@ -82,21 +86,21 @@ class IpCamSnapshotActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_capture -> {
                 runOnUiThread {
-                    if (recordingHandler!!.lastBitmap != null) {
+                    if (recordingHandler.lastBitmap != null) {
                         binding.imageView.visibility = View.VISIBLE
-                        binding.imageView.setImageBitmap(recordingHandler!!.lastBitmap)
-                        recordingHandler!!.saveBitmapToFile()
+                        binding.imageView.setImageBitmap(recordingHandler.lastBitmap)
+                        recordingHandler.saveBitmapToFile()
                     }
                 }
                 true
             }
             R.id.action_recording -> {
-                if (!recordingHandler!!.isRecording) {
+                if (!recordingHandler.isRecording) {
                     startRecording()
                 } else {
                     stopRecording()
                 }
-                item.setIcon(if (recordingHandler!!.isRecording) R.drawable.recording else R.drawable.ic_videocam_white_48dp)
+                item.setIcon(if (recordingHandler.isRecording) R.drawable.recording else R.drawable.ic_videocam_white_48dp)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -104,7 +108,7 @@ class IpCamSnapshotActivity : AppCompatActivity() {
     }
 
     private fun stopRecording() {
-        recordingHandler!!.stopRecording()
+        recordingHandler.stopRecording()
         timer.cancel()
         timer.purge()
         binding.recordText.visibility = View.GONE
@@ -125,7 +129,7 @@ class IpCamSnapshotActivity : AppCompatActivity() {
         timer.schedule(timerTask, 0, 1000)
         binding.recordText.visibility = View.VISIBLE
         binding.recordText.text = "00:00:00"
-        recordingHandler!!.startRecording()
+        recordingHandler.startRecording()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
