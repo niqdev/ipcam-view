@@ -1,5 +1,6 @@
 package com.github.niqdev.mjpeg;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -15,7 +16,7 @@ import java.util.Date;
 
 public class MjpegRecordingHandler implements OnFrameCapturedListener {
     private static final String TAG = "MjpegRecordingHandler";
-    private Context context;
+    private final Context context;
     private BufferedOutputStream bos;
     private boolean isRecording = false;
     private Bitmap lastBitmap = null;
@@ -62,8 +63,8 @@ public class MjpegRecordingHandler implements OnFrameCapturedListener {
      * save the last acquired bitmap into jpg file.
      */
     public void saveBitmapToFile() {
-        FileOutputStream fos = null;
-        BufferedOutputStream bos = null;
+        FileOutputStream fos;
+        BufferedOutputStream bos;
         String imagePath = createJpgFile().getAbsolutePath();
         try {
             fos = new FileOutputStream(imagePath);
@@ -90,6 +91,7 @@ public class MjpegRecordingHandler implements OnFrameCapturedListener {
 
     private File createSavingFile(String prefix, String extension) {
         Date T = new Date();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String szFileName = prefix + "-" + sdf.format(T);
         try {

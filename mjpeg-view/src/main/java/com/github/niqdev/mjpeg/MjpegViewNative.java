@@ -24,9 +24,9 @@ import java.io.IOException;
 public class MjpegViewNative extends AbstractMjpegView {
     private static final String TAG = MjpegViewDefault.class.getSimpleName();
 
-    private SurfaceHolder.Callback mSurfaceHolderCallback;
-    private SurfaceView mSurfaceView;
-    private boolean transparentBackground;
+    private final SurfaceHolder.Callback mSurfaceHolderCallback;
+    private final SurfaceView mSurfaceView;
+    private final boolean transparentBackground;
 
     private SurfaceHolder holder;
 
@@ -115,7 +115,7 @@ public class MjpegViewNative extends AbstractMjpegView {
                 try {
                     thread.join();
                     retry = false;
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                 }
             }
             thread = null;
@@ -123,7 +123,7 @@ public class MjpegViewNative extends AbstractMjpegView {
         if (mIn != null) {
             try {
                 mIn.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
             mIn = null;
         }
@@ -136,13 +136,13 @@ public class MjpegViewNative extends AbstractMjpegView {
         }
     }
 
-    void _surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
+    void _surfaceChanged(int w, int h) {
         if (thread != null) {
             thread.setSurfaceSize(w, h);
         }
     }
 
-    void _surfaceDestroyed(SurfaceHolder holder) {
+    void _surfaceDestroyed() {
         surfaceDone = false;
         _stopPlayback();
         if (thread != null) {
@@ -150,7 +150,7 @@ public class MjpegViewNative extends AbstractMjpegView {
         }
     }
 
-    void _surfaceCreated(SurfaceHolder holder) {
+    void _surfaceCreated() {
         surfaceDone = true;
     }
 
@@ -198,19 +198,19 @@ public class MjpegViewNative extends AbstractMjpegView {
 
     @Override
     public void onSurfaceCreated(SurfaceHolder holder) {
-        _surfaceCreated(holder);
+        _surfaceCreated();
     }
 
     /* override methods */
 
     @Override
     public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        _surfaceChanged(holder, format, width, height);
+        _surfaceChanged(width, height);
     }
 
     @Override
     public void onSurfaceDestroyed(SurfaceHolder holder) {
-        _surfaceDestroyed(holder);
+        _surfaceDestroyed();
     }
 
     @Override
@@ -326,9 +326,8 @@ public class MjpegViewNative extends AbstractMjpegView {
 
     // no more accessible
     class MjpegViewThread extends Thread {
-        private SurfaceHolder mSurfaceHolder;
+        private final SurfaceHolder mSurfaceHolder;
         private int frameCounter = 0;
-        private long start;
         private String fps = "";
 
         // no more accessible
@@ -385,7 +384,7 @@ public class MjpegViewNative extends AbstractMjpegView {
         }
 
         public void run() {
-            start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             PorterDuffXfermode mode = new PorterDuffXfermode(PorterDuff.Mode.DST_OVER);
 
             int width;
@@ -395,7 +394,7 @@ public class MjpegViewNative extends AbstractMjpegView {
 
             while (mRun) {
 
-                Rect destRect = null;
+                Rect destRect;
                 Canvas c = null;
 
                 if (surfaceDone) {
@@ -436,7 +435,7 @@ public class MjpegViewNative extends AbstractMjpegView {
                                 p.setXfermode(null);
                                 frameCounter++;
                                 if ((System.currentTimeMillis() - start) >= 1000) {
-                                    fps = String.valueOf(frameCounter) + "fps";
+                                    fps = frameCounter + "fps";
                                     frameCounter = 0;
                                     start = System.currentTimeMillis();
                                     if (ovl != null) ovl.recycle();
@@ -448,7 +447,7 @@ public class MjpegViewNative extends AbstractMjpegView {
 
                         }
 
-                    } catch (IOException e) {
+                    } catch (IOException ignored) {
 
                     } finally {
                         if (c != null) mSurfaceHolder.unlockCanvasAndPost(c);
