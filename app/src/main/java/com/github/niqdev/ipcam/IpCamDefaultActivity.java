@@ -72,7 +72,7 @@ public class IpCamDefaultActivity extends AppCompatActivity {
                         },
                         throwable -> {
                             Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Error " + throwable.getClass().getSimpleName()+ " for\n" + getPreference(PREF_IPCAM_URL), Toast.LENGTH_LONG).show();
                         });
     }
 
