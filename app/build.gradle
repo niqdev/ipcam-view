@@ -14,6 +14,10 @@ android {
         versionName getTag()
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
