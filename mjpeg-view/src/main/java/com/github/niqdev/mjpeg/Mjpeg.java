@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Authenticator;
+import java.net.CookieManager;
 import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
@@ -20,7 +21,6 @@ import rx.schedulers.Schedulers;
 /**
  * A library wrapper for handle mjpeg streams.
  *
- * @see <ul>
  *     <li><a href="https://bitbucket.org/neuralassembly/simplemjpegview">simplemjpegview</a></li>
  *     <li><a href="https://code.google.com/archive/p/android-camera-axis">android-camera-axis</a></li>
  * </ul>
@@ -28,7 +28,7 @@ import rx.schedulers.Schedulers;
 public class Mjpeg {
     private static final String TAG = Mjpeg.class.getSimpleName();
 
-    private static java.net.CookieManager msCookieManager = new java.net.CookieManager();
+    private static final CookieManager msCookieManager = new CookieManager();
     private final Type type;
     private boolean sendConnectionCloseHeader = false;
 

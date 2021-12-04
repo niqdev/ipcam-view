@@ -28,9 +28,9 @@ import java.io.IOException;
 public class MjpegViewDefault extends AbstractMjpegView {
     private static final String TAG = MjpegViewDefault.class.getSimpleName();
 
-    private SurfaceHolder.Callback mSurfaceHolderCallback;
-    private SurfaceView mSurfaceView;
-    private boolean transparentBackground;
+    private final SurfaceHolder.Callback mSurfaceHolderCallback;
+    private final SurfaceView mSurfaceView;
+    private final boolean transparentBackground;
 
     private MjpegViewThread thread;
     private MjpegInputStreamDefault mIn = null;
@@ -49,8 +49,6 @@ public class MjpegViewDefault extends AbstractMjpegView {
     private int dispHeight;
     private int displayMode;
     private boolean resume = false;
-
-    private long delay;
 
     private OnFrameCapturedListener onFrameCapturedListener;
 
@@ -74,8 +72,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
     Bitmap rotate(Bitmap src, float degrees) {
         Matrix m = new Matrix();
         m.setRotate(degrees);
-        Bitmap dst = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false);
-        return dst;
+        return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, false);
     }
 
     private void init() {
@@ -149,13 +146,13 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    void _surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
+    void _surfaceChanged(int w, int h) {
         if (thread != null) {
             thread.setSurfaceSize(w, h);
         }
     }
 
-    void _surfaceDestroyed(SurfaceHolder holder) {
+    void _surfaceDestroyed() {
         surfaceDone = false;
         _stopPlayback();
         if (thread != null) {
@@ -175,7 +172,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    void _surfaceCreated(SurfaceHolder holder) {
+    void _surfaceCreated() {
         surfaceDone = true;
     }
 
@@ -226,19 +223,19 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     @Override
     public void onSurfaceCreated(SurfaceHolder holder) {
-        _surfaceCreated(holder);
+        _surfaceCreated();
     }
 
     /* override methods */
 
     @Override
     public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        _surfaceChanged(holder, format, width, height);
+        _surfaceChanged(width, height);
     }
 
     @Override
     public void onSurfaceDestroyed(SurfaceHolder holder) {
-        _surfaceDestroyed(holder);
+        _surfaceDestroyed();
     }
 
     @Override
@@ -354,9 +351,8 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     // no more accessible
     class MjpegViewThread extends Thread {
-        private SurfaceHolder mSurfaceHolder;
+        private final SurfaceHolder mSurfaceHolder;
         private int frameCounter = 0;
-        private long start;
         private Bitmap ovl;
 
         // no more accessible
@@ -415,7 +411,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
 
         public void run() {
-            start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             PorterDuffXfermode mode = new PorterDuffXfermode(
                     PorterDuff.Mode.DST_OVER);
             Bitmap bm;
@@ -424,7 +420,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
             Rect destRect;
             Canvas c = null;
             Paint p = new Paint();
-            String fps = "";
+            String fps;
             while (mRun) {
                 if (surfaceDone) {
                     try {
@@ -471,7 +467,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
                                     p.setXfermode(null);
                                     frameCounter++;
                                     if ((System.currentTimeMillis() - start) >= 1000) {
-                                        fps = String.valueOf(frameCounter)
+                                        fps = frameCounter
                                                 + "fps";
                                         frameCounter = 0;
                                         start = System.currentTimeMillis();

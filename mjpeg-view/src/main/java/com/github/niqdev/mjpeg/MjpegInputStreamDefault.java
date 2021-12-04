@@ -17,7 +17,6 @@ import java.util.Properties;
  * https://code.google.com/archive/p/android-camera-axis
  */
 public class MjpegInputStreamDefault extends MjpegInputStream {
-    private static final String TAG = MjpegInputStream.class.getSimpleName();
     private final static int HEADER_MAX_LENGTH = 100;
     private final static int FRAME_MAX_LENGTH = 40000 + HEADER_MAX_LENGTH;
     private final byte[] SOI_MARKER = {(byte) 0xFF, (byte) 0xD8};

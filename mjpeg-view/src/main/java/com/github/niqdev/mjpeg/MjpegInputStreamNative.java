@@ -124,7 +124,7 @@ public class MjpegInputStreamNative extends MjpegInputStream {
         headerLenPrev = headerLen;
         readFully(header);
 
-        int ContentLengthNew = -1;
+        int ContentLengthNew;
         try {
             ContentLengthNew = parseContentLength(header);
         } catch (NumberFormatException nfe) {
