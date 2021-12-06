@@ -12,16 +12,19 @@ jobs:
   buildTest:
     name: Build & Test JDK ${{ matrix.java_version }}
     runs-on: macOS-latest
+    strategy:
+      matrix:
+        java_version: [ 11.0.3 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
         with:
           fetch-depth: 0
-      - name: Install JDK
+      - name: Install JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: 11
+          java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.1
       - name: Build project
@@ -31,16 +34,19 @@ jobs:
   Check:
     name: Check
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java_version: [ 11.0.3 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.0
         with:
           fetch-depth: 0
-      - name: Install JDK
+      - name: Install JDK ${{ matrix.java_version }}
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: 11
+          java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.1
       - name: Code checks
