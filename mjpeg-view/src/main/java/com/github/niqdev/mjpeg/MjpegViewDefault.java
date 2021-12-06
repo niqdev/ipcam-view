@@ -19,6 +19,8 @@ import android.view.SurfaceView;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+
 /*
  * I don't really understand and want to know what the hell it does!
  * Maybe one day I will refactor it ;-)
@@ -160,9 +162,9 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    void _frameCapturedWithByteData(byte[] imageByte,byte[] header) {
+    void _frameCapturedWithByteData(byte[] imageByte, byte[] header) {
         if (onFrameCapturedListener != null) {
-            onFrameCapturedListener.onFrameCapturedWithHeader(imageByte,header);
+            onFrameCapturedListener.onFrameCapturedWithHeader(imageByte, header);
         }
     }
 
@@ -201,45 +203,45 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 
-    void _setOverlayPaint(Paint p) {
+    void setOverlayPaint(Paint p) {
         overlayPaint = p;
     }
 
-    void _setOverlayTextColor(int c) {
+    void setOverlayTextColor(int c) {
         overlayTextColor = c;
     }
 
-    void _setOverlayBackgroundColor(int c) {
+    void setOverlayBackgroundColor(int c) {
         overlayBackgroundColor = c;
     }
 
-    void _setOverlayPosition(int p) {
+    void setOverlayPosition(int p) {
         ovlPos = p;
     }
 
-    void _setDisplayMode(int s) {
+    void setDisplayMode(int s) {
         displayMode = s;
     }
 
     @Override
-    public void onSurfaceCreated(SurfaceHolder holder) {
+    public void onSurfaceCreated(@NonNull SurfaceHolder holder) {
         _surfaceCreated();
     }
 
     /* override methods */
 
     @Override
-    public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    public void onSurfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
         _surfaceChanged(width, height);
     }
 
     @Override
-    public void onSurfaceDestroyed(SurfaceHolder holder) {
+    public void onSurfaceDestroyed(@NonNull SurfaceHolder holder) {
         _surfaceDestroyed();
     }
 
     @Override
-    public void setSource(MjpegInputStream stream) {
+    public void setSource(@NonNull MjpegInputStream stream) {
         if (!(stream instanceof MjpegInputStreamDefault)) {
             throw new IllegalArgumentException("stream must be an instance of MjpegInputStreamDefault");
         }
@@ -248,7 +250,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
 
     @Override
     public void setDisplayMode(DisplayMode mode) {
-        _setDisplayMode(mode.getValue());
+        setDisplayMode(mode.getValue());
     }
 
     @Override
@@ -297,7 +299,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
     }
 
     @Override
-    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
+    public void setOnFrameCapturedListener(@NonNull OnFrameCapturedListener onFrameCapturedListener) {
         this.onFrameCapturedListener = onFrameCapturedListener;
     }
 
@@ -316,6 +318,7 @@ public class MjpegViewDefault extends AbstractMjpegView {
         this.overlayTextColor = overlayTextColor;
     }
 
+    @NonNull
     @Override
     public SurfaceView getSurfaceView() {
         return mSurfaceView;
@@ -444,15 +447,15 @@ public class MjpegViewDefault extends AbstractMjpegView {
                         }
                         synchronized (mSurfaceHolder) {
                             try {
-                                byte[] header= mIn.readHeader();
+                                byte[] header = mIn.readHeader();
                                 byte[] imageData = mIn.readMjpegFrame(header);
-                                bm=BitmapFactory.decodeStream(new ByteArrayInputStream(imageData));
+                                bm = BitmapFactory.decodeStream(new ByteArrayInputStream(imageData));
                                 if (flipHorizontal || flipVertical)
                                     bm = flip(bm);
                                 if (rotateDegrees != 0)
                                     bm = rotate(bm, rotateDegrees);
 
-                                _frameCapturedWithByteData(imageData,header);
+                                _frameCapturedWithByteData(imageData, header);
                                 _frameCapturedWithBitmap(bm);
                                 destRect = destRect(bm.getWidth(),
                                         bm.getHeight());
@@ -502,4 +505,3 @@ public class MjpegViewDefault extends AbstractMjpegView {
         }
     }
 }
-
