@@ -14,6 +14,7 @@ abstract class AbstractMjpegView : MjpegView {
         protected const val POSITION_LOWER_RIGHT = 6
         protected const val SIZE_STANDARD = 1
         protected const val SIZE_BEST_FIT = 4
+        protected const val SIZE_SCALE_FIT = 16
         protected const val SIZE_FULLSCREEN = 8
     }
 }
