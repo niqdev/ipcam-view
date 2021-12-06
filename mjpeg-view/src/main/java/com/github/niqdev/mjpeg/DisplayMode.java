@@ -2,7 +2,7 @@ package com.github.niqdev.mjpeg;
 
 public enum DisplayMode {
 
-    STANDARD(1), BEST_FIT(4), SCALE_FIT(6), FULLSCREEN(8);
+    STANDARD(1), BEST_FIT(4), SCALE_FIT(16), FULLSCREEN(8);
 
     private final int value;
 
