@@ -41,7 +41,7 @@ class IpCamDefaultActivity : AppCompatActivity() {
                 .credential(getPreference(SettingsActivity.PREF_AUTH_USERNAME), getPreference(SettingsActivity.PREF_AUTH_PASSWORD))
                 .open(getPreference(SettingsActivity.PREF_IPCAM_URL), TIMEOUT)
                 .subscribe(
-                        { inputStream: MjpegInputStream? ->
+                        { inputStream: MjpegInputStream ->
                             binding.mjpegViewDefault.setSource(inputStream)
                             binding.mjpegViewDefault.setDisplayMode(calculateDisplayMode())
                             binding.mjpegViewDefault.flipHorizontal(getBooleanPreference(SettingsActivity.PREF_FLIP_HORIZONTAL))

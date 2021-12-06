@@ -8,6 +8,7 @@ import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StyleableRes;
 
 public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callback, MjpegView {
@@ -96,12 +97,12 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     @Override
-    public void setSource(MjpegInputStream stream) {
+    public void setSource(@NonNull MjpegInputStream stream) {
         mMjpegView.setSource(stream);
     }
 
     @Override
-    public void setDisplayMode(DisplayMode mode) {
+    public void setDisplayMode(@NonNull DisplayMode mode) {
         mMjpegView.setDisplayMode(mode);
     }
 
@@ -151,7 +152,7 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     @Override
-    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
+    public void setOnFrameCapturedListener(@NonNull OnFrameCapturedListener onFrameCapturedListener) {
         mMjpegView.setOnFrameCapturedListener(onFrameCapturedListener);
     }
 
@@ -170,6 +171,7 @@ public class MjpegSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         mMjpegView.setFpsOverlayTextColor(overlayTextColor);
     }
 
+    @NonNull
     @Override
     public SurfaceView getSurfaceView() {
         return this;
