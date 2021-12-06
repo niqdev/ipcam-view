@@ -385,14 +385,15 @@ public class MjpegViewDefault extends AbstractMjpegView {
                 return new Rect(tempx, tempy, bmw + tempx, bmh + tempy);
             }
             if (displayMode == MjpegViewDefault.SIZE_SCALE_FIT) {
-                float bmasp = ((float) bmw / (float) bmh * dispWidth);
+                float bmasp = ((float) bmw / (float) bmh);
                 tempx = 0;
                 tempy = 0;
-                if(bmw < dispWidth){
+                if (bmw < dispWidth) {
                     bmw = dispWidth;
-                    bmh = (int) bmasp;
+                    // cross-multiplication using aspect ratio
+                    bmh = (int) (dispWidth / bmasp);
                     // set it to the center height
-                    tempy = ((dispWidth - bmh) / 2);
+                    tempy = (dispHeight - bmh) / 4;
                 }
                 return new Rect(tempx, tempy, bmw, bmh + tempy);
             }
