@@ -15,6 +15,8 @@ import android.view.SurfaceView;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+
 /*
  * I don't really understand and want to know what the hell it does!
  * Maybe one day I will refactor it ;-)
@@ -197,24 +199,24 @@ public class MjpegViewNative extends AbstractMjpegView {
     }
 
     @Override
-    public void onSurfaceCreated(SurfaceHolder holder) {
+    public void onSurfaceCreated(@NonNull SurfaceHolder holder) {
         _surfaceCreated();
     }
 
     /* override methods */
 
     @Override
-    public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    public void onSurfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
         _surfaceChanged(width, height);
     }
 
     @Override
-    public void onSurfaceDestroyed(SurfaceHolder holder) {
+    public void onSurfaceDestroyed(@NonNull SurfaceHolder holder) {
         _surfaceDestroyed();
     }
 
     @Override
-    public void setSource(MjpegInputStream stream) {
+    public void setSource(@NonNull MjpegInputStream stream) {
         if (!(stream instanceof MjpegInputStreamNative)) {
             throw new IllegalArgumentException("stream must be an instance of MjpegInputStreamNative");
         }
@@ -272,7 +274,7 @@ public class MjpegViewNative extends AbstractMjpegView {
     }
 
     @Override
-    public void setOnFrameCapturedListener(OnFrameCapturedListener onFrameCapturedListener) {
+    public void setOnFrameCapturedListener(@NonNull OnFrameCapturedListener onFrameCapturedListener) {
         throw new UnsupportedOperationException("Not implemented yet!");
     }
 
@@ -291,6 +293,7 @@ public class MjpegViewNative extends AbstractMjpegView {
         this.overlayTextColor = overlayTextColor;
     }
 
+    @NonNull
     @Override
     public SurfaceView getSurfaceView() {
         return mSurfaceView;

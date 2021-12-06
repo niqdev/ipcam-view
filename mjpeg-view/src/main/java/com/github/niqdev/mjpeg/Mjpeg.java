@@ -21,8 +21,8 @@ import rx.schedulers.Schedulers;
 /**
  * A library wrapper for handle mjpeg streams.
  *
- *     <li><a href="https://bitbucket.org/neuralassembly/simplemjpegview">simplemjpegview</a></li>
- *     <li><a href="https://code.google.com/archive/p/android-camera-axis">android-camera-axis</a></li>
+ * <li><a href="https://bitbucket.org/neuralassembly/simplemjpegview">simplemjpegview</a></li>
+ * <li><a href="https://code.google.com/archive/p/android-camera-axis">android-camera-axis</a></li>
  * </ul>
  */
 public class Mjpeg {
