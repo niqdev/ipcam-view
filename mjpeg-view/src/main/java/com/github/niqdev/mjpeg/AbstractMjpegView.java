@@ -11,6 +11,7 @@ public abstract class AbstractMjpegView implements MjpegView {
 
     protected final static int SIZE_STANDARD = 1;
     protected final static int SIZE_BEST_FIT = 4;
+    protected final static int SIZE_SCALE_FIT = 6;
     protected final static int SIZE_FULLSCREEN = 8;
 
     public abstract void onSurfaceCreated(SurfaceHolder holder);
