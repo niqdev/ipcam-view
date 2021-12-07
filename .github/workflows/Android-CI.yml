@@ -28,7 +28,7 @@ jobs:
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.1.1
       - name: Build project
-        run: ./gradlew assembleDebug
+        run: ./gradlew build
       - name: Run tests
         run: ./gradlew test
   Check:
