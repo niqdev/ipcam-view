@@ -66,7 +66,7 @@ Add to your layout: [example](app/src/main/res/layout/activity_ipcam_default.xml
 </RelativeLayout>
 ```
 
-Read stream in your activity/fragment: [example](app/src/main/java/com/github/niqdev/ipcam/IpCamDefaultActivity.java)
+Read stream in your activity/fragment: [example](app/src/main/java/com/github/niqdev/ipcam/IpCamDefaultActivity.kt)
 ```java
 int TIMEOUT = 5; //seconds
 
