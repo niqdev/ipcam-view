@@ -7,34 +7,39 @@ on:
 
 jobs:
   build:
-    name: Publish release
-    runs-on: ubuntu-latest
+    name: Release
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        java_version: [ 11 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: 11
-      - name: Get the version
+      - name: Find Tag
         id: tagger
         uses: jimschubert/query-tag-action@v2
         with:
           skip-unshallow: 'true'
           abbrev: false
           commit-ish: HEAD
+      - name: Install JDK ${{ matrix.java_version }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.1
+        uses: malinskiy/action-android/install-sdk@release/0.1.4
       - name: Build project
-        run: ./gradlew clean build
-        env:
-          VERSION: ${{ github.ref }}
-      - run: |
-          assetsAAR=$(find . -name *release.aar | while read -r asset ; do echo "-a $asset" ; done)
-          hub release create ${assetsAAR} -m ${{steps.tagger.outputs.tag}} ${{steps.tagger.outputs.tag}}
+        run: ./gradlew assembleRelease
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{steps.tagger.outputs.tag}}
+          name: ${{steps.tagger.outputs.tag}}
+          generate_release_notes: true
+          files: ./mjpeg-view/build/outputs/aar/mjpeg-view-release.aar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ github.ref }}
