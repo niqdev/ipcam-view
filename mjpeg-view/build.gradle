@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 31
+        targetSdkVersion 33
     }
 
     buildTypes {
@@ -18,10 +18,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
-        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        resources {
+            excludes += ['META-INF/services/javax.annotation.processing.Processor']
+        }
     }
+
 
     useLibrary 'org.apache.http.legacy'
 
@@ -30,6 +32,7 @@ android {
             path 'src/main/jni/Android.mk'
         }
     }
+    namespace 'com.github.niqdev.mjpeg'
 }
 
 dependencies {
