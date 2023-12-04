@@ -25,7 +25,7 @@ jobs:
           abbrev: false
           commit-ish: HEAD
       - name: Install JDK ${{ matrix.java_version }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java_version }}
