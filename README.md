@@ -130,14 +130,3 @@ mjpegView.setRotate(90);  // degrees
 * [TankDroid](https://github.com/bmachek/TankDroid)
 
 You are welcome to add your app to the list!
-
-### Development
-Download Android NDK:
-* [manually](http://developer.android.com/ndk/downloads/index.html#download)
-* in Android Studio: File > Other Settings > Default Project Structure > download NDK 
-
-Compile manually (verify your paths)
-```bash
-$ chmod a+x compileJni.sh
-$ ./compileJni.sh
-```

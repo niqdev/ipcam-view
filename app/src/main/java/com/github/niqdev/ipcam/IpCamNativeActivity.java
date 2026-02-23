@@ -37,20 +37,6 @@ public class IpCamNativeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        /* TODO
-        if (mjpegView != null) {
-            if (suspending) {
-                new DoRead().execute(URL);
-                suspending = false;
-            }
-        }
-        */
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
 

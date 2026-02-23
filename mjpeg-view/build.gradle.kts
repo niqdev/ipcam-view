@@ -23,7 +23,7 @@ android {
             )
         }
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes.add("META-INF/services/javax.annotation.processing.Processor")
         }
@@ -31,11 +31,6 @@ android {
 
     useLibrary("org.apache.http.legacy")
 
-    externalNativeBuild {
-        ndkBuild {
-            path = File("src/main/jni/Android.mk")
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
