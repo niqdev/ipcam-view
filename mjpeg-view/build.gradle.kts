@@ -46,7 +46,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     api("io.reactivex:rxjava:1.3.8") // it"s obsolete
     api("io.reactivex:rxandroid:1.2.1")
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.17.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.22")
 }
 
