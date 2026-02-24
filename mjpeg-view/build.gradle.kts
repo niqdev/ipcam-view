@@ -43,7 +43,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.1")
     api("io.reactivex:rxjava:1.3.8") // it"s obsolete
     api("io.reactivex:rxandroid:1.2.1")
     implementation("androidx.core:core-ktx:1.17.0")
