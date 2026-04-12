@@ -28,7 +28,7 @@ jobs:
           sudo adduser $USER kvm
           sudo chown -R $USER /dev/kvm
           id
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           submodules: true
       - name: set up JDK
@@ -64,7 +64,7 @@ jobs:
       matrix:
         os: [ ubuntu-22.04 ]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           submodules: true
       - name: set up JDK
