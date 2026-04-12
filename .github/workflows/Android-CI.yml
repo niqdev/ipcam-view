@@ -49,7 +49,7 @@ jobs:
           cmdOptions: -noaudio -no-boot-anim -no-window -metrics-collection
           disableAnimations: true
           bootTimeout: 720
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ always() }}
         with:
           name: ipcam-Espresso-${{ matrix.api }}-${{ matrix.abi }}-report-${{ matrix.emulatorApi }}
@@ -79,7 +79,7 @@ jobs:
       - name: Code checks
         run: ./gradlew check
       - name: Archive Lint report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: ${{ always() }}
         with:
           name: IPView-Lint-report
