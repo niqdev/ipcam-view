@@ -54,5 +54,5 @@ dependencies {
     implementation(project(":mjpeg-view"))
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.core:core-ktx:1.17.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.22")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.3.21")
 }
